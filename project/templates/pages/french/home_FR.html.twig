@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <div>header</div>
+    {% block content %}{% endblock %}
+    <h1>{% trans %}Symfony is great!{% endtrans %}</h1>
+
+
+    {% for locale in locales %}
+        <a href="{{ path('changeLocale', {'locale': locale}) }}"><button>{{ locale }}</button></a>
+        {{ dump(app.request.locale) }}
+    {% endfor %}
+    <div>footer</div>
+
+    {% block javascripts %}{% endblock %}
+</body>
+</html>
+

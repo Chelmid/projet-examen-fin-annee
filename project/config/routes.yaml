@@ -1,0 +1,19 @@
+#index:
+#  path: /
+#  controller: App\Controller\HomeController::index
+
+home:
+  path: /home
+  controller: App\Controller\HomeController::home
+
+home_fallback:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  defaults:
+    path: /home
+    permanent: true
+
+changeLocale:
+  path: /{locale}/changeLocale
+  controller: App\Controller\HomeController::changeLocale
+
