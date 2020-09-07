@@ -4,7 +4,7 @@
 
 home:
   path: /home
-  controller: App\Controller\HomeController::home
+  controller: App\Controller\pages\HomeController::home
 
 home_fallback:
   path: /
@@ -13,7 +13,15 @@ home_fallback:
     path: /home
     permanent: true
 
+connect:
+  path: /home/connect
+  controller: App\Controller\pages\HomeController::homeConnect
+
+Dashboard:
+  path: /{locale}/dashboard
+  controller: App\Controller\pages\HomeController::Dashboard
+
 changeLocale:
-  path: /{locale}/changeLocale
-  controller: App\Controller\HomeController::changeLocale
+  path: /{locale}/{url}
+  controller: App\Controller\pages\HomeController::changeLocale
 

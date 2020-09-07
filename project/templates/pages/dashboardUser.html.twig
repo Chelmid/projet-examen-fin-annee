@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}<div>hello2</div>{% endblock %}
+
+{% for locale in locales %}
+    <a href="{{ path('changeLocale', {'locale': locale,'url': app.request.get('_route')}) }}"><button>{{ locale }}</button></a>
+{% endfor %}
