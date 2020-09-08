@@ -1,0 +1,14 @@
+body {font-family: ITC Avant Garde Gothic,sans-serif;}
+
+/*page base*/
+
+.header-nav {
+    background-color: black;
+    font-family: ITC Avant Garde Gothic,sans-serif;
+    font-size: .7875rem;
+}
+
+.fs {
+    font-size: 0.9rem;
+    font-weight: bold;
+}

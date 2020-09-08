@@ -2,21 +2,55 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    <title>{% block title %}Xoopar{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    {% endblock %}
 </head>
 <body>
-    <div>header</div>
-    {% block content %}<div>header</div>{% endblock %}
+<nav class="header-nav py-2">
+<div class="container">
+    <div class="row col-auto">
+        <h1 class="col-auto text-white fs mb-0" >Fabricant d'objets tendances et écoresponsables</h1>
+        <div class="col text-white text-center" >01 02 03 04 05 du lundi au vendredi de 9h à 18h </div>
+        <div class="row">
+            <div class="col-auto text-white" >Demander le catalogue</div>
+            <div class="col-auto text-white" >Contact</div>
+        </div
+    </div>
+</div>
+    </nav>
+
+<div class="container">
+    <div class="row col-auto">
+        <h1 class="col-auto fs mb-0" >logo</h1>
+        <div class="col text-center" >Objet Publicitaire et Green-Tech</div>
+        <div class="row">
+            <div class="col-auto text-white row" >
+                <div><a href="{{ path('login') }}"><button>0</button></a></div>
+                <div><a href="{{ path('login') }}"><button>0</button></a></div>
+                <div><a href="{{ path('login') }}"><button>0</button></a></div>
+            </div>
+            <div class="col-auto text-white" >
+                {% for locale in locales %}
+                    <a href="{{ path('changeLocale', {'locale': locale,'url': app.request.get('_route')}) }}"><button>{{ locale }}</button></a>
+                {% endfor %}
+            </div>
+        </div
+    </div>
+</div>
+
+    {% block content %}
+
+    {% endblock %}
     <h1>{% trans %}Symfony is great!{% endtrans %}</h1>
 
-    <a href="{{ path('connect') }}"><button>dashboard</button></a>
-    {% for locale in locales %}
-        <a href="{{ path('changeLocale', {'locale': locale,'url': app.request.get('_route')}) }}"><button>{{ locale }}</button></a>
-    {% endfor %}
 
-    <div>footer</div>
-
-{% block javascripts %}{% endblock %}
+</div>
+<div class="header-nav">footer</div>
+{% block javascripts %}
+    <link href="{{ asset('js/main.js') }}" rel="stylesheet" />
+{% endblock %}
 </body>
 </html>

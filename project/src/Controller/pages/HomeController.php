@@ -28,7 +28,7 @@ class HomeController extends AbstractController
     }
 
     //vue home
-    public function homeConnect( TranslatorInterface $translator, Request $request)
+    public function login( TranslatorInterface $translator, Request $request)
     {
         return new Response($this->twig->render('pages/homeConnect.html.twig'), 200);
     }
