@@ -2,19 +2,25 @@
 #  path: /
 #  controller: App\Controller\HomeController::index
 
-home:
+#admin
+adminLogin:
+  path: /admin
+  controller: App\Controller\admin\AdminController::adminLogin
+
+#client
+homeClient:
   path: /
-  controller: App\Controller\pages\HomeController::home
+  controller: App\Controller\client\HomeController::homeClient
 
-login:
+loginClient:
   path: /incription
-  controller: App\Controller\pages\HomeController::login
+  controller: App\Controller\client\HomeController::loginClient
 
-Dashboard:
+dashboardClient:
   path: /dashboard
-  controller: App\Controller\pages\HomeController::Dashboard
+  controller: App\Controller\client\HomeController::dashboardClient
 
-changeLocale:
+changeLocaleClient:
   path: /{locale}/{url}
-  controller: App\Controller\pages\HomeController::changeLocale
+  controller: App\Controller\client\HomeController::changeLocaleClient
 
