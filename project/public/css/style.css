@@ -1,4 +1,8 @@
-body {font-family: ITC Avant Garde Gothic,sans-serif;}
+body {
+    font-family: ITC Avant Garde Gothic,sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
 /*page base*/
 
