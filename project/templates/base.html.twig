@@ -28,13 +28,13 @@
             <div class="col text-center">Objet Publicitaire et Green-Tech</div>
             <div class="row">
                 <div class="col-auto text-white row">
+                    <div><a href="{{ path('searchClient') }}">
+                            <button>0</button>
+                        </a></div>
                     <div><a href="{{ path('dashboardClient') }}">
                             <button>0</button>
                         </a></div>
-                    <div><a href="{{ path('loginClient') }}">
-                            <button>0</button>
-                        </a></div>
-                    <div><a href="{{ path('loginClient') }}">
+                    <div><a href="{{ path('cartClient') }}">
                             <button>0</button>
                         </a></div>
                 </div>
@@ -47,6 +47,17 @@
                 </div>
             </div
         </div>
+    </div>
+    <div>
+        <ul class="row list-unstyled">
+            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">éco-collection</a></li>
+            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "enceintes"}) }}">enceintes</a></li>
+            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">cables usb</a></li>
+            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "charge"}) }}">charge</a></li>
+            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "souris"}) }}">souris</a></li>
+            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "iné"}) }}">iné</a></li>
+            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "bons-plans"}) }}">bons plans</a></li>
+        </ul>
     </div>
 </header>
 

@@ -24,3 +24,18 @@ changeLocaleClient:
   path: /{locale}/{url}
   controller: App\Controller\client\HomeController::changeLocaleClient
 
+#search
+searchClient:
+  path: /search
+  controller: App\Controller\client\HomeController::searchClient
+
+#cart
+cartClient:
+  path: /cart
+  controller: App\Controller\client\HomeController::cartClient
+
+#categorie
+categorieClient:
+  path: /{categorie}
+  controller: App\Controller\client\HomeController::categorieClient
+
