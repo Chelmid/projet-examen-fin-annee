@@ -1,13 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
     <header>
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
+      <trans-unit id="TmtfQhI" resname="Monday to Friday at 9.00 AM to 6.00 PM">
+        <source>Monday to Friday at 9.00 AM to 6.00 PM</source>
+        <target>u lundi au vendredi de 9h à 18hPM</target>
+      </trans-unit>
+      <trans-unit id="hSIul0Q" resname="Éco-collection">
+        <source>Éco-collection</source>
+        <target>Éco-collection</target>
+      </trans-unit>
+      <trans-unit id="NLV56n3" resname="Enceintes">
+        <source>Enceintes</source>
+        <target>Enceintes</target>
+      </trans-unit>
+      <trans-unit id="u0S0ofM" resname="Cables usb">
+        <source>Cables usb</source>
+        <target>Cables usb</target>
+      </trans-unit>
+      <trans-unit id="hI6WVn1" resname="Power">
+        <source>Power</source>
+        <target>Charge</target>
+      </trans-unit>
+      <trans-unit id="VcFSCCS" resname="Mouse">
+        <source>Mouse</source>
+        <target>Souris</target>
+      </trans-unit>
+      <trans-unit id="zU7VW.o" resname="Good plans">
+        <source>Good plans</source>
+        <target>Bons plans</target>
+      </trans-unit>
+      <trans-unit id="iW7zfes" resname="Sucribe">
+        <source>Sucribe</source>
+        <target>S'abonner</target>
+      </trans-unit>
+      <trans-unit id="ZB0e9le" resname="Follow">
+        <source>Follow</source>
+        <target>Suivez-nous</target>
+      </trans-unit>
+      <trans-unit id="Ur.lhKX" resname="Delivery">
+        <source>Delivery</source>
+        <target>Livraison</target>
+      </trans-unit>
+      <trans-unit id="BY0hgr0" resname="Legal Notice">
+        <source>Legal Notice</source>
+        <target>Mentions légales</target>
+      </trans-unit>
+      <trans-unit id="jEWkhuS" resname="Terms of use">
+        <source>Terms of use</source>
+        <target>Conditions d'utilisation</target>
+      </trans-unit>
+      <trans-unit id="Tvyg0Qx" resname="About">
+        <source>About</source>
+        <target>A propos</target>
+      </trans-unit>
+      <trans-unit id="tq8GblZ" resname="Secure payment">
+        <source>Secure payment</source>
+        <target>Paiement sécurisé</target>
+      </trans-unit>
       <trans-unit id="NSEiWmD" resname="Symfony is great!">
         <source>Symfony is great!</source>
-        <target>J'aime Symfony!</target>
+        <target>J'aime Symfony</target>
       </trans-unit>
     </body>
   </file>

@@ -1,6 +1,6 @@
 #index:
 #  path: /
-#  controller: App\Controller\HomeController::index
+#  controller: App\Controller\HomepageController::index
 
 #admin
 adminLogin:
@@ -10,32 +10,32 @@ adminLogin:
 #client
 homeClient:
   path: /
-  controller: App\Controller\client\HomeController::homeClient
+  controller: App\Controller\client\pages\HomepageController::homeClient
 
 loginClient:
   path: /incription
-  controller: App\Controller\client\HomeController::loginClient
+  controller: App\Controller\client\pages\HomepageController::loginClient
 
 dashboardClient:
   path: /dashboard
-  controller: App\Controller\client\HomeController::dashboardClient
-
-changeLocaleClient:
-  path: /{locale}/{url}
-  controller: App\Controller\client\HomeController::changeLocaleClient
+  controller: App\Controller\client\pages\HomepageController::dashboardClient
 
 #search
 searchClient:
   path: /search
-  controller: App\Controller\client\HomeController::searchClient
+  controller: App\Controller\client\pages\HomepageController::searchClient
 
 #cart
 cartClient:
   path: /cart
-  controller: App\Controller\client\HomeController::cartClient
+  controller: App\Controller\client\pages\HomepageController::cartClient
 
 #categorie
 categorieClient:
   path: /{categorie}
-  controller: App\Controller\client\HomeController::categorieClient
+  controller: App\Controller\client\pages\HomepageController::categorieClient
 
+#klanguage
+changeLocaleClient:
+  path: /{locale}/{url}
+  controller: App\Controller\client\language\LanguageController::changeLocaleClient

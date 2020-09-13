@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <h1 class="col text-white fs mb-0">Fabricant d'objets tendances et écoresponsables</h1>
-            <div class="col text-white text-center">01 02 03 04 05 du lundi au vendredi de 9h à 18h</div>
+            <div class="col text-white text-center">01 02 03 04 05 {% trans %}Monday to Friday at 9.00 AM to 6.00 PM{% endtrans %}du lundi au vendredi de 9h à 18h</div>
             <div class="row">
                 <div class="col-auto text-white">Demander le catalogue</div>
                 <div class="col-auto text-white">Contact</div>
@@ -28,38 +28,40 @@
             <div class="col text-center">Objet Publicitaire et Green-Tech</div>
             <div class="row">
                 <div class="col-auto text-white row">
-                    <div><a href="{{ path('searchClient') }}">
-                            <button>0</button>
-                        </a></div>
-                    <div><a href="{{ path('dashboardClient') }}">
-                            <button>0</button>
-                        </a></div>
-                    <div><a href="{{ path('cartClient') }}">
-                            <button>0</button>
-                        </a></div>
+                    <a href="{{ path('searchClient') }}">
+                        <div class="btn btn-primary">0</div>
+                    </a>
+                    <a href="{{ path('dashboardClient') }}">
+                        <div class="btn btn-primary">0</div>
+                        </a>
+                    <a href="{{ path('cartClient') }}">
+                        <div class="btn btn-primary">0</div>
+                    </a>
                 </div>
                 <div class="col-auto text-white">
                     {% for locale in locales %}
-                        <a href="{{ path('changeLocaleClient', {'locale': locale,'url': app.request.get('_route')}) }}">
-                            <button>{{ locale }}</button>
+                        <a href="{{ path('changeLocaleClient', {'locale': locale, 'url':app.request.locale})}}">
+                           <div class="btn btn-primary">{{ locale }}</div>
                         </a>
                     {% endfor %}
                 </div>
             </div
         </div>
     </div>
-    <div>
-        <ul class="row list-unstyled">
-            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">éco-collection</a></li>
-            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "enceintes"}) }}">enceintes</a></li>
-            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">cables usb</a></li>
-            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "charge"}) }}">charge</a></li>
-            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "souris"}) }}">souris</a></li>
-            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "iné"}) }}">iné</a></li>
-            <li class="col-auto"><a href="{{ path('categorieClient',{'categorie': "bons-plans"}) }}">bons plans</a></li>
-        </ul>
-    </div>
+
 </header>
+
+<div class="menu">
+    <ul class="row list-unstyled">
+        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Éco-collection{% endtrans %}</a></li>
+        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "enceintes"}) }}">{% trans %}Enceintes{% endtrans %}</a></li>
+        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Cables usb{% endtrans %}</a></li>
+        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Power{% endtrans %}</a></li>
+        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}Mouse{% endtrans %}</a></li>
+        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "iné"}) }}">Iné</a></li>
+        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "bons-plans"}) }}">{% trans %}Good plans{% endtrans %}</a></li>
+    </ul>
+</div>
 
 {% block content %}
     <div class="col-12">
@@ -219,8 +221,8 @@
             <!-- fin 24-->
         </div>
     </div>
+    <h1>{% trans %}Symfony is great!{% endtrans %}</h1>
 {% endblock %}
-<h1>{% trans %}Symfony is great!{% endtrans %}</h1>
 
 
 </div>
@@ -228,43 +230,44 @@
     <div class="header-nav">
         <div class="container">
             <div class="row">
-                <p class="text-white col-auto">Notre Newsletter</p>
+                <p class="text-white col-auto">Newsletter</p>
                 <div class="col-4">
                     <div class="row">
                         <input class="col"/>
-                        <button class="col-auto">S'abonner</button>
+                        <button class="col-auto">{% trans %}Sucribe{% endtrans %}</button>
                     </div>
                     <p class="text-white">Vous pouvez vous désinscrire à tout moment. Vous trouverez pour
                         cela nos informations de contact dans les conditions d'utilisation du site.</p>
 
                 </div>
                 <div class="row">
-                    <p class="text-white col-auto">Suivez-nous</p>
+                    <p class="text-white col-auto">{% trans %}Follow{% endtrans %}</p>
                     <div class="col-auto">
 
-                        <div class="row">
-                            <button class="col-auto">Livraison</button>
-                            <button class="col-auto">Livraison</button>
-                            <button class="col-auto">Livraison</button>
-                            <button class="col-auto">Livraison</button>
-                            <button class="col-auto">Livraison</button>
-                        </div>
+                        <ul class="row list-unstyled">
+                            <li class="col nav-item"><a class="nav-link" href="">Facebook</a></li>
+                            <li class="col nav-item"><a class="nav-link" href="">Instagram</a></li>
+                            <li class="col nav-item"><a class="nav-link" href="">Youtube</a></li>
+                            <li class="col nav-item"><a class="nav-link" href="">Linkdin</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <ul class="row list-unstyled">
-                <li class="text-white col">Livraison</li>
-                <li class="text-white col">Mentions légales</li>
-                <li class="text-white col">Conditions d'utilisation</li>
-                <li class="text-white col">A propos</li>
-                <li class="text-white col">Paiement sécurisé</li>
+                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Delivery{% endtrans %}</a></li>
+                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Legal Notice{% endtrans %}</a></li>
+                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Terms of use{% endtrans %}</a></li>
+                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}About{% endtrans %}</a></li>
+                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "iné"}) }}">{% trans %}Secure payment{% endtrans %}</a></li>
             </ul>
             <p class="text-white text-center">Copyright Xoopar - 2008 - 2020<p/>
         </div>
 </footer>
 
 {% block javascripts %}
-    <link href="{{ asset('js/main.js') }}" rel="stylesheet"/>
+    <script src="{{ asset('js/jquery.min.js') }}" rel="stylesheet"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}" rel="stylesheet"></script>
+    <script src="{{ asset('js/main.js') }}" rel="stylesheet"></script>
 {% endblock %}
 </body>
 </html>

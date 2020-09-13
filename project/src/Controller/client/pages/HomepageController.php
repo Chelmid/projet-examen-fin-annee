@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\client;
+namespace App\Controller\client\pages;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -8,7 +8,7 @@ use Twig\Environment;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController extends AbstractController
+class HomepageController extends AbstractController
 {
     private $twig;
 
@@ -21,7 +21,6 @@ class HomeController extends AbstractController
     //vue home
     public function homeClient( TranslatorInterface $translator, Request $request)
     {
-        dump($request->getLocale());
 
         return new Response($this->twig->render('base.html.twig'), 200);
     }
@@ -29,12 +28,12 @@ class HomeController extends AbstractController
     //vue home
     public function loginClient( TranslatorInterface $translator, Request $request)
     {
-        return new Response($this->twig->render('pages/cartClient.html.twig'), 200);
+        return new Response($this->twig->render('client/pages/cartClient.html.twig'), 200);
     }
     //vue home
     public function dashboardClient( TranslatorInterface $translator, Request $request)
     {
-        return new Response($this->twig->render('pages/dashboardClient.html.twig'), 200);
+        return new Response($this->twig->render('client/pages/dashboardClient.html.twig'), 200);
     }
 
     //langue
@@ -51,17 +50,17 @@ class HomeController extends AbstractController
 
     public function categorieClient( TranslatorInterface $translator, Request $request,$categorie)
     {
-        return new Response($this->twig->render('pages/categorieClient.html.twig'), 200);
+        return new Response($this->twig->render('client/pages/categorieClient.html.twig'), 200);
     }
 
     public function cartClient( TranslatorInterface $translator, Request $request)
     {
-        return new Response($this->twig->render('pages/cartClient.html.twig'), 200);
+        return new Response($this->twig->render('client/pages/cartClient.html.twig'), 200);
     }
 
     public function searchClient( TranslatorInterface $translator, Request $request)
     {
-        return new Response($this->twig->render('pages/searchClient.html.twig'), 200);
+        return new Response($this->twig->render('client/pages/searchClient.html.twig'), 200);
     }
 
 

@@ -16,3 +16,16 @@ body {
     font-size: 0.9rem;
     font-weight: bold;
 }
+
+a {
+    text-decoration: none !important;
+}
+
+.menu{
+    width: 100%;
+    margin: 0px auto 40px auto;
+    background-color: white;
+    position: sticky;
+    top: 0px;
+    z-index: 9999;
+}
