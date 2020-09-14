@@ -4,6 +4,7 @@ namespace App\Controller\client\pages;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,12 @@ class HomepageController extends AbstractController
     }
 
     //vue home
-    public function homeClient( TranslatorInterface $translator, Request $request)
+    public function homeClient( TranslatorInterface $translator, Request $request,AuthenticationUtils $authenticationUtils)
     {
-
-        return new Response($this->twig->render('base.html.twig'), 200);
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return new Response($this->twig->render('base.html.twig', ['last_username' => $lastUsername, 'error' => $error]), 200);
     }
 
     //vue home
