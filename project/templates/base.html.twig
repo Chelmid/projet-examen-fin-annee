@@ -13,7 +13,9 @@
     <div class="container">
         <div class="row">
             <h1 class="col text-white fs mb-0">Fabricant d'objets tendances et écoresponsables</h1>
-            <div class="col text-white text-center">01 02 03 04 05 {% trans %}Monday to Friday at 9.00 AM to 6.00 PM{% endtrans %}du lundi au vendredi de 9h à 18h</div>
+            <div class="col text-white text-center">
+                01 02 03 04 05 {% trans %}Monday to Friday at 9.00 AM to 6.00 PM{% endtrans %}
+            </div>
             <div class="row">
                 <div class="col-auto text-white">Demander le catalogue</div>
                 <div class="col-auto text-white">Contact</div>
@@ -33,15 +35,15 @@
                     </a>
                     <a href="{{ path('dashboardClient') }}">
                         <div class="btn btn-primary">0</div>
-                        </a>
+                    </a>
                     <a href="{{ path('cartClient') }}">
                         <div class="btn btn-primary">0</div>
                     </a>
                 </div>
                 <div class="col-auto text-white">
                     {% for locale in locales %}
-                        <a href="{{ path('changeLocaleClient', {'locale': locale, 'url':app.request.locale})}}">
-                           <div class="btn btn-primary">{{ locale }}</div>
+                        <a href="{{ path('changeLocaleClient', {'locale': locale, 'url':app.request.locale}) }}">
+                            <div class="btn btn-primary">{{ locale }}</div>
                         </a>
                     {% endfor %}
                 </div>
@@ -51,86 +53,110 @@
 
 </header>
 
-<div class="menu">
-    <ul class="row list-unstyled">
-        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Éco-collection{% endtrans %}</a></li>
-        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "enceintes"}) }}">{% trans %}Enceintes{% endtrans %}</a></li>
-        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Cables usb{% endtrans %}</a></li>
-        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Power{% endtrans %}</a></li>
-        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}Mouse{% endtrans %}</a></li>
-        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "iné"}) }}">Iné</a></li>
-        <li class="col-auto nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "bons-plans"}) }}">{% trans %}Good plans{% endtrans %}</a></li>
-    </ul>
+<div class="container">
+    <div></div>
+    <div class="menu">
+        <ul class="row list-unstyled">
+            <li class="col-auto nav-item"><a class="nav-link"
+                                             href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Éco-collection{% endtrans %}</a>
+            </li>
+            <li class="col-auto nav-item"><a class="nav-link"
+                                             href="{{ path('categorieClient',{'categorie': "enceintes"}) }}">{% trans %}Enceintes{% endtrans %}</a>
+            </li>
+            <li class="col-auto nav-item"><a class="nav-link"
+                                             href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Cables usb{% endtrans %}</a>
+            </li>
+            <li class="col-auto nav-item"><a class="nav-link"
+                                             href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Power{% endtrans %}</a>
+            </li>
+            <li class="col-auto nav-item"><a class="nav-link"
+                                             href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}Mouse{% endtrans %}</a>
+            </li>
+            <li class="col-auto nav-item"><a class="nav-link"
+                                             href="{{ path('categorieClient',{'categorie': "iné"}) }}">Iné</a></li>
+            <li class="col-auto nav-item"><a class="nav-link"
+                                             href="{{ path('categorieClient',{'categorie': "bons-plans"}) }}">{% trans %}Good plans{% endtrans %}</a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 {% block content %}
     {% block login %}
-        <form method="post">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+        <div class="container">
+            <form method="post" action="{{ path('app_login')}}">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                {% if app.user %}
+                    <div class="mb-3">
+                        {% trans %}You are logged in as{% endtrans %} {{ app.user.username }}, <a
+                                href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a>
+                    </div>
+                {% endif %}
 
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
+                <h1 class="h3 mb-3 font-weight-normal">{% trans %}Please sign in{% endtrans %}</h1>
+                <label for="inputEmail">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                       required autofocus>
+                <label for="inputPassword">{% trans %}Password{% endtrans %}</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" required>
 
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <label for="inputEmail">Email</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" required>
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
 
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
+                {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
 
-            {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                #}
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
-                </div>
-            #}
-
-            <button class="btn btn-lg btn-primary" type="submit">
-                Sign in
-            </button>
-        </form>
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Sign in
+                </button>
+            </form>
+        </div>
     {% endblock %}
     <div class="col-12">
         <div class="container">
             <h2 class="h3 border-deco products-section-title text-uppercase text-center f-sp mb-4">NOS THEMATIQUES</h2>
             <div class="row mb-5">
-                <div class="col-md-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/travel.png" alt="travel" />
+                <div class="col-md-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/travel.png" alt="travel"/>
                     <p class="f-sp mt-2 mb-2">Travel</p>
                     <p class="fs-sm">Nous proposons une collection d’accessoires ultra-compacte, dessinée pour vous
                         accompagner où que vous allez. Transports quotidiens ou voyages lointains, Xoopar a toujours un
                         train d’avance pour vous power-équiper !</p>
                 </div>
-                <div class="col-md-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/cadeau.png" alt="cadeau" />
+                <div class="col-md-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/cadeau.png" alt="cadeau"/>
                     <p class="f-sp mt-2 mb-2">Cadeaux d'affaires</p>
-                    <p class="fs-sm">Durable, responsable et high-tech : Xoopar c’est le cadeau d’affaire 3.0 à offrir à vos
+                    <p class="fs-sm">Durable, responsable et high-tech : Xoopar c’est le cadeau d’affaire 3.0 à offrir à
+                        vos
                         collaborateurs, prospects, clients etc. Notre ambition : rendre vos objets publicitaires
                         indispensables et durables.</p>
                 </div>
                 <div class="col-md-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/ecoresponsable.png"
-                                           alt="ecoresponsable" />
+                                           alt="ecoresponsable"/>
                     <p class="f-sp mt-2 mb-2">Ecoresponsable</p>
                     <p class="fs-sm">Xoopar est la première marque high-tech à intégrer le développement durable au sein
-                        même de son ADN grâce à sa road map « xoopar green ». L’éco-responsabilité a trouvé sa place dans
+                        même de son ADN grâce à sa road map « xoopar green ». L’éco-responsabilité a trouvé sa place
+                        dans
                         tous nos process de la production à la distribution.</p>
                 </div>
                 <div class="col-md-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/high-tech.png"
-                                           alt="high-tech" />
+                                           alt="high-tech"/>
                     <p class="f-sp mt-2 mb-2">High-Tech</p>
-                    <p class="fs-sm">Des accessoires pour smartphones et tablettes Son, charge et accessoires pour un bureau
-                        plus mobile. Nous nous sommes spécialisés dans des accessoires High-Tech qui s’adaptent à un style
-                        de vie toujours plus nomade : du télé-travail en passant par le flex office, Xoopar vous accompagne
+                    <p class="fs-sm">Des accessoires pour smartphones et tablettes Son, charge et accessoires pour un
+                        bureau
+                        plus mobile. Nous nous sommes spécialisés dans des accessoires High-Tech qui s’adaptent à un
+                        style
+                        de vie toujours plus nomade : du télé-travail en passant par le flex office, Xoopar vous
+                        accompagne
                     </p>
                 </div>
                 <!-- FIN-->
@@ -138,19 +164,24 @@
             <div class="d-flex flex-wrap mb-5">
                 <!--22-->
                 <div class="col-md-12 col-lg-6 mt-5 mb-5"><img class="w-100"
-                                                               src="https://www.xoopar.fr/img/cms/cadeau2.png" alt="Cadeau d’affaire éco responsable " />
+                                                               src="https://www.xoopar.fr/img/cms/cadeau2.png"
+                                                               alt="Cadeau d’affaire éco responsable "/>
                 </div>
                 <div class="col-md-12 col-lg-6 mt-2">
                     <p class="f-sp">Goodies et Objet publicitaire, la publicité par l'objet.</p>
                     <p>Chez Xoopar on aime pas forcément le mot Goodies car ça implique trop souvent un usage rapide et
-                        quasi jetable…<br />Chez Xoopar on produit des objets publicitaires qui deviendront les ambassadeurs
+                        quasi jetable…<br/>Chez Xoopar on produit des objets publicitaires qui deviendront les
+                        ambassadeurs
                         de nos partenaires. Toujours utiles et durable plus qu’un goodies les produits xoopar sont des
-                        cadeaux plus que futile mais toujours fun.<br />Utiliser le cadeaux d’affaire permet de
-                        :<br />fidéliser la clientèle,<br />conquérir de nouveaux prospects,<br />bénéficier d'une
-                        visibilité au travers de ces objets.<br />Produire de la plus value au cœur même de ses équipes en
-                        interne en l’offrant à ses collaborateur.<br />La publicité par l'objet est depuis le départ de
-                        Xoopar au cœur de notre ADN et il a su évoluer avec son temps de plus en plus smart d’abord autour
-                        de l’ordinateur puis axés sur la mobilité il est aujourd’hui toujours high-tech et respectueux de
+                        cadeaux plus que futile mais toujours fun.<br/>Utiliser le cadeaux d’affaire permet de
+                        :<br/>fidéliser la clientèle,<br/>conquérir de nouveaux prospects,<br/>bénéficier d'une
+                        visibilité au travers de ces objets.<br/>Produire de la plus value au cœur même de ses équipes
+                        en
+                        interne en l’offrant à ses collaborateur.<br/>La publicité par l'objet est depuis le départ de
+                        Xoopar au cœur de notre ADN et il a su évoluer avec son temps de plus en plus smart d’abord
+                        autour
+                        de l’ordinateur puis axés sur la mobilité il est aujourd’hui toujours high-tech et respectueux
+                        de
                         son environnement.</p>
                 </div>
             </div>
@@ -160,14 +191,18 @@
                 <h3 class="h3 products-section-title text-uppercase text-center f-sp mb-4">Des cadeaux d’affaire
                     Écoresponsable</h3>
                 <p class="row">Le Mr Bio sorti en septembre 2019 est le premier câble de charge multi-connecteurs
-                    éco-responsable et recyclable. Ce câble Mr Bio est réalisé en Tyvek, un matériau biodégradable en 3 à 5
-                    ans dans un composteur industriel.<br />Il est aujourd’hui la mascotte d’une collection de cadeaux
-                    d’affaire high-tech éco-responsable complète composé d’enceintes de powerbanks, de souris et des câbles
-                    de charge<br />L’idée au cœur du projet : proposer des objets publicitaires utiles et non des goodies
+                    éco-responsable et recyclable. Ce câble Mr Bio est réalisé en Tyvek, un matériau biodégradable en 3
+                    à 5
+                    ans dans un composteur industriel.<br/>Il est aujourd’hui la mascotte d’une collection de cadeaux
+                    d’affaire high-tech éco-responsable complète composé d’enceintes de powerbanks, de souris et des
+                    câbles
+                    de charge<br/>L’idée au cœur du projet : proposer des objets publicitaires utiles et non des goodies
                     jetables et accompagner la transition écologique à notre échelle à travers des produits
-                    éco-responsables.<br />Le but : répondre à une forte demande des consommateurs d’acheter
-                    mieux.<br />Avec comme engagement : l’intégration du plastique recyclable et matières éco-friendly dans
-                    la conception des produits et l’utilisation de papier et de carton issu de forêts géré écologiquement
+                    éco-responsables.<br/>Le but : répondre à une forte demande des consommateurs d’acheter
+                    mieux.<br/>Avec comme engagement : l’intégration du plastique recyclable et matières éco-friendly
+                    dans
+                    la conception des produits et l’utilisation de papier et de carton issu de forêts géré
+                    écologiquement
                     pour les packagings (norme NFC).</p>
                 <div class="row"></div>
             </div>
@@ -177,12 +212,14 @@
                 <div class="col-md-8 pr-5">
                     <div class="d-flex flex-wrap mb-3">
                         <!--22-->
-                        <div class="col-sm-6 mt-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/idees-cadeau.png"
-                                                        alt="idées cadeau" width="300" height="200" /></div>
+                        <div class="col-sm-6 mt-3"><img class="w-100"
+                                                        src="https://www.xoopar.fr/img/cms/idees-cadeau.png"
+                                                        alt="idées cadeau" width="300" height="200"/></div>
                         <div class="col-sm-6">
                             <p class="f-sp fs-lg mt-2 mb-2">Idées cadeaux</p>
                             Tous équipés, tous connectés ! Les accessoires Xoopar, c’est l’idée cadeau qui fera toujours
-                            plaisir pour apporter du fun à votre smartphone. En musique et en énergie, nous proposons une
+                            plaisir pour apporter du fun à votre smartphone. En musique et en énergie, nous proposons
+                            une
                             gamme complète pour profiter du meilleur du high-tech en toute (éco-) tranquillité.
                         </div>
                         <!--<div class="col-sm-4"></div>-->
@@ -190,11 +227,12 @@
                     <div class="d-flex flex-wrap mb-3">
                         <!--22-->
                         <div class="col-sm-6 mt-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/partenaire.png"
-                                                        alt="partenaire" width="300" height="200" /></div>
+                                                        alt="partenaire" width="300" height="200"/></div>
                         <div class="col-sm-6">
                             <p class="f-sp fs-lg mt-2 mb-2">Nos partenaires</p>
                             Depuis 2008, Xoopar s’est donné comme mission d’apporter du fun et de l’high tech dans les
-                            boutiques. Avec ses différents partenaires, Xoopar a su construire un réseau de points de vente
+                            boutiques. Avec ses différents partenaires, Xoopar a su construire un réseau de points de
+                            vente
                             à l’international. Grands magasins, concept store et spécialistes du high-tech nous font
                             confiance. A vous de rejoindre l’aventure !
                         </div>
@@ -202,12 +240,14 @@
                     </div>
                     <div class="d-flex flex-wrap mb-3">
                         <!--22-->
-                        <div class="col-sm-6 mt-3"><img class="w-100" src="https://www.xoopar.fr/img/cms/home-office.png"
-                                                        alt="home office" width="300" height="200" /></div>
+                        <div class="col-sm-6 mt-3"><img class="w-100"
+                                                        src="https://www.xoopar.fr/img/cms/home-office.png"
+                                                        alt="home office" width="300" height="200"/></div>
                         <div class="col-sm-6">
                             <p class="f-sp fs-lg mt-2 mb-2">Home office / Télétravail</p>
                             Depuis 2008, Xoopar s’est donné comme mission d’apporter du fun et de l’high tech dans les
-                            boutiques. Avec ses différents partenaires, Xoopar a su construire un réseau de points de vente
+                            boutiques. Avec ses différents partenaires, Xoopar a su construire un réseau de points de
+                            vente
                             à l’international. Grands magasins, concept store et spécialistes du high-tech nous font
                             confiance. A vous de rejoindre l’aventure !
                         </div>
@@ -217,8 +257,9 @@
                 <div class="col">
                     <div class="row mb-4">
                         <div class="col-3"></div>
-                        <div class="col-3"><img src="https://www.xoopar.fr/img/cms/paiement-securise1.png" alt="" width="80"
-                                                height="80" /></div>
+                        <div class="col-3"><img src="https://www.xoopar.fr/img/cms/paiement-securise1.png" alt=""
+                                                width="80"
+                                                height="80"/></div>
                         <div class="col">
                             <p class="f-sp fs-lg mb-1 font-weight-bold">Paiement sécurisé</p>
                             <span class="fs-sm">Carte Bancaire</span>
@@ -227,7 +268,7 @@
                     <div class="row mb-4">
                         <div class="col-3"></div>
                         <div class="col-3"><img src="https://www.xoopar.fr/img/cms/Haute-Qualite.png" alt="" width="80"
-                                                height="80" /></div>
+                                                height="80"/></div>
                         <div class="col">
                             <p class="f-sp fs-lg mb-1 font-weight-bold">Produit unique</p>
                             <span class="fs-sm">Nos produits sont <strong>brevetés</strong> et <strong>garantie 2</strong>
@@ -236,8 +277,9 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-3"></div>
-                        <div class="col-3"><img src="https://www.xoopar.fr/img/cms/Livraison-Rapide2.png" alt="" width="80"
-                                                height="80" /></div>
+                        <div class="col-3"><img src="https://www.xoopar.fr/img/cms/Livraison-Rapide2.png" alt=""
+                                                width="80"
+                                                height="80"/></div>
                         <div class="col">
                             <p class="f-sp fs-lg mb-1 font-weight-bold">Expédition en 48H</p>
                             <span class="fs-sm">(personnalisation = 72H) Un numéro de tracking vous est fourni pour suivre
@@ -246,8 +288,9 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-3"></div>
-                        <div class="col-3"><img src="https://www.xoopar.fr/img/cms/eco-responsable.png" alt="" width="80"
-                                                height="80" /></div>
+                        <div class="col-3"><img src="https://www.xoopar.fr/img/cms/eco-responsable.png" alt=""
+                                                width="80"
+                                                height="80"/></div>
                         <div class="col">
                             <p class="f-sp fs-lg mb-1 font-weight-bold">Eco-responsable</p>
                             <span class="fs-sm">Nous sommes la 1ère marque high-tech française à proposer une gamme de
@@ -292,13 +335,24 @@
                 </div>
             </div>
             <ul class="row list-unstyled">
-                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Delivery{% endtrans %}</a></li>
-                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Legal Notice{% endtrans %}</a></li>
-                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Terms of use{% endtrans %}</a></li>
-                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}About{% endtrans %}</a></li>
-                <li class="col nav-item"><a class="nav-link" href="{{ path('categorieClient',{'categorie': "iné"}) }}">{% trans %}Secure payment{% endtrans %}</a></li>
+                <li class="col nav-item"><a class="nav-link"
+                                            href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Delivery{% endtrans %}</a>
+                </li>
+                <li class="col nav-item"><a class="nav-link"
+                                            href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Legal Notice{% endtrans %}</a>
+                </li>
+                <li class="col nav-item"><a class="nav-link"
+                                            href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Terms of use{% endtrans %}</a>
+                </li>
+                <li class="col nav-item"><a class="nav-link"
+                                            href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}About{% endtrans %}</a>
+                </li>
+                <li class="col nav-item"><a class="nav-link"
+                                            href="{{ path('categorieClient',{'categorie': "iné"}) }}">{% trans %}Secure payment{% endtrans %}</a>
+                </li>
             </ul>
-            <p class="text-white text-center">Copyright Xoopar - 2008 - 2020<p/>
+            <p class="text-white text-center">Copyright Xoopar - 2008 - 2020
+            <p/>
         </div>
 </footer>
 
