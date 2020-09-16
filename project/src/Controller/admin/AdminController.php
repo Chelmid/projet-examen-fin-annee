@@ -21,7 +21,7 @@ class AdminController extends AbstractController
     //vue home
     public function adminLogin(TranslatorInterface $translator, Request $request)
     {
-
-        return new Response($this->twig->render('adminbase.html.twig'), 200);
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        return new Response($this->twig->render('admin/adminbase.html.twig'), 200);
     }
 }
