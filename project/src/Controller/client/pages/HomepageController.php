@@ -51,6 +51,11 @@ class HomepageController extends AbstractController
         //return $this->redirectToRoute('home', ['langue' => $request->getSession()->get('_locale')]);
     }
 
+    public function contactClient( TranslatorInterface $translator, Request $request)
+    {
+        return new Response($this->twig->render('client/pages/contactClient.html.twig'), 200);
+    }
+
     public function categorieClient( TranslatorInterface $translator, Request $request,$categorie)
     {
         return new Response($this->twig->render('client/pages/categorieClient.html.twig'), 200);

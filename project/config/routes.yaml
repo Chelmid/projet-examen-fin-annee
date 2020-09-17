@@ -20,6 +20,11 @@ dashboardClient:
   path: /dashboard
   controller: App\Controller\client\pages\HomepageController::dashboardClient
 
+#contact
+contactClient:
+  path: /contact
+  controller: App\Controller\client\pages\HomepageController::contactClient
+
 #search
 searchClient:
   path: /search
@@ -35,7 +40,7 @@ categorieClient:
   path: /{categorie}
   controller: App\Controller\client\pages\HomepageController::categorieClient
 
-#klanguage
+#language
 changeLocaleClient:
   path: /{locale}/{url}
   controller: App\Controller\client\language\LanguageController::changeLocaleClient

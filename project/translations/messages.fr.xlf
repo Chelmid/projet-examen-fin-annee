@@ -65,6 +65,30 @@
         <source>Symfony is great!</source>
         <target>J'aime Symfony</target>
       </trans-unit>
+      <trans-unit id="acVpEs4" resname="You are logged in as">
+        <source>You are logged in as</source>
+        <target>Vous êtes connecté en tant que</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Deconnexion</target>
+      </trans-unit>
+      <trans-unit id="dDUw20Q" resname="Please sign in">
+        <source>Please sign in</source>
+        <target>Veuillez vous connecter</target>
+      </trans-unit>
+      <trans-unit id="588_9PF" resname="Password">
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit id="v9QCsvb" resname="Sign in">
+        <source>Sign in</source>
+        <target>Se connecter</target>
+      </trans-unit>
+      <trans-unit id="u3I07BJ" resname="Register">
+        <source>Register</source>
+        <target>S'inscrire</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
