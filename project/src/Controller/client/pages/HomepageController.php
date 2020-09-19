@@ -40,7 +40,7 @@ class HomepageController extends AbstractController
     }
 
     //langue
-    public function changeLocaleClient($locale,$url, Request $request)
+    /*public function changeLocaleClient($locale,$url, Request $request)
     {
         // On stocke la langue dans la session
         $request->getSession()->set('_locale', $locale);
@@ -49,7 +49,7 @@ class HomepageController extends AbstractController
 
         return $this->redirect($request->headers->get('referer'));
         //return $this->redirectToRoute('home', ['langue' => $request->getSession()->get('_locale')]);
-    }
+    }*/
 
     public function contactClient( TranslatorInterface $translator, Request $request)
     {

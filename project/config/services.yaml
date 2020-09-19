@@ -6,6 +6,7 @@
 parameters:
     # ici vos autres variables
     app.locales: [fr,en,es]
+    locale: fr
 
 services:
     # default configuration for services in *this* file

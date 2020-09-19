@@ -2,6 +2,8 @@
 #  path: /
 #  controller: App\Controller\HomepageController::index
 
+
+
 #admin
 adminLogin:
   path: /admin
@@ -9,38 +11,42 @@ adminLogin:
 
 #client
 homeClient:
-  path: /
+  path: /{_locale}
   controller: App\Controller\client\pages\HomepageController::homeClient
+  defaults:
+    _locale: '%locale%'
+    requirements:
+      _locale: fr|en|en
 
 loginClient:
-  path: /incription
+  path: /{_locale}/incription
   controller: App\Controller\client\pages\HomepageController::loginClient
 
 dashboardClient:
-  path: /dashboard
+  path: /{_locale}/dashboard
   controller: App\Controller\client\pages\HomepageController::dashboardClient
 
 #contact
 contactClient:
-  path: /contact
+  path: /{_locale}/contact
   controller: App\Controller\client\pages\HomepageController::contactClient
 
 #search
 searchClient:
-  path: /search
+  path: /{_locale}/search
   controller: App\Controller\client\pages\HomepageController::searchClient
 
 #cart
 cartClient:
-  path: /cart
+  path: /{_locale}/cart
   controller: App\Controller\client\pages\HomepageController::cartClient
 
 #categorie
 categorieClient:
-  path: /{categorie}
+  path: /{_locale}/{categorie}
   controller: App\Controller\client\pages\HomepageController::categorieClient
 
 #language
 changeLocaleClient:
-  path: /{locale}/{url}
+  path: /{locale}
   controller: App\Controller\client\language\LanguageController::changeLocaleClient

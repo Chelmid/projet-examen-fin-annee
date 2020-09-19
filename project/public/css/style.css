@@ -4,8 +4,7 @@ body {
     padding: 0;
 }
 
-/*page base*/
-
+/*nov annonce*/
 .header-nav {
     background-color: black;
     font-family: ITC Avant Garde Gothic,sans-serif;
@@ -16,16 +15,29 @@ body {
     font-size: 0.9rem;
     font-weight: bold;
 }
-
+/*tous les hover pas surligné*/
 a {
     text-decoration: none !important;
 }
 
-.menu{
+/*menu catégories scrolling qui reste */
+.bg_menu{
     width: 100%;
     margin: 0px auto 40px auto;
-    background-color: white;
+    background-color: #f8f9fa;
     position: sticky;
     top: 0px;
     z-index: 9999;
+}
+
+/*taille drapeau*/
+
+.flag_size{
+    margin: 5px 0;
+    height: 20px;
+    width: 40px;
+}
+
+.logo{
+    margin: 20px 0;
 }
