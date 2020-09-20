@@ -30,11 +30,12 @@
 <header>
     <div class="container">
         <div class="row col-auto logo">
-            <a href="{{ path('homeClient') }}"><h1 class="col-auto fs mb-0"><img src="{{ asset('images/logo/xoopar-b2b-logo.jpg') }}"></h1></a>
+            <div>{{ app.request.locale }}</div>
+            <a href="{{ url('homeClient') }}"><h1 class="col-auto fs mb-0"><img src="{{ asset('images/logo/xoopar-b2b-logo.jpg') }}"></h1></a>
             <div class="col text-center m-auto">Objet Publicitaire et Green-Tech</div>
             <div class="row m-auto">
                 <div class="col-auto text-white row mr-2">
-                    <a href="{{ path('searchClient') }}">
+                    <a href="{{ path('searchClient',{"_locale" : app.request.locale }) }}">
                         <div class="">
                             <svg width="1.5em" height="2em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +46,7 @@
                             </svg>
                         </div>
                     </a>
-                    <a href="{{ path('app_login') }}">
+                    <a href="{{ path('app_login',{"_locale" : app.request.locale }) }}">
                         <div class="">
                             <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +55,7 @@
                             </svg>
                         </div>
                     </a>
-                    <a href="{{ path('cartClient') }}">
+                    <a href="{{ path('cartClient',{"_locale" : app.request.locale }) }}">
                         <div class="">
                             <svg width="1.5em" height="2em" viewBox="0 0 16 16" class="bi bi-cart3" fill="currentColor"
                                  xmlns="http://www.w3.org/2000/svg">

@@ -25,6 +25,8 @@ class HomepageController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+        /*dump($request->getLocale());
+        die();*/
         return new Response($this->twig->render('base.html.twig', ['last_username' => $lastUsername, 'error' => $error]), 200);
     }
 
