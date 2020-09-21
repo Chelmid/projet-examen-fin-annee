@@ -30,7 +30,6 @@
 <header>
     <div class="container">
         <div class="row col-auto logo">
-            <div>{{ app.request.locale }}</div>
             <a href="{{ url('homeClient') }}"><h1 class="col-auto fs mb-0"><img src="{{ asset('images/logo/xoopar-b2b-logo.jpg') }}"></h1></a>
             <div class="col text-center m-auto">Objet Publicitaire et Green-Tech</div>
             <div class="row m-auto">
@@ -387,9 +386,7 @@
             <!-- fin 24-->
         </div>
     </div>
-    <h1>{% trans %}Symfony is great!{% endtrans %}</h1>
 {% endblock %}
-
 
 </div>
 <footer>
