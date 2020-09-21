@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminAddCategoryController extends AbstractController
+class AdminCategoryController extends AbstractController
 {
     /**
      * @Route("/admin/add/category", name="admin_add_category")
@@ -23,5 +23,13 @@ class AdminAddCategoryController extends AbstractController
         $en->persist($category);
         //$en->flush();
         return new Response("Category bien ajouter");
+    }
+
+    /**
+     * @Route("/admin/Show/category", name="admin_show_category")
+     */
+    public function getAllCategory(){
+        $repository = $this->getDoctrine()->getRepository("App\Entity\Category")->findAll();
+        return $this->json($repository);
     }
 }

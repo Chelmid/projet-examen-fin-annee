@@ -30,7 +30,8 @@
 <header>
     <div class="container">
         <div class="row col-auto logo">
-            <a href="{{ url('homeClient') }}"><h1 class="col-auto fs mb-0"><img src="{{ asset('images/logo/xoopar-b2b-logo.jpg') }}"></h1></a>
+            <a href="{{ url('homeClient') }}"><h1 class="col-auto fs mb-0"><img
+                            src="{{ asset('images/logo/xoopar-b2b-logo.jpg') }}"></h1></a>
             <div class="col text-center m-auto">Objet Publicitaire et Green-Tech</div>
             <div class="row m-auto">
                 <div class="col-auto text-white row mr-2">
@@ -68,11 +69,14 @@
                     {% for locale in locales %}
                         <a href="{{ path('changeLocaleClient', {'locale': locale}) }}">
                             {% if locale == 'fr' %}
-                            <div class=""><img class="flag_size" src="{{ asset('images/flag_language/fr.svg') }}"></div>
+                                <div class=""><img class="flag_size" src="{{ asset('images/flag_language/fr.svg') }}">
+                                </div>
                             {% elseif locale == 'en' %}
-                                <div class=""><img class="flag_size" src="{{ asset('images/flag_language/gb.svg') }}"></div>
+                                <div class=""><img class="flag_size" src="{{ asset('images/flag_language/gb.svg') }}">
+                                </div>
                             {% elseif locale == 'es' %}
-                                <div class=""><img class="flag_size" src="{{ asset('images/flag_language/es.svg') }}"></div>
+                                <div class=""><img class="flag_size" src="{{ asset('images/flag_language/es.svg') }}">
+                                </div>
                             {% endif %}
                         </a>
                     {% endfor %}
@@ -86,26 +90,13 @@
     <div class="container">
         <div class="menu">
             <ul class="row list-unstyled">
-                <li class="col-auto nav-item"><a class="nav-link"
-                                                 href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Éco-collection{% endtrans %}</a>
-                </li>
-                <li class="col-auto nav-item"><a class="nav-link"
-                                                 href="{{ path('categorieClient',{'categorie': "enceintes"}) }}">{% trans %}Enceintes{% endtrans %}</a>
-                </li>
-                <li class="col-auto nav-item"><a class="nav-link"
-                                                 href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Cables usb{% endtrans %}</a>
-                </li>
-                <li class="col-auto nav-item"><a class="nav-link"
-                                                 href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Power{% endtrans %}</a>
-                </li>
-                <li class="col-auto nav-item"><a class="nav-link"
-                                                 href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}Mouse{% endtrans %}</a>
-                </li>
-                <li class="col-auto nav-item"><a class="nav-link"
-                                                 href="{{ path('categorieClient',{'categorie': "iné"}) }}">Iné</a></li>
-                <li class="col-auto nav-item"><a class="nav-link"
-                                                 href="{{ path('categorieClient',{'categorie': "bons-plans"}) }}">{% trans %}Good plans{% endtrans %}</a>
-                </li>
+                {% for category in categories %}
+                    <li class="col-auto nav-item">
+                        <a class="nav-link" href="{{ url('categorieClient',{'categorie': category.name,'categories': categories}) }} ">
+                            {% trans with {'%category.name%':category.name} %} %category.name% {% endtrans %}
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
