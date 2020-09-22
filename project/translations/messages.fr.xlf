@@ -89,6 +89,18 @@
         <source>Register</source>
         <target>S'inscrire</target>
       </trans-unit>
+      <trans-unit id="hyp1Rnk" resname="Demander le catalogue">
+        <source>Demander le catalogue</source>
+        <target>__Demander le catalogue</target>
+      </trans-unit>
+      <trans-unit id="K1w9JnI" resname="Contact">
+        <source>Contact</source>
+        <target>__Contact</target>
+      </trans-unit>
+      <trans-unit id="4YiGb20" resname="%category.name%">
+        <source>%category.name%</source>
+        <target>%category.name%</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
