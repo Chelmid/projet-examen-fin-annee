@@ -20,13 +20,14 @@ class PersonnalisationController extends AbstractController
     }
 
 
-    public function personnalisationClient($category)
+    public function personnalisationClient($category, $product)
     {
 
         return $this->render('personnalisation/personnalisationClient.html.twig', [
             'controller_name' => 'PersonnalisationController',
             'categories'=> $this->category,
-            'theCategory' => $category
+            'theCategory' => $category,
+            'theProduct' => $product
         ]);
     }
 }
