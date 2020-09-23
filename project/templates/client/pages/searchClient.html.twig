@@ -1,3 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block content %}<div>search</div>{% endblock %}
+{% block content %}<div>search</div>
+
+    <form action="post.php" method="POST">
+        <input type='file' id='upload' multiple name="file" onchange='openFile(event)'/><br>
+        <input type='hidden' id='data-file' name="data-file" value="">
+
+        <img id='output'>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

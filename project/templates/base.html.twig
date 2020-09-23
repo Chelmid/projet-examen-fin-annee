@@ -92,7 +92,7 @@
             <ul class="row list-unstyled">
                 {% for category in categories %}
                     <li class="col-auto nav-item">
-                        <a class="nav-link" href="{{ url('categorieClient',{'categorie': category.name,'categories': categories}) }} ">
+                        <a class="nav-link" href="{{ path('categoryClient',{'category': category.name}) }} ">
                             {% trans with {'%category.name%':category.name} %} %category.name% {% endtrans %}
                         </a>
                     </li>
@@ -103,6 +103,11 @@
 </div>
 
 {% block content %}
+    {% for message in app.flashes('successRegistre') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% block login %}
         <div class="container">
             <div class="row">
@@ -409,19 +414,19 @@
             </div>
             <ul class="row list-unstyled">
                 <li class="col nav-item"><a class="nav-link"
-                                            href="{{ path('categorieClient',{'categorie': "éco-collection"}) }}">{% trans %}Delivery{% endtrans %}</a>
+                                            href="{{ path('categoryClient',{'category': "éco-collection"}) }}">{% trans %}Delivery{% endtrans %}</a>
                 </li>
                 <li class="col nav-item"><a class="nav-link"
-                                            href="{{ path('categorieClient',{'categorie': "cables-usb"}) }}">{% trans %}Legal Notice{% endtrans %}</a>
+                                            href="{{ path('categoryClient',{'category': "cables-usb"}) }}">{% trans %}Legal Notice{% endtrans %}</a>
                 </li>
                 <li class="col nav-item"><a class="nav-link"
-                                            href="{{ path('categorieClient',{'categorie': "charge"}) }}">{% trans %}Terms of use{% endtrans %}</a>
+                                            href="{{ path('categoryClient',{'category': "charge"}) }}">{% trans %}Terms of use{% endtrans %}</a>
                 </li>
                 <li class="col nav-item"><a class="nav-link"
-                                            href="{{ path('categorieClient',{'categorie': "souris"}) }}">{% trans %}About{% endtrans %}</a>
+                                            href="{{ path('categoryClient',{'category': "souris"}) }}">{% trans %}About{% endtrans %}</a>
                 </li>
                 <li class="col nav-item"><a class="nav-link"
-                                            href="{{ path('categorieClient',{'categorie': "iné"}) }}">{% trans %}Secure payment{% endtrans %}</a>
+                                            href="{{ path('categoryClient',{'category': "iné"}) }}">{% trans %}Secure payment{% endtrans %}</a>
                 </li>
             </ul>
             <p class="text-white text-center">Copyright Xoopar - 2008 - 2020

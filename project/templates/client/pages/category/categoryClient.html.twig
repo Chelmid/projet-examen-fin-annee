@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            Accueil / {{ theCategory }}
+        </div>
+        <div class="">
+            <div class="col row">
+                <div class="col-md-4">
+                    couleur
+                </div>
+                <div class="col-md-8">
+                    {{ theCategory }}
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('personnalisationClient', {'category': theCategory, product:'product'}) }}">le produit</a>
+    </div>
+{% endblock %}

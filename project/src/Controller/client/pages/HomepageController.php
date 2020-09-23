@@ -63,10 +63,10 @@ class HomepageController extends AbstractController
         return new Response($this->twig->render('client/pages/contactClient.html.twig', ['categories'=> $this->category]), 200);
     }
 
-    public function categorieClient( TranslatorInterface $translator, Request $request,$categorie)
+    /*public function categorieClient( TranslatorInterface $translator, Request $request,$categorie)
     {
-        return new Response($this->twig->render('client/pages/categorieClient.html.twig', ['categories'=> $this->category]), 200);
-    }
+        return new Response($this->twig->render('client/pages/category/categoryClient.html.twig', ['category'=> $this->category]), 200);
+    }*/
 
     public function cartClient( TranslatorInterface $translator, Request $request)
     {

@@ -41,12 +41,17 @@ cartClient:
   path: /{_locale}/cart
   controller: App\Controller\client\pages\HomepageController::cartClient
 
-#categorie
-categorieClient:
-  path: /{_locale}/{categorie}
-  controller: App\Controller\client\pages\HomepageController::categorieClient
+#category
+categoryClient:
+  path: /{_locale}/{category}
+  controller: App\Controller\client\pages\category\CategoryController::categoryClient
 
 #language
 changeLocaleClient:
   path: /{locale}
   controller: App\Controller\client\language\LanguageController::changeLocaleClient
+
+#Personnalisation
+personnalisationClient:
+  path: /{_locale}/{category}/{product}
+  controller: App\Controller\PersonnalisationController::personnalisationClient
