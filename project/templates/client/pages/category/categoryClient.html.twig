@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <div>
-            <a>Accueil</a> / <a>{{ theCategory }}</a>
+            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory}) }}">{{ theCategory }}</a>
         </div>
         <div class="">
             <div class="col row">
@@ -15,6 +15,6 @@
                 </div>
             </div>
         </div>
-        <a href="{{ path('personnalisationClient', {'category': theCategory, product:'product'}) }}">le produit</a>
+        <a href="{{ path('productClient', {'category': theCategory, product:'product'}) }}">le produit</a>
     </div>
 {% endblock %}

@@ -41,3 +41,7 @@ a {
 .logo{
     margin: 20px 0;
 }
+
+#ouput{
+    border: 1px solid black !important;
+}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+    <div class="container">
+        <div>
+            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory}) }}">{{ theCategory }}</a> / <a href="{{ path('productClient',{'category':theCategory,'product':theProduct}) }}">{{ theProduct }}</a>
+        </div>
+        <div class="">
+            <div class="col row">
+                <div class="col-md-6">
+                    maquette
+
+                    <div>
+                        <img id='output'>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {{ theProduct }}
+
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        DEMANDE D'ÉCHANTILLONS
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
+                                    <a href="{{ path('personnalisationClient', {'category': theCategory, product:'product'}) }}">personnalisation</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        COMMANDE & DEVIS
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <a href="{{ path('personnalisationClient', {'category': theCategory, product:'product'}) }}">personnalisation</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
