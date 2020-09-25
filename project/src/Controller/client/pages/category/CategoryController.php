@@ -22,6 +22,13 @@ class CategoryController extends AbstractController
 
     public function categoryClient($category)
     {
+        $curl = curl_init('https://api.rawg.io/api/games');
+        //curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl,CURLOPT_CERTINFO,__DIR__.'/api_game.cer');
+        //curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
+        $data_api = curl_exec($curl);
+        dump($data_api);
+        die();
 
         return $this->render('client/pages/category/categoryClient.html.twig', [
             'controller_name' => 'CategoryController',
