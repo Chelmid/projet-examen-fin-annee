@@ -19,21 +19,28 @@ class CategoryController extends AbstractController
         $this->category = $categoryRepository->findAll();
     }
 
+    public function testApi(){
+        $curl = curl_init('https://api.rawg.io/api/games');
+        curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, false);
+        //curl_setopt($curl,CURLOPT_CAINFO, __DIR__.DIRECTORY_SEPARATOR.'cert.cer');
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
+        $data_api = curl_exec($curl);
+        if($data_api === false){
+            var_dump(curl_error($curl));
+        }else{
+            $data_api = json_decode($data_api,true);
+            return $data_api["results"];
+        }
+        curl_close($curl);
+    }
 
     public function categoryClient($category)
     {
-        $curl = curl_init('https://api.rawg.io/api/games');
-        //curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl,CURLOPT_CERTINFO,__DIR__.'/api_game.cer');
-        //curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
-        $data_api = curl_exec($curl);
-        dump($data_api);
-        die();
-
         return $this->render('client/pages/category/categoryClient.html.twig', [
             'controller_name' => 'CategoryController',
             'categories'=> $this->category,
-            'theCategory' => $category
+            'theCategory' => $category,
+            'list_test_api' =>  $this->testApi(),
         ]);
     }
 }

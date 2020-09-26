@@ -7,11 +7,15 @@
         </div>
         <div class="">
             <div class="col row">
-                <div class="col-md-4">
-                    couleur
-                </div>
-                <div class="col-md-8">
-                    {{ theCategory }}
+                <div class="col-md-12">
+                    {% for test_api in list_test_api %}
+                        <div>
+                            {{ test_api.name }}
+                        </div>
+                        <div>
+                            <img src="{{ test_api.background_image }}">
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
