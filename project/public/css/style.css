@@ -30,18 +30,26 @@ a {
     z-index: 9999;
 }
 
-/*taille drapeau*/
-
+/*taille drapeau homepage*/
 .flag_size{
     margin: 5px 0;
     height: 20px;
     width: 40px;
 }
-
+/*logo homepage*/
 .logo{
     margin: 20px 0;
 }
 
 #ouput{
     border: 1px solid black !important;
+}
+
+.size-img-product-in-catagery{
+    height: auto;
+    width: 100%;
+}
+.size-image-category{
+    height: 250px;
+    width: 250px;
 }

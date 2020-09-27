@@ -3,19 +3,29 @@
 {% block content %}
     <div class="container">
         <div>
-            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory}) }}">{{ theCategory }}</a>
+            <a href="{{ path('homeClient') }}">Accueil</a> / <a
+                    href="{{ path('categoryClient',{'category':theCategory}) }}">{{ theCategory }}</a>
         </div>
         <div class="">
             <div class="col row">
-                <div class="col-md-12">
+                <div class="col-md-3">
+                    couleur
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
                     {% for test_api in list_test_api %}
-                        <div>
-                            {{ test_api.name }}
-                        </div>
-                        <div>
-                            <img src="{{ test_api.background_image }}">
-                        </div>
+                            <div class="size-image-category">
+                                <img class='size-img-product-in-catagery' src="{{ test_api.background_image }}">
+                                <div>
+                                    {{ test_api.name }}
+                                </div>
+                                <div>
+                                    {{ test_api.clip.clip }}
+                                </div>
+                            </div>
+
                     {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
