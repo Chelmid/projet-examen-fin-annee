@@ -25,17 +25,22 @@ class AdminCategoryController extends AbstractController
     {
 
         $category = new Category();
-        $category->setName($request->request->get('category_add'));
+        if(empty($request->request->get('category_add'))){
+            $this->addFlash('errorCategoryAdd', 'Veuillez verifier le champs');
+            return $this->redirectToRoute('admin_show_category');
+        }else{
+            $category->setName($request->request->get('category_add'));
 
-        //appelle doctrine
-        $en = $this->getDoctrine()->getManager();
+            //appelle doctrine
+            $en = $this->getDoctrine()->getManager();
 
-        $en->persist($category);
-        //push dans la bdd
-        $en->flush();
+            $en->persist($category);
+            //push dans la bdd
+            $en->flush();
 
-        $this->addFlash('successCategoryAdd', 'La category est bien ajouter');
-        return $this->redirectToRoute('admin_show_category');
+            $this->addFlash('successCategoryAdd', 'La category est bien ajouter');
+            return $this->redirectToRoute('admin_show_category');
+        }
     }
 
     /**

@@ -22,6 +22,6 @@ class AdminController extends AbstractController
     public function adminLogin(TranslatorInterface $translator, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        return new Response($this->twig->render('adminbase.html.twig'), 200);
+        return new Response($this->twig->render('admin/adminbase.html.twig'), 200);
     }
 }

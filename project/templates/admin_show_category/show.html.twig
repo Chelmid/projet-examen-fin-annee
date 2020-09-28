@@ -10,6 +10,11 @@
             {{ message }}
         </div>
     {% endfor %}
+    {% for message in app.flashes('errorCategoryAdd') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <form method="post" action="{{ path('admin_Show_category_add') }}">
 
         <input type="text" name="category_add">
