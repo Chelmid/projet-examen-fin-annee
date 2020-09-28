@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="TmtfQhI" resname="Monday to Friday at 9.00 AM to 6.00 PM">
         <source>Monday to Friday at 9.00 AM to 6.00 PM</source>
-        <target>u lundi au vendredi de 9h à 18hPM</target>
+        <target>du lundi au vendredi de 9h à 18hPM</target>
       </trans-unit>
       <trans-unit id="hSIul0Q" resname="Éco-collection">
         <source>Éco-collection</source>

@@ -37,7 +37,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $numberTVA;
 
@@ -45,6 +45,11 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $groupclient;
 
     public function getId(): ?int
     {
@@ -144,6 +149,18 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getGroupclient(): ?int
+    {
+        return $this->groupclient;
+    }
+
+    public function setGroupclient(int $groupclient): self
+    {
+        $this->groupclient = $groupclient;
 
         return $this;
     }

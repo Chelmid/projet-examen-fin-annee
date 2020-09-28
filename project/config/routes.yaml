@@ -9,6 +9,11 @@ adminLogin:
   path: /admin
   controller: App\Controller\admin\AdminController::adminLogin
 
+#admin
+adminAddCategory:
+  path: /admin/category/add
+  controller: App\Controller\admin\AdminController::adminLogin
+
 #client
 homeClient:
   path: /{_locale}

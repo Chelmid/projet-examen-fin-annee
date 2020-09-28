@@ -103,11 +103,13 @@
 </div>
 
 {% block content %}
-    {% for message in app.flashes('successRegistre') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
+    <div class="container">
+        {% for message in app.flashes('successRegistre') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
     {% block login %}
         <div class="container">
             <div class="row">
@@ -152,8 +154,18 @@
                         {% endif %}
                         {% if app.user %}
                             <div class="mb-3">
-                                {% trans %}You are logged in as{% endtrans %} {{ app.user.username }}, <a
-                                        href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a>
+                                {% trans %}You are logged in as{% endtrans %} Hello {{ app.user.username }}
+                            </div>
+                            <div>vous pouvez accéder ci-dessous à votre compte client :</div>
+                            <div>
+                                <div><a href="#">Mes devis et panier</a></div>
+                                <div><a href="#">Mes devis et panier</a></div>
+                                <div><a href="#">Mes Commandes</a></div>
+                                <div><a href="#">Mes informations</a></div>
+                                <div><a href="#">Mes adresses de livraison</a></div>
+                            </div>
+                            <div>
+                                <a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a>
                             </div>
                         {% endif %}
                         {% if app.user == null %}

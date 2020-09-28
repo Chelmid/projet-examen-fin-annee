@@ -42,6 +42,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            if($form->get('email')->getData() == 'lo.chelmi@gmail.com'){
+                $user->setRoles(['ROLE_ADMIN']);
+            }else{
+                $user->setRoles(['ROLE_USER']);
+            }
+            $user->setIsVerified(0);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
