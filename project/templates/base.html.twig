@@ -30,7 +30,7 @@
 <header>
     <div class="container">
         <div class="row col-auto logo">
-            <a href="{{ url('homeClient') }}"><h1 class="col-auto fs mb-0"><img
+            <a href="{{ url('homeClient',{"_locale" : app.request.defaultLocale }) }}"><h1 class="col-auto fs mb-0"><img
                             src="{{ asset('images/logo/xoopar-b2b-logo.jpg') }}"></h1></a>
             <div class="col text-center m-auto">Objet Publicitaire et Green-Tech</div>
             <div class="row m-auto">

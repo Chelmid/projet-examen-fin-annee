@@ -18,10 +18,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
+    private $category;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, CategoryRepository $categoryRepository)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->category = $categoryRepository->findAll();
     }
 
     /**
@@ -29,47 +31,54 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, CategoryRepository $categoryRepository): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+            $user = new User();
+            $form = $this->createForm(RegistrationFormType::class, $user);
+            $form->handleRequest($request);
 
-            if($form->get('email')->getData() == 'lo.chelmi@gmail.com'){
-                $user->setRoles(['ROLE_ADMIN']);
-            }else{
-                $user->setRoles(['ROLE_USER']);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // encode the plain password
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+
+                if ($form->get('email')->getData() == 'lo.chelmi@gmail.com') {
+                    $user->setRoles(['ROLE_ADMIN']);
+                } else {
+                    $user->setRoles(['ROLE_USER']);
+                }
+                $user->setIsVerified(0);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('lo.chelmi@gmail.com', 'moi'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+                // do anything else you need here, like send an email
+                $this->addFlash('successRegistre', 'Vous etes bien inscrit, Veuillez connecter');
+                return $this->redirectToRoute('homeClient');
             }
-            $user->setIsVerified(0);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('lo.chelmi@gmail.com', 'moi'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            // do anything else you need here, like send an email
-            $this->addFlash('successRegistre', 'Vous etes bien inscrit, Veuillez connecter');
-            return $this->redirectToRoute('homeClient');
+            return $this->render('registration/register.html.twig', [
+                'registrationForm' => $form->createView(),
+                'categories' => $this->category
+            ]);
+        } else {
+            return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
+                'categories' => $this->category,
+            ]);
         }
-        $category = $categoryRepository->findAll();
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-            'categories' => $category
-        ]);
     }
 
     /**
