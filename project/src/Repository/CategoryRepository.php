@@ -47,4 +47,9 @@ class CategoryRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getAllCategory(){
+
+    }
+
 }

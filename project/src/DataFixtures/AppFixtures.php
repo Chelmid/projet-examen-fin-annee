@@ -19,6 +19,7 @@ class AppFixtures extends Fixture
 
         $faker = Faker\Factory::create('fr_FR');
 
+
         for ($i = 0; $i < 6; $i++) {
             $category = new Category();
             $category->setName($faker->name);
@@ -27,16 +28,21 @@ class AppFixtures extends Fixture
             for ($j = 0; $j < 10; $j++) {
                 $product = new Product();
 
+                $color =[];
+                for ($l = 0; $l < 3 ; $l++) {
+                    array_push($color,$faker->hexcolor);
+                }
+                $data = serialize($color);
                 $product->setName($faker->name)
                         ->setSKU($faker->swiftBicNumber)
-                        ->setColor($faker->hexcolor)
-                        ->setPrice($faker->randomNumber(2))
-                        ->setImage($faker->imageUrl($width = 800, $height = 600, 'nightlife'))
+                        ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 2, $max = 200))
+                        ->setColor(implode("','",$color))
+                        ->setImage($faker->imageUrl($width = 640, $height = 480, 'nightlife'))
                         ->setCreateAt(new \DateTime($faker->date($format = 'Y-m-d', $max = 'now')))
                         ->setUpdatedAt(new \DateTime($faker->date($format = 'Y-m-d', $max = 'now')))
-                        ->setDescription($faker->text($maxNbChars = 200));
+                        ->setDescription($faker->text($maxNbChars = 200))
+                        ->setQuantity($faker->numberBetween($min = 1, $max = 9000));
                 $product->setCategory($category);
-
 
                 $manager->persist($product);
             }

@@ -4,7 +4,7 @@
     <div class="container">
         <div>
             <a href="{{ path('homeClient') }}">Accueil</a> / <a
-                    href="{{ path('categoryClient',{'category':theCategory}) }}">{{ theCategory }}</a>
+                    href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a>
         </div>
         <div class="">
             <div class="col row">
@@ -14,21 +14,30 @@
                 <div class="col-md-9">
                     <div class="row">
                     {% for test_api in list_test_api %}
-                            <div class="size-image-category">
-                                <img class='size-img-product-in-catagery' src="{{ test_api.background_image }}">
+                        {% if test_api.category.id == theCategory.id %}
+                            <div class="col-md-4">
+                                <a href=""><img class='size-img-product-in-catagery' src="{{ test_api.image }}"></a>
                                 <div>
-                                    {{ test_api.name }}
+                                    <h5>{{ test_api.name }}</h5>
+                                </div>
+                                <div class="row">
+                                    {% for color in test_api.color | split("','") %}
+                                    <div style="background-color: {{ color }};width: 50px;height: 50px"></div>
+                                    {% endfor%}
                                 </div>
                                 <div>
-                                    {{ test_api.clip.clip }}
+                                    <p>{{ test_api.description }}</p>
+                                </div>
+                                <div>
+                                    <p>{{ test_api.price }} €</p>
                                 </div>
                             </div>
-
+                        {%  endif %}
                     {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-        <a href="{{ path('productClient', {'category': theCategory, product:'product'}) }}">le produit</a>
+        <a href="{{ path('productClient', {'category': theCategory.name, product:'product'}) }}">le produit</a>
     </div>
 {% endblock %}

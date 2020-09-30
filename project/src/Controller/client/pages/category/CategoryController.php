@@ -3,6 +3,7 @@
 namespace App\Controller\client\pages\category;
 
 use App\Entity\Category;
+use App\Entity\Product;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +40,7 @@ class CategoryController extends AbstractController
     public function categoryClient($category)
     {
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['name' => $category]);
-
+        $product = $this->getDoctrine()->getRepository(Product::class)->findAll();
         if (!$category) {
             // Si aucun category n'est trouvé, nous créons une exception
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig',[
@@ -49,8 +50,8 @@ class CategoryController extends AbstractController
             return $this->render('client/pages/category/categoryClient.html.twig', [
                 'controller_name' => 'CategoryController',
                 'categories' => $this->category,
-                'theCategory' => $category->getName(),
-                'list_test_api' => $this->testApi(),
+                'theCategory' => $category,
+                'list_test_api' => $product,
             ]);
         }
     }
