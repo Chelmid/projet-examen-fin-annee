@@ -57,9 +57,9 @@ changeLocaleClient:
   controller: App\Controller\client\language\LanguageController::changeLocaleClient
 
 
-#Personnalisation
+#Product
 productClient:
-  path: /{_locale}/{category}/{product}
+  path: /{_locale}/{category}/{product}/{id}
   controller: App\Controller\ProductController::productClient
 
 #Personnalisation

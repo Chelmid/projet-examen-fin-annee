@@ -4,20 +4,24 @@
 {% block content %}
     <div class="container">
         <div>
-            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory}) }}">{{ theCategory }}</a> / <a href="{{ path('productClient',{'category':theCategory,'product':theProduct}) }}">{{ theProduct }}</a>
+            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a> / <a href="{{ path('productClient',{'category':theCategory.name,'product':theProduct.name,'id':theProduct.id}) }}">{{ theProduct.name }}</a>
         </div>
         <div class="">
             <div class="col row">
                 <div class="col-md-6">
-                    maquette
-
                     <div>
+                        <img src="{{ theProduct.image}}" width="100%">
                         <img id='output'>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    {{ theProduct }}
-
+                    {{ theProduct.name }}
+                    <p>Réfernece : {{ theProduct.Sku }}</p>
+                    <div class="row col">
+                        {% for color in theProduct.color | split("','") %}
+                            <a href="{{ path('productClient', {'category': theCategory.name, 'product':theProduct.name,'id':theProduct.id}) }}"><div class="color-rond"  style="background-color: {{ color }};"></div></a>
+                        {% endfor%}
+                    </div>
                     <div id="accordion">
                         <div class="card">
                             <div class="card-header" id="headingTwo">
@@ -29,7 +33,9 @@
                             </div>
                             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                                 <div class="card-body">
-                                    <a href="{{ path('personnalisationClient', {'category': theCategory, product:'product'}) }}">personnalisation</a>
+                                    <p>Pour tester le produit, vous pouvez commander un ou des échantillons de la couleur de votre choix.</p>
+                                    <p>Choisir la couleur pour l'échantillon</p>
+
                                 </div>
                             </div>
                         </div>
@@ -44,7 +50,14 @@
 
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                 <div class="card-body">
-                                    <a href="{{ path('personnalisationClient', {'category': theCategory, product:'product'}) }}">personnalisation</a>
+                                    <p>Choisissez vos quantités par couleur</p>
+                                    <div class="row">
+                                        <p>Qté</p>
+                                        {% for color in theProduct.color | split("','") %}
+                                            <input class="quantity-product" size="1" style="background-color: {{ color }};"/>
+                                        {% endfor%}
+                                    </div>
+                                    <a href="{{ path('homeClient') }}"></a>
                                 </div>
                             </div>
                         </div>

@@ -17,24 +17,29 @@ class ProductController extends AbstractController
     private $category;
 
 
-    public function __construct( Environment $twig,CategoryRepository $categoryRepository)
+    public function __construct(Environment $twig, CategoryRepository $categoryRepository)
     {
         $this->twig = $twig;
         $this->category = $categoryRepository->findAll();
     }
 
 
-    public function ProductClient($category, Product $product,Request $request)
+    public function ProductClient($category, $product,$id, Request $request)
+
     {
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['name' => $category]);
+        $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['name' => $product]);
+
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es' && $category) {
 
-        return $this->render('product/product.html.twig', [
-            'controller_name' => 'ProductController',
-            'categories'=> $this->category,
-            'theCategory' => $category,
-            'theProduct' => $product
-        ]);}else{
+                return $this->render('product/product.html.twig', [
+                    'controller_name' => 'ProductController',
+                    'categories' => $this->category,
+                    'theCategory' => $category,
+                    'theProduct' => $product
+                ]);
+
+        } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
                 'categories' => $this->category,
             ]);

@@ -53,3 +53,9 @@ a {
     height: 250px;
     width: 250px;
 }
+
+.color-rond {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}

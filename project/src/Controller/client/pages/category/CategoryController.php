@@ -51,7 +51,7 @@ class CategoryController extends AbstractController
                 'controller_name' => 'CategoryController',
                 'categories' => $this->category,
                 'theCategory' => $category,
-                'list_test_api' => $product,
+                'list_product' => $product,
             ]);
         }
     }
