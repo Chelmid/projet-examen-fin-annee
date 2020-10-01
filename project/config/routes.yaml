@@ -59,7 +59,7 @@ changeLocaleClient:
 
 #Product
 productClient:
-  path: /{_locale}/{category}/{product}/{id}
+  path: /{_locale}/{category}/{product}/{id}/{color}
   controller: App\Controller\ProductController::productClient
 
 #Personnalisation

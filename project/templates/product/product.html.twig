@@ -4,22 +4,26 @@
 {% block content %}
     <div class="container">
         <div>
-            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a> / <a href="{{ path('productClient',{'category':theCategory.name,'product':theProduct.name,'id':theProduct.id}) }}">{{ theProduct.name }}</a>
+            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a> / <a href="{{ path('productClient',{'category':theCategory.name,'product':theProduct.name,'id':theProduct.id, 'color':colorNow}) }}">{{ theProduct.name }}</a>
         </div>
         <div class="">
             <div class="col row">
                 <div class="col-md-6">
                     <div>
-                        <img src="{{ theProduct.image}}" width="100%">
                         <img id='output'>
+                        {% for key,image in theProduct.image | split("','") %}
+                            {% if key == colorNow%}
+                                <img src="{{ image}}" width="100%">
+                            {% endif %}
+                        {% endfor%}
                     </div>
                 </div>
                 <div class="col-md-6">
                     {{ theProduct.name }}
                     <p>Réfernece : {{ theProduct.Sku }}</p>
                     <div class="row col">
-                        {% for color in theProduct.color | split("','") %}
-                            <a href="{{ path('productClient', {'category': theCategory.name, 'product':theProduct.name,'id':theProduct.id}) }}"><div class="color-rond"  style="background-color: {{ color }};"></div></a>
+                        {% for key,color in theProduct.color | split("','") %}
+                            <a href="{{ path('productClient', {'category': theCategory.name, 'product':theProduct.name,'id':theProduct.id, 'color':key}) }}"><div class="color-rond"  style="background-color: {{ color }};"></div></a>
                         {% endfor%}
                     </div>
                     <div id="accordion">

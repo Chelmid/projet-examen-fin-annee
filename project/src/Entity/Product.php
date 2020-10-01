@@ -64,11 +64,6 @@ class Product
     private $category;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $category_id;
-
-    /**
      * @ORM\Column(type="string")
      */
     private $quantity;
@@ -182,18 +177,6 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getCategoryId(): ?int
-    {
-        return $this->category_id;
-    }
-
-    public function setCategoryId(int $category_id): self
-    {
-        $this->category_id = $category_id;
 
         return $this;
     }

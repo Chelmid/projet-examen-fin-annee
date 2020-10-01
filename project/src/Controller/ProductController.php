@@ -24,7 +24,7 @@ class ProductController extends AbstractController
     }
 
 
-    public function ProductClient($category, $product,$id, Request $request)
+    public function ProductClient($category, $product,$id, Request $request,$color)
 
     {
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['name' => $category]);
@@ -36,7 +36,8 @@ class ProductController extends AbstractController
                     'controller_name' => 'ProductController',
                     'categories' => $this->category,
                     'theCategory' => $category,
-                    'theProduct' => $product
+                    'theProduct' => $product,
+                    'colorNow' => $color
                 ]);
 
         } else {

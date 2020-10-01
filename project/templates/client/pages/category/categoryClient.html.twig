@@ -3,7 +3,8 @@
 {% block content %}
     <div class="container">
         <div>
-            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a>
+            <a href="{{ path('homeClient') }}">Accueil</a> / <a
+                    href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a>
         </div>
         <div class="">
             <div class="col row">
@@ -12,41 +13,45 @@
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                    {% for product in list_product %}
-                        {% if product.category.id == theCategory.id %}
-                            <div class="col-md-4">
-                                <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id}) }}">
+                        {% for product in list_product %}
+                            {% if product.category.id == theCategory.id %}
+                                <div class="col-md-4">
                                     {% for key,image in product.image | split("','") %}
                                         {% if key == 0 %}
-                                            <img class='size-img-product-in-catagery' src="{{ image }}">
+                                            <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':key}) }}">
+                                                <img class='size-img-product-in-catagery' src="{{ image }}">
+                                            </a>
                                         {% endif %}
-                                    {% endfor%}
-                                </a>
-                                <div>
-                                    <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id}) }}"><h5>{{ product.name }}</h5></a>
+                                    {% endfor %}
+
+                                    <div>
+                                        <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':0}) }}">
+                                            <h5>{{ product.name }}</h5></a>
+                                    </div>
+                                    <div>
+                                        <p>{{ product.description }}</p>
+                                    </div>
+                                    {{ product.id }}
+                                    <div class="row col">
+                                        {% for key,color in product.color | split("','") %}
+                                            <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':key}) }}">
+                                                <div class="color-rond" style="background-color: {{ color }};"></div>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                    <div>
+                                        {% for key,quantity in product.quantity | split("','") %}
+                                            {% if key == 0 %}
+                                                <p>En Stock : {{ quantity | replace({'"': ''}) }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div>
+                                        <p>{{ product.price }} €</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p>{{ product.description }}</p>
-                                </div>
-                                {{ product.id }}
-                                <div class="row col">
-                                    {% for key,color in product.color | split("','") %}
-                                        <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id}) }}"><div class="color-rond"  style="background-color: {{ color }};"></div></a>
-                                    {% endfor%}
-                                </div>
-                                <div>
-                                    {% for key,quantity in product.quantity | split("','") %}
-                                        {% if key == 0 %}
-                                            <p>En Stock : {{  quantity | replace({'"': ''})}}</p>
-                                        {% endif %}
-                                    {% endfor%}
-                                </div>
-                                <div>
-                                    <p>{{ product.price }} €</p>
-                                </div>
-                            </div>
-                        {%  endif %}
-                    {% endfor %}
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
