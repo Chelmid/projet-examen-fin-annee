@@ -63,6 +63,11 @@ productClient:
   controller: App\Controller\ProductController::productClient
 
 #Personnalisation
+personnalisationCheckInfo:
+  path: /{_locale}/{category}/{product}/{id}/{color}/personnalisationCheckInfo
+  controller: App\Controller\PersonnalisationController::personnalisationCheckInfo
+
+#Personnalisation
 personnalisationClient:
-  path: /{_locale}/{category}/{product}/personnalisation
+  path: /{_locale}/{category}/{product}/{id}/{color}/personnalisation
   controller: App\Controller\PersonnalisationController::personnalisationClient

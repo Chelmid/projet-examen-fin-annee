@@ -26,28 +26,27 @@
 
                                     <div>
                                         <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':0}) }}">
-                                            <h5>{{ product.name }}</h5></a>
+                                            <h5 class="text-center">{{ product.name }}</h5></a>
                                     </div>
                                     <div>
-                                        <p>{{ product.description }}</p>
+                                        <p class="text-center">{{ product.description }}</p>
                                     </div>
-                                    {{ product.id }}
-                                    <div class="row col">
+                                    <div class="row justify-content-center">
                                         {% for key,color in product.color | split("','") %}
                                             <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':key}) }}">
-                                                <div class="color-rond" style="background-color: {{ color }};"></div>
+                                                <div class="color-rond mr-2 mb-3" style="background-color: {{ color }};"></div>
                                             </a>
                                         {% endfor %}
                                     </div>
                                     <div>
                                         {% for key,quantity in product.quantity | split("','") %}
                                             {% if key == 0 %}
-                                                <p>En Stock : {{ quantity | replace({'"': ''}) }}</p>
+                                                <p class="text-center">En Stock : {{ quantity | replace({'"': ''}) }}</p>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
                                     <div>
-                                        <p>{{ product.price }} €</p>
+                                        <p class="text-center">{{ product.price }} €</p>
                                     </div>
                                 </div>
                             {% endif %}

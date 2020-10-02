@@ -4,7 +4,9 @@
 {% block content %}
     <div class="container">
         <div>
-            <a href="{{ path('homeClient') }}">Accueil</a> / <a href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a> / <a href="{{ path('productClient',{'category':theCategory.name,'product':theProduct.name,'id':theProduct.id, 'color':colorNow}) }}">{{ theProduct.name }}</a>
+            <a href="{{ path('homeClient') }}">Accueil</a> / <a
+                    href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a> / <a
+                    href="{{ path('productClient',{'category':theCategory.name,'product':theProduct.name,'id':theProduct.id, 'color':colorNow}) }}">{{ theProduct.name }}</a>
         </div>
         <div class="">
             <div class="col row">
@@ -12,32 +14,45 @@
                     <div>
                         <img id='output'>
                         {% for key,image in theProduct.image | split("','") %}
-                            {% if key == colorNow%}
-                                <img src="{{ image}}" width="100%">
+                            {% if key == colorNow %}
+                                <img src="{{ image }}" width="100%">
                             {% endif %}
-                        {% endfor%}
+                        {% endfor %}
+                        <div>{{ theProduct.description }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    {{ theProduct.name }}
-                    <p>Réfernece : {{ theProduct.Sku }}</p>
-                    <div class="row col">
-                        {% for key,color in theProduct.color | split("','") %}
-                            <a href="{{ path('productClient', {'category': theCategory.name, 'product':theProduct.name,'id':theProduct.id, 'color':key}) }}"><div class="color-rond"  style="background-color: {{ color }};"></div></a>
-                        {% endfor%}
+                    <div class="">
+                        <div>
+                            <p>{{ theProduct.name }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Réference : {{ theProduct.Sku }}</p>
+                            <div class="row">
+                                {% for key,color in theProduct.color | split("','") %}
+                                    <a href="{{ path('productClient', {'category': theCategory.name, 'product':theProduct.name,'id':theProduct.id, 'color':key}) }}">
+                                        <div class="color-rond mr-2" style="background-color: {{ color }};"></div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                     <div id="accordion">
                         <div class="card">
                             <div class="card-header" id="headingTwo">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse"
+                                            data-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
                                         DEMANDE D'ÉCHANTILLONS
                                     </button>
                                 </h5>
                             </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                 data-parent="#accordion">
                                 <div class="card-body">
-                                    <p>Pour tester le produit, vous pouvez commander un ou des échantillons de la couleur de votre choix.</p>
+                                    <p>Pour tester le produit, vous pouvez commander un ou des échantillons de la
+                                        couleur de votre choix.</p>
                                     <p>Choisir la couleur pour l'échantillon</p>
 
                                 </div>
@@ -46,22 +61,40 @@
                         <div class="card">
                             <div class="card-header" id="headingOne">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                            aria-expanded="true" aria-controls="collapseOne">
                                         COMMANDE & DEVIS
                                     </button>
                                 </h5>
                             </div>
 
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-parent="">
                                 <div class="card-body">
-                                    <p>Choisissez vos quantités par couleur</p>
-                                    <div class="row">
-                                        <p>Qté</p>
-                                        {% for color in theProduct.color | split("','") %}
-                                            <input class="quantity-product" size="1" style="background-color: {{ color }};"/>
-                                        {% endfor%}
-                                    </div>
-                                    <a href="{{ path('homeClient') }}"></a>
+                                    <form method="post" action="{{ path('personnalisationCheckInfo',{"category":theCategory.name, "product":theProduct.name, "id":app.request.attributes.get('id'), "color":app.request.attributes.get('color')}) }}">
+                                        <p>Choisissez vos quantités par couleur</p>
+                                        {% for flashError in app.flashes('errorQuantity') %}
+                                            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                                        {% endfor %}
+                                        <div class="row justify-content-center">
+                                            <div class="d-flex">
+                                                <p>Qté</p>
+                                                {% for keycolor,color in theProduct.color | split("','") %}
+                                                    <div class="mx-2">
+                                                        <input class="quantity-product" name="{{ color }}" size="4"
+                                                               style="background-color: {{ color }};"/>
+                                                        {% for keyquantity,quantity in theProduct.quantity | split("','") %}
+                                                            {% if keycolor ==  keyquantity %}
+                                                                <div class="my-0 text-center">En stock</div>
+                                                                <div class="text-center">{{ quantity | replace({'"': ''}) }}</div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <button type="submit">Personnalisation</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
