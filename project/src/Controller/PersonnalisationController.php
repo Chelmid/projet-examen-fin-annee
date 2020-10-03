@@ -32,7 +32,7 @@ class PersonnalisationController extends AbstractController
                 'theCategory' => $category,
                 'theProduct' => $product
             ]);
-        }else{
+        } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
                 'categories' => $this->category,
             ]);
@@ -41,23 +41,21 @@ class PersonnalisationController extends AbstractController
 
     public function personnalisationCheckInfo(Request $request)
     {
-
         $i = 0;
         foreach ($request->request->all() as $value) {
-            if (!empty($value && $value > 49)) {
+            if ($value < 50 && !empty($value)) {
+                $this->addFlash('errorQuantity', "La quantité doit être égale à 50 ou plus");
+                return $this->redirectToRoute('productClient', [
+                    'category' => $request->attributes->get('category'),
+                    'product' => $request->attributes->get('product'),
+                    'id' => $request->attributes->get('id'),
+                    'color' => $request->attributes->get('color'),
+                ]);
+            }else{
                 $i++;
             }
         }
-        dump($i);
-        if ($i <= 0) {
-            $this->addFlash('errorQuantity', "il n'y pas de quantity");
-            return $this->redirectToRoute('productClient', [
-                'category' => $request->attributes->get('category'),
-                'product' => $request->attributes->get('product'),
-                'id' => $request->attributes->get('id'),
-                'color' => $request->attributes->get('color'),
-            ]);
-        } else {
+        if($i >= 1){
             return $this->redirectToRoute('personnalisationClient', [
                 'category' => $request->attributes->get('category'),
                 'product' => $request->attributes->get('product'),
