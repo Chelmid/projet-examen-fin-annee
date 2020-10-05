@@ -74,8 +74,8 @@
         <target>Se déconnecter</target>
       </trans-unit>
       <trans-unit id="dDUw20Q" resname="Please sign in">
-        <source>Please sign in</source>
-        <target>Veuillez vous connecter</target>
+        <source>sign in</source>
+        <target>Je m'identifie</target>
       </trans-unit>
       <trans-unit id="588_9PF" resname="Password">
         <source>Password</source>

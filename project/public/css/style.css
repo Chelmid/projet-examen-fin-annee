@@ -23,11 +23,12 @@ a {
 /*menu catégories scrolling qui reste */
 .bg_menu{
     width: 100%;
-    margin: 0px auto 40px auto;
+    margin: 0px auto 20px auto;
     background-color: #f8f9fa;
     position: sticky;
     top: 0px;
     z-index: 9999;
+    border: 1px solid #dee2e6;
 }
 
 /*taille drapeau homepage*/
@@ -45,6 +46,7 @@ a {
     border: 1px solid black !important;
 }
 
+/* category */
 .size-img-product-in-catagery{
     height: auto;
     width: 100%;
@@ -58,4 +60,47 @@ a {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+}
+
+/*buttion submit*/
+
+.btn-submit {
+    background-color: #ef8343;
+    border-color: #ef8343;
+    border-radius: 0% !important;
+    color: #FFFFFF;
+}
+
+.btn-submit:hover{
+    background-color: #eb6414;
+}
+
+/* les autres button normal*/
+
+.btn-noir{
+    background-color: #000000;
+    border-radius: 0% !important;
+}
+
+.btn-noir:hover{
+    opacity: 0.8;
+}
+
+.zone-background-grey{
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.fontSizeBtn {
+    font-size: 15px !important;
+}
+
+/*footer Link*/
+
+.footerLink{
+    color: #FFFFFF;
+}
+
+.footerLink:hover{
+    color: #dee2e6;
 }

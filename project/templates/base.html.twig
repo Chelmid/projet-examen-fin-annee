@@ -89,10 +89,10 @@
 <div class="bg_menu">
     <div class="container">
         <div class="menu">
-            <ul class="row list-unstyled">
+            <ul class="row list-unstyled mb-0">
                 {% for category in categories %}
                     <li class="col-auto nav-item">
-                        <a class="nav-link" href="{{ path('categoryClient',{'category': category.name}) }} ">
+                        <a class="nav-link font-weight-bold text-dark h6" href="{{ path('categoryClient',{'category': category.name}) }} ">
                             {% trans with {'%category.name%':category.name} %} %category.name% {% endtrans %}
                         </a>
                     </li>
@@ -113,7 +113,7 @@
     {% block login %}
         <div class="container">
             <div class="row">
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div id="carouselExampleIndicators" class="carousel slide m-auto col" data-ride="carousel">
                     <!--<ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -147,8 +147,8 @@
                         <p class="text-center text-white"><a href="">xoopar-shop.com</a></p>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="container">
+                <div class="col-lg-4 col-xl-3">
+                    <div class="">
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
@@ -168,15 +168,17 @@
                             </div>
                         {% endif %}
                         {% if app.user == null %}
+                        <div class="px-3 zone-background-grey">
                             <form method="post" action="{{ path('app_login') }}">
-                                <h1 class="h3 mb-3 font-weight-normal">{% trans %}Please sign in{% endtrans %}</h1>
-                                <label for="inputEmail">Email</label>
+                                <div class="my-2 font-weight-bold">{% trans %}Please sign in{% endtrans %}</div>
+                                <hr class="my-2">
+                                <label for="inputEmail">Email *</label>
                                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
                                        class="form-control"
                                        required autofocus>
-                                <label for="inputPassword">{% trans %}Password{% endtrans %}</label>
+                                <label for="inputPassword" class="mt-3">{% trans %}Password{% endtrans %} *</label>
                                 <input type="password" name="password" id="inputPassword" class="form-control" required>
-
+                                <input type="checkbox" name="_remember_me" class="my-2"> Remember me
                                 <input type="hidden" name="_csrf_token"
                                        value="{{ csrf_token('authenticate') }}"
                                 >
@@ -192,27 +194,33 @@
                                     </div>
                                 #}
 
-                                <button class="btn btn-lg btn-primary" type="submit">
+                                <button class="col btn btn-md btn-submit mb-3" type="submit">
                                     {% trans %}Sign in{% endtrans %}
                                 </button>
                             </form>
-                        {% endif %}
+                        </div>
+                        <div class="mt-xl-3 mt-lg-3 mt-md-5 px-3 py-3 zone-background-grey">
+                            <div class=" font-weight-bold">Nouveau client ? Créez votre compte pro</div>
+                            <hr class="my-2">
+                            <div class="">Je suis ...</div>
+
+                            <div class="my-2">
+                                <a href="{{ path('app_register') }}" class="col btn btn-md btn-noir text-white fontSizeBtn">
+                                    Une boutique / Un distributeur
+                                </a>
+                            </div>
+                            <div class="my-2">
+                                <a href="{{ path('app_register') }}" class="col btn btn-md btn-noir text-white">
+                                    Un distributeur d'objet <br> promotionnel
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="container">
-                        {% if app.user == null %}
-                            <div>Nouveau client ? Créez votre compte pro</div>
-                            <div>Je suis ...</div>
-                            <a href="{{ path('app_register') }}">
-                                <button class="col btn btn-dark">Une boutique / Un distributeur</button>
-                            </a>
-                            <a href="{{ path('app_register') }}">
-                                <button class="col btn-dark">Un distributeur d'objet promotionnel</button>
-                            </a>
-                        {% endif %}
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
+
     {% endblock %}
     <div class="col-12">
         <div class="container">
@@ -424,19 +432,19 @@
                 </div>
             </div>
             <ul class="row list-unstyled">
-                <li class="col nav-item"><a class="nav-link"
+                <li class="col nav-item"><a class="nav-link footerLink"
                                             href="{{ path('categoryClient',{'category': "éco-collection"}) }}">{% trans %}Delivery{% endtrans %}</a>
                 </li>
-                <li class="col nav-item"><a class="nav-link"
+                <li class="col nav-item"><a class="nav-link footerLink"
                                             href="{{ path('categoryClient',{'category': "cables-usb"}) }}">{% trans %}Legal Notice{% endtrans %}</a>
                 </li>
-                <li class="col nav-item"><a class="nav-link"
+                <li class="col nav-item"><a class="nav-link footerLink"
                                             href="{{ path('categoryClient',{'category': "charge"}) }}">{% trans %}Terms of use{% endtrans %}</a>
                 </li>
-                <li class="col nav-item"><a class="nav-link"
+                <li class="col nav-item"><a class="nav-link footerLink"
                                             href="{{ path('categoryClient',{'category': "souris"}) }}">{% trans %}About{% endtrans %}</a>
                 </li>
-                <li class="col nav-item"><a class="nav-link"
+                <li class="col nav-item"><a class="nav-link footerLink"
                                             href="{{ path('categoryClient',{'category': "iné"}) }}">{% trans %}Secure payment{% endtrans %}</a>
                 </li>
             </ul>

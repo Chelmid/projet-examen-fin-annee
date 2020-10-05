@@ -24,6 +24,7 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 "attr" => [
                     "class" => "form-control",
+                    "placeholder" => "email@email.fr"
                 ]
             ])
             ->add('numbertva', null, [
