@@ -19,7 +19,7 @@
                                     {% for key,image in product.image | split("','") %}
                                         {% if key == 0 %}
                                             <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':key}) }}">
-                                                <img class='size-img-product-in-catagery' src="{{ image }}">
+                                                <img class='size-img-product-in-catagery hoverColorAndImg' src="{{ image }}">
                                             </a>
                                         {% endif %}
                                     {% endfor %}
@@ -33,7 +33,7 @@
                                     </div>
                                     <div class="row justify-content-center">
                                         {% for key,color in product.color | split("','") %}
-                                            <a href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':key}) }}">
+                                            <a class="hoverColorAndImg" href="{{ path('productClient', {'category': theCategory.name, 'product':product.name, 'id':product.id, 'color':key}) }}">
                                                 <div class="color-rond mr-2 mb-3" style="background-color: {{ color }};"></div>
                                             </a>
                                         {% endfor %}

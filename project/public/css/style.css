@@ -83,7 +83,7 @@ a {
 }
 
 .btn-noir:hover{
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .zone-background-grey{
@@ -103,4 +103,18 @@ a {
 
 .footerLink:hover{
     color: #dee2e6;
+}
+
+/*hover les couleur*/
+
+.hoverColorAndImg:hover{
+    opacity: 0.7;
+}
+
+.backgroundOrange{
+    background-color: #ef8343 !important;
+}
+
+.no-decoration{
+    text-decoration: none !important;
 }
