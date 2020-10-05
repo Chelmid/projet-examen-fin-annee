@@ -19,6 +19,26 @@ let openFile = function (event) {
     reader.readAsDataURL(input.files[0]);
 };
 
+let imgOriginal = document.querySelector('.imgOriginal');
+
+
+if( imgOriginal.clientHeight != null ){
+    console.log(imgOriginal.clientHeight);
+    console.log(imgOriginal.clientWidth);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //controle de la quantité dans la pasge de produit et bution est déactiver qsi il n'a pas de value
 
 let quantityProduct = document.querySelectorAll('.quantity-product');
