@@ -12,6 +12,7 @@
                 <div class="col-md-6">
                     <div>
                         <img id='output'>
+                        <canvas id="pdfViewer"></canvas>
                         {% for key,image in theProduct.image | split("','") %}
                             {% if key == app.request.attributes.get('color') %}
                                 <img class="imgOriginal" src="{{ image }}" width="100%">
@@ -34,8 +35,7 @@
                                      data-parent="">
                                     <div class="card-body">
                                         <input type='file' id='upload' multiple name="file"
-                                               class="zone-background-grey col"
-                                               onchange='openFile(event)'/><br>
+                                               class="zone-background-grey col"/><br>
                                         <input type='hidden' id='data-file' name="data-file" value="">
                                     </div>
                                 </div>
@@ -75,4 +75,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="{{ asset('js/page_personnalisation.js') }}" rel="stylesheet"></script>
 {% endblock %}
