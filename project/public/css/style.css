@@ -118,3 +118,17 @@ a {
 .no-decoration{
     text-decoration: none !important;
 }
+
+/*personnalisation maquette*/
+
+#upload {
+    position: absolute;
+}
+
+#dataFile {
+    position: absolute;
+}
+
+#logoPersonnalisation {
+    display: none;
+}

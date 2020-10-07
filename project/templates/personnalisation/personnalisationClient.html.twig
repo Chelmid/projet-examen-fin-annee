@@ -11,11 +11,13 @@
             <div class="col row">
                 <div class="col-md-6">
                     <div>
-                        <img id='output'>
-                        <canvas id="pdfViewer"></canvas>
+                        <div id="logoPersonnalisation">
+                            <img id='output'>
+                            <canvas id="pdfViewer"></canvas>
+                        </div>
                         {% for key,image in theProduct.image | split("','") %}
                             {% if key == app.request.attributes.get('color') %}
-                                <img class="imgOriginal" src="{{ image }}" width="100%">
+                                <img id="imgOriginal" src="{{ image }}" width="100%">
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -36,7 +38,7 @@
                                     <div class="card-body">
                                         <input type='file' id='upload' multiple name="file"
                                                class="zone-background-grey col"/><br>
-                                        <input type='hidden' id='data-file' name="data-file" value="">
+                                        <input type='hidden' id='dataFile' name="dataFile" value="">
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +80,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script src="{{ asset('js/page_personnalisation.js') }}" rel="stylesheet"></script>
 {% endblock %}

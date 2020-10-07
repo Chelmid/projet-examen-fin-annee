@@ -1,19 +1,3 @@
-
-var BASE64_MARKER = ';base64,';
-
-function convertDataURIToBinary(dataURI) {
-    var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-    var base64 = dataURI.substring(base64Index);
-    var raw = window.atob(base64);
-    var rawLength = raw.length;
-    var array = new Uint8Array(new ArrayBuffer(rawLength));
-
-    for(var i = 0; i < rawLength; i++) {
-        array[i] = raw.charCodeAt(i);
-    }
-    return array;
-}
-
 // upload fichier image
 // Loaded via <script> tag, create shortcut to access PDF.js exports.
 let pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -21,74 +5,118 @@ let pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 let upload = document.getElementById('upload')
+let dataFile = document.getElementById('dataFile')
+let output = document.getElementById('output');
+let logoPersonnalisation = document.getElementById('logoPersonnalisation');
+let pdfViewer = document.getElementById('pdfViewer');
+let imgOriginal = document.getElementById('imgOriginal')
 
 upload.addEventListener("change", (e) => {
     let file = e.target.files[0]
     // la partie pour le pdf
     if (file.type == "application/pdf") {
-
-        let fileReader = new FileReader();
-        fileReader.onload = function () {
-
-            // Print data in console
-            let pdfData = new Uint8Array(this.result);
-            // Using DocumentInitParameters object to load binary data.
-            let loadingTask = pdfjsLib.getDocument({data: pdfData});
-            console.log(btoa(pdfData))
-            document.getElementById('data-file').value = '';
-            loadingTask.promise.then(function (pdf) {
-                console.log('PDF loaded');
-
-                // Fetch the first page
-                let pageNumber = 1;
-                pdf.getPage(pageNumber).then(function (page) {
-                    console.log('Page loaded');
-
-                    let scale = 0.5;
-                    let viewport = page.getViewport({scale: scale});
-
-                    // Prepare canvas using PDF page dimensions
-                    let canvas = document.querySelector("canvas");
-                    let context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    // Render PDF page into canvas context
-                    let renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    let renderTask = page.render(renderContext);
-                    renderTask.promise.then(function () {
-                        console.log('Page rendered');
-                    });
-                });
-            }, function (reason) {
-                // PDF loading error
-                console.error(reason);
-            });
-        };
-
-        fileReader.readAsArrayBuffer(file);
+        convertToBase64PDF(file)
+        logoPersonnalisation.style.display = "block"
+        pdfViewer.style.position = "absolute"
+        pdfViewer.style.display = "block"
+        output.style.display = "none"
     }
     //les party pour les images
     if (file.type == "image/jpeg" || file.type == "image/png") {
-
-        let fileReader = new FileReader();
-
-        fileReader.onload = function () {
-            let dataURL = fileReader.result;
-            console.log(fileReader.result)
-            document.getElementById('data-file').value = fileReader.result;
-            let output = document.getElementById('output');
-            output.src = dataURL;
-        };
-        fileReader.readAsDataURL(file);
+        convertToBase64()
+        logoPersonnalisation.style.display = "block"
+        output.style.position = "absolute"
+        pdfViewer.style.display = "none"
+        output.style.display = "block"
     }
 });
 
-let imgOriginal = document.querySelector('.imgOriginal');
-let output = document.getElementById('output');
+// convertir Base64
+function convertToBase64() {
+    //Read File
+    let selectedFile = upload.files;
+
+    //Check File is not Empty
+    if (selectedFile.length > 0) {
+        // Select the very first file from list
+        let fileToLoad = selectedFile[0];
+        // FileReader function for read the file.
+        let fileReader = new FileReader();
+        let base64;
+        // Onload of file read the file content
+        fileReader.onload = function (fileLoadedEvent) {
+            base64 = fileLoadedEvent.target.result;
+            // Print data in console
+            console.log(base64);
+            dataFile.value = fileReader.result;
+            output.src = base64;
+        };
+        // Convert data to base64
+        fileReader.readAsDataURL(fileToLoad);
+    }
+}
+
+function convertToBase64PDF(event_target_files) {
+
+    let fileReader = new FileReader();
+    fileReader.onload = function () {
+
+        // Print data in console
+        let pdfData = new Uint8Array(this.result);
+        // Using DocumentInitParameters object to load binary data.
+        let loadingTask = pdfjsLib.getDocument({data: pdfData});
+
+        loadingTask.promise.then(function (pdf) {
+            console.log('PDF loaded');
+
+            // Fetch the first page
+            let pageNumber = 1;
+            pdf.getPage(pageNumber).then(function (page) {
+                console.log('Page loaded');
+
+                let scale = 0.5;
+                let viewport = page.getViewport({scale: scale});
+
+                // Prepare canvas using PDF page dimensions
+                let canvas = document.querySelector("canvas");
+                let context = canvas.getContext('2d');
+
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // information de la taille de l'image
+                let data = context.getImageData(0, 0, canvas.width, canvas.height);
+
+                ratioHeight = imgOriginal.clientHeight / data.height
+                ratioWidth = imgOriginal.clientWidth / data.width
+                console.log(ratioHeight)
+                console.log(ratioWidth)
+                canvas.height =  data.height * ratioHeight
+                canvas.width = data.width * ratioWidth
+
+                console.log(canvas.height)
+                console.log(canvas.width)
+                // Render PDF page into canvas context
+                let renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                    background: 'rgba(0,0,0,0)'
+                };
+
+                let renderTask = page.render(renderContext);
+                renderTask.promise.then(function () {
+                    console.log('Page rendered');
+                });
+            });
+        }, function (reason) {
+            // PDF loading error
+            console.error(reason);
+        });
+    };
+    convertToBase64()
+    fileReader.readAsArrayBuffer(event_target_files);
+}
+
 console.log(output);
 
 if (imgOriginal.clientHeight != null) {
