@@ -87,6 +87,7 @@ function convertToBase64PDF(event_target_files) {
                 // information de la taille de l'image
                 let data = context.getImageData(0, 0, canvas.width, canvas.height);
 
+
                 // Render PDF page into canvas context
                 let renderContext = {
                     canvasContext: context,
@@ -94,8 +95,16 @@ function convertToBase64PDF(event_target_files) {
                     background: 'rgba(0,0,0,0)'
                 };
 
-                context.scale(0.7,0.7)
-            console.log(renderContext)
+                console.log(canvas.height)
+                console.log(canvas.width)
+                /*canvas.height = imgOriginal.height;
+                canvas.width = imgOriginal.width;*/
+                if (true) {
+
+                }
+
+                context.scale(0.7, 0.7)
+                console.log(renderContext)
                 let renderTask = page.render(renderContext);
                 renderTask.promise.then(function () {
                     console.log('Page rendered');
@@ -108,4 +117,62 @@ function convertToBase64PDF(event_target_files) {
     };
     convertToBase64()
     fileReader.readAsArrayBuffer(event_target_files);
+}
+
+function isSingleColor(imageData) {
+    let stride = 4
+    for (let offset = 0; offset < stride; offset++) {
+        let first = imageData[offset]
+        for (let i = offset; i < imageData.length; i += stride) {
+            if (first !== imageData[i]) {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+let pageViewport = // ...
+    let
+page = // ...
+    let
+width = pageViewport.width
+let height = pageViewport.height
+
+let context = DOM.context2d(width, height);
+context.canvas.width = width
+context.canvas.height = height
+await page.render({canvasContext: context, viewport: pageViewport})
+
+let top = 0
+let bottom = height
+let left = 0
+let right = width
+while (top < bottom) {
+    let data = context.getImageData(left, top, right - left, 1).data
+    if (!isSingleColor(data)) {
+        break;
+    }
+    top++
+}
+while (top < bottom) {
+    let data = context.getImageData(left, bottom, right - left, 1).data
+    if (!isSingleColor(data)) {
+        break;
+    }
+    bottom--
+}
+while (left < right) {
+    let data = context.getImageData(left, top, 1, bottom - top).data
+    if (!isSingleColor(data)) {
+        break;
+    }
+    left++
+}
+while (left < right) {
+    let data = context.getImageData(right, top, 1, bottom - top).data
+    if (!isSingleColor(data)) {
+        break;
+    }
+    right--
 }
