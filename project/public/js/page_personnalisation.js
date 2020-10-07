@@ -10,6 +10,8 @@ let output = document.getElementById('output');
 let logoPersonnalisation = document.getElementById('logoPersonnalisation');
 let pdfViewer = document.getElementById('pdfViewer');
 let imgOriginal = document.getElementById('imgOriginal')
+let canvas = document.querySelector("canvas");
+let context = canvas.getContext('2d');
 
 upload.addEventListener("change", (e) => {
     let file = e.target.files[0]
@@ -78,24 +80,13 @@ function convertToBase64PDF(event_target_files) {
                 let viewport = page.getViewport({scale: scale});
 
                 // Prepare canvas using PDF page dimensions
-                let canvas = document.querySelector("canvas");
-                let context = canvas.getContext('2d');
 
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
-
+                //context.scale(0.7,0.7)
                 // information de la taille de l'image
                 let data = context.getImageData(0, 0, canvas.width, canvas.height);
 
-                ratioHeight = imgOriginal.clientHeight / data.height
-                ratioWidth = imgOriginal.clientWidth / data.width
-                console.log(ratioHeight)
-                console.log(ratioWidth)
-                canvas.height =  data.height * ratioHeight
-                canvas.width = data.width * ratioWidth
-
-                console.log(canvas.height)
-                console.log(canvas.width)
                 // Render PDF page into canvas context
                 let renderContext = {
                     canvasContext: context,
@@ -103,6 +94,8 @@ function convertToBase64PDF(event_target_files) {
                     background: 'rgba(0,0,0,0)'
                 };
 
+                context.scale(0.7,0.7)
+            console.log(renderContext)
                 let renderTask = page.render(renderContext);
                 renderTask.promise.then(function () {
                     console.log('Page rendered');
@@ -116,11 +109,3 @@ function convertToBase64PDF(event_target_files) {
     convertToBase64()
     fileReader.readAsArrayBuffer(event_target_files);
 }
-
-console.log(output);
-
-if (imgOriginal.clientHeight != null) {
-    console.log(imgOriginal.clientHeight);
-    console.log(imgOriginal.clientWidth);
-}
-
