@@ -113,3 +113,15 @@ function convertToBase64PDF(event_target_files) {
     convertToBase64()
     fileReader.readAsArrayBuffer(event_target_files);
 }
+
+
+pdfViewer.addEventListener("mousedown", (e) => {
+    pdfViewer.addEventListener('mousemove', (f)=> {
+        console.log(f.target)
+        console.log(f.clientX)
+        console.log(f.clientY)
+    })
+    console.log(e.target)
+    console.log(pageXOffset)
+    console.log(pageYOffset)
+})

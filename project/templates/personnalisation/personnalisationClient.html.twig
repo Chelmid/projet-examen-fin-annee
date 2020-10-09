@@ -11,9 +11,11 @@
             <div class="col row">
                 <div class="col-md-6">
                     <div>
-                        <div id="logoPersonnalisation">
-                            <img id='output'>
-                            <canvas id="pdfViewer"></canvas>
+                        <div class="zone-marquage">
+                            <div id="logoPersonnalisation">
+                                <img id='output'>
+                                <canvas id="pdfViewer"></canvas>
+                            </div>
                         </div>
                         {% for key,image in theProduct.image | split("','") %}
                             {% if key == app.request.attributes.get('color') %}

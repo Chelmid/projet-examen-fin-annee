@@ -68,6 +68,11 @@ class Product
      */
     private $quantity;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ZoneDeMarquage::class, mappedBy="product_id", cascade={"persist", "remove"})
+     */
+    private $zoneDeMarquage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -189,6 +194,23 @@ class Product
     public function setQuantity(string $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getZoneDeMarquage(): ?ZoneDeMarquage
+    {
+        return $this->zoneDeMarquage;
+    }
+
+    public function setZoneDeMarquage(ZoneDeMarquage $zoneDeMarquage): self
+    {
+        $this->zoneDeMarquage = $zoneDeMarquage;
+
+        // set the owning side of the relation if necessary
+        if ($zoneDeMarquage->getProductId() !== $this) {
+            $zoneDeMarquage->setProductId($this);
+        }
 
         return $this;
     }

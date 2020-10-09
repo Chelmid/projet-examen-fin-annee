@@ -524,6 +524,9 @@
     "symfonycasts/verify-email-bundle": {
         "version": "v1.0.0"
     },
+    "tecnickcom/tcpdf": {
+        "version": "6.3.5"
+    },
     "twbs/bootstrap": {
         "version": "v4.0.0"
     },
