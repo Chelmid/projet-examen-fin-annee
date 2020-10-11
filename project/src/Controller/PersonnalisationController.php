@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ZoneDeMarquage;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use App\Repository\ZoneDeMarquageRepository;
 
 class PersonnalisationController extends AbstractController
 {
@@ -22,15 +24,17 @@ class PersonnalisationController extends AbstractController
     }
 
 
-    public function personnalisationClient($category, $product)
+    public function personnalisationClient($category, $product, Request $request)
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['name' => $product]);
+        $zoneDeMarquage =  $this->getDoctrine()->getRepository(ZoneDeMarquage::class)->findOneBy(['product_id' => $request->attributes->get('id')]);
         if ($product) {
             return $this->render('personnalisation/personnalisationClient.html.twig', [
                 'controller_name' => 'PersonnalisationController',
                 'categories' => $this->category,
                 'theCategory' => $category,
-                'theProduct' => $product
+                'theProduct' => $product,
+                'zoneDeMarquage' => $zoneDeMarquage
             ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
@@ -39,8 +43,11 @@ class PersonnalisationController extends AbstractController
         }
     }
 
-    public function personnalisationCheckInfo(Request $request)
+    public function personnalisationCheckInfo(Request $request, ZoneDeMarquageRepository $zoneDeMarquageRepository )
     {
+
+        /*dump($request->request->all());
+        die();*/
         $i = 0;
         foreach ($request->request->all() as $value) {
             if ($value < 50 && !empty($value)) {
@@ -56,12 +63,16 @@ class PersonnalisationController extends AbstractController
             }
         }
         if($i >= 1){
-            return $this->redirectToRoute('personnalisationClient', [
+            /*dump($zoneDeMarquageRepository);
+            die();*/
+            return $this->personnalisationClient($request->attributes->get('category'),$request->attributes->get('product'), $request);
+            /*return $this->redirectToRoute('personnalisationClient', [
                 'category' => $request->attributes->get('category'),
                 'product' => $request->attributes->get('product'),
                 'id' => $request->attributes->get('id'),
                 'color' => $request->attributes->get('color'),
-            ]);
+                'zoneDeMarquage' => $zoneDeMarquageRepository
+            ]);*/
         }
     }
 }
