@@ -9,12 +9,13 @@ let dataFile = document.getElementById('dataFile')
 let output = document.getElementById('output');
 let logoPersonnalisation = document.getElementById('logoPersonnalisation');
 let pdfViewer = document.getElementById('pdfViewer');
-let pdfViewer2 = document.getElementById('pdfViewer2');
+let zoneMarguage = document.getElementById('zone-marquage');
 let imgOriginal = document.getElementById('imgOriginal')
 let canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
 
-let dataUri =''
+let dataUri = ''
+
 
 upload.addEventListener("change", (e) => {
     let file = e.target.files[0]
@@ -22,7 +23,7 @@ upload.addEventListener("change", (e) => {
     if (file.type == "application/pdf") {
         convertToBase64PDF(file)
         logoPersonnalisation.style.display = "block"
-        pdfViewer.style.position = "absolute"
+        pdfViewer.style.position = "relative"
         pdfViewer.style.display = "block"
         output.style.display = "none"
     }
@@ -30,7 +31,7 @@ upload.addEventListener("change", (e) => {
     if (file.type == "image/jpeg" || file.type == "image/png") {
         convertToBase64()
         logoPersonnalisation.style.display = "block"
-        output.style.position = "absolute"
+        //output.style.position = "absolute"
         pdfViewer.style.display = "none"
         output.style.display = "block"
     }
@@ -88,6 +89,9 @@ function convertToBase64PDF(event_target_files) {
                 pdfViewer.height = viewport.height;
                 pdfViewer.width = viewport.width;
 
+                pdfViewer.dataset.height = viewport.height
+                pdfViewer.dataset.width = viewport.width
+
                 //context.scale(0.7,0.7)
                 // information de la taille de l'image
 
@@ -103,6 +107,8 @@ function convertToBase64PDF(event_target_files) {
                 let renderTask = page.render(renderContext);
                 renderTask.promise.then(function () {
                     console.log('Page rendered');
+                    logoPersonnalisation.dataset.height = viewport.height
+                    logoPersonnalisation.dataset.width = viewport.width
                 });
             });
         }, function (reason) {
@@ -110,18 +116,35 @@ function convertToBase64PDF(event_target_files) {
             console.error(reason);
         });
     };
-    convertToBase64()
     fileReader.readAsArrayBuffer(event_target_files);
 }
 
+var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+        console.log(mutation.type)
 
-pdfViewer.addEventListener("mousedown", (e) => {
-    pdfViewer.addEventListener('mousemove', (f)=> {
-        console.log(f.target)
-        console.log(f.clientX)
-        console.log(f.clientY)
+        alert('hello');
+
     })
-    console.log(e.target)
-    console.log(pageXOffset)
-    console.log(pageYOffset)
+})
+
+let pressing = false;
+
+logoPersonnalisation.addEventListener("mousedown", (e) => {
+    pressing = true;
+})
+
+
+logoPersonnalisation.addEventListener("mousemove", (e) => {
+    if (pressing === true) {
+        pdfViewer.style.top = e.offsetY + 'px'
+        pdfViewer.style.left = e.offsetX + 'px'
+        console.log(pdfViewer.offsetTop)
+        console.log(pdfViewer.offsetLeft)
+    }
+})
+
+
+logoPersonnalisation.addEventListener("mouseup", (e) => {
+    pressing = false;
 })
