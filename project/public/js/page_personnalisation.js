@@ -9,8 +9,8 @@ let dataFile = document.getElementById('dataFile')
 let output = document.getElementById('output');
 let logoPersonnalisation = document.getElementById('logoPersonnalisation');
 let pdfViewer = document.getElementById('pdfViewer');
-let zoneMarguage = document.getElementById('zone-marquage');
-let imgOriginal = document.getElementById('imgOriginal')
+let zoneMarguage = document.querySelector('.zone-marquage');
+let test = document.getElementById('test')
 let canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
 
@@ -89,8 +89,8 @@ function convertToBase64PDF(event_target_files) {
                 pdfViewer.height = viewport.height;
                 pdfViewer.width = viewport.width;
 
-                pdfViewer.dataset.height = viewport.height
-                pdfViewer.dataset.width = viewport.width
+                //pdfViewer.dataset.height = viewport.height
+                //pdfViewer.dataset.width = viewport.width
 
                 //context.scale(0.7,0.7)
                 // information de la taille de l'image
@@ -107,8 +107,8 @@ function convertToBase64PDF(event_target_files) {
                 let renderTask = page.render(renderContext);
                 renderTask.promise.then(function () {
                     console.log('Page rendered');
-                    logoPersonnalisation.dataset.height = viewport.height
-                    logoPersonnalisation.dataset.width = viewport.width
+                    //logoPersonnalisation.dataset.height = viewport.height
+                    //logoPersonnalisation.dataset.width = viewport.width
                 });
             });
         }, function (reason) {
@@ -119,32 +119,35 @@ function convertToBase64PDF(event_target_files) {
     fileReader.readAsArrayBuffer(event_target_files);
 }
 
-var observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-        console.log(mutation.type)
-
-        alert('hello');
-
-    })
-})
-
 let pressing = false;
 
-logoPersonnalisation.addEventListener("mousedown", (e) => {
+test.addEventListener("mousedown", (e) => {
     pressing = true;
+    test.style.height = pdfViewer.offsetHeight + 'px'
+    test.style.width = pdfViewer.offsetWidth + 'px'
+    console.log(pdfViewer.offsetWidth)
 })
 
 
-logoPersonnalisation.addEventListener("mousemove", (e) => {
+test.addEventListener("mousemove", (e) => {
     if (pressing === true) {
-        pdfViewer.style.top = e.offsetY + 'px'
-        pdfViewer.style.left = e.offsetX + 'px'
-        console.log(pdfViewer.offsetTop)
-        console.log(pdfViewer.offsetLeft)
+       // pdfViewer.style.top = `${e.pageY}px`
+        //pdfViewer.style.left =`${e.pageX}px`
+        //console.log(e.pageY)
+
+        var cWidth = pdfViewer.offsetWidth
+        var cHeight = pdfViewer.offsetHeight;
+        moveXAmount = (e.offsetX / zoneMarguage.clientHeight)*200;
+        //moveXAmount = moveXAmount - (cHeight/2);
+        moveYAmount = (e.offsetY / zoneMarguage.clientWidth)*200;
+        //moveYAmount = moveYAmount + (cWidth/2);
+        console.log( moveYAmount)
+        pdfViewer.style.top = moveYAmount +'px'
+        pdfViewer.style.left = moveXAmount +'px'
     }
 })
 
 
-logoPersonnalisation.addEventListener("mouseup", (e) => {
-    pressing = false;
+window.addEventListener("mouseup", (e) => {
+        pressing = false;
 })

@@ -12,9 +12,10 @@
                 <div class="col-md-6">
                     <div>
                         <div class="zone-marquage" style="height:{{ zoneDeMarquage.height }}px;width:{{ zoneDeMarquage.width }}px;top: {{ zoneDeMarquage.topSpace }}px;left:{{ zoneDeMarquage.leftSpace }}px ";>
-                            <div id="logoPersonnalisation">
-                                <img id='output'>
+                            <div id="logoPersonnalisation" style="height:{{ zoneDeMarquage.height }}px;width:{{ zoneDeMarquage.width }}px;top: {{ zoneDeMarquage.topSpace }}px;left:{{ zoneDeMarquage.leftSpace }}px ";>
+                                <img id='output'><div id="test">
                                 <canvas id="pdfViewer"></canvas>
+                            </div>
                             </div>
                         </div>
                         {% for key,image in theProduct.image | split("','") %}
