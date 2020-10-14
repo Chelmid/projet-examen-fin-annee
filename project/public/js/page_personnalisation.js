@@ -85,7 +85,7 @@ function convertToBase64PDF(event_target_files) {
                 let viewport = page.getViewport({scale: scale});
 
                 // Prepare canvas using PDF page dimensions
-                while (viewport.height > zoneMarguage.clientHeight || viewport.width > zoneMarguage.clientWidth){
+                while (viewport.height > zoneMarguage.clientHeight || viewport.width > zoneMarguage.clientWidth) {
                     scale -= 0.1
                     viewport = page.getViewport({scale: scale})
                 }
@@ -116,30 +116,40 @@ function convertToBase64PDF(event_target_files) {
 }
 
 let pressing = false;
+var offset = [0, 0];
 
-test.addEventListener("mousedown", (e) => {
+pdfViewer.addEventListener("mousedown", (e) => {
     pressing = true;
-    test.style.height = pdfViewer.offsetHeight + 'px'
-    test.style.width = pdfViewer.offsetWidth + 'px'
+    offset = [
+        pdfViewer.offsetLeft - e.clientX,
+        pdfViewer.offsetTop - e.clientY
+    ];
     console.log(pdfViewer.offsetWidth)
+    zoneMarguage.addEventListener('mouseout', (e) =>{
+        console.log('la')
+    })
 })
 
 
-test.addEventListener("mousemove", (e) => {
+pdfViewer.addEventListener("mousemove", (e) => {
     if (pressing === true) {
-        // pdfViewer.style.top = `${e.pageY}px`
-        //pdfViewer.style.left =`${e.pageX}px`
-        //console.log(e.pageY)
 
-        var cWidth = pdfViewer.offsetWidth
-        var cHeight = pdfViewer.offsetHeight;
-        moveXAmount = (e.offsetX / zoneMarguage.clientHeight) * 200;
-        //moveXAmount = moveXAmount - (cHeight/2);
-        moveYAmount = (e.offsetY / zoneMarguage.clientWidth) * 200;
-        //moveYAmount = moveYAmount + (cWidth/2);
-        console.log(moveYAmount)
-        pdfViewer.style.top = moveYAmount + 'px'
-        pdfViewer.style.left = moveXAmount + 'px'
+        mousePosition = {
+            x: e.clientX,
+            y: e.clientY
+        };
+
+       // pdfViewer.style.left = (mousePosition.x + offset[0]) + 'px';
+        //pdfViewer.style.top = (mousePosition.y + offset[1]) + 'px';
+
+        if(mousePosition.x + offset[0] > 0 && mousePosition.x + offset[0] < zoneMarguage.clientWidth - pdfViewer.width ){
+            pdfViewer.style.left = mousePosition.x + offset[0] + 'px'
+        }
+        if(mousePosition.y + offset[1] > 0 && mousePosition.y + offset[1] < zoneMarguage.clientHeight - pdfViewer.height ){
+            pdfViewer.style.top = mousePosition.y + offset[1] + 'px'
+        }
+        console.log(pdfViewer.style.left)
+        console.log(pdfViewer.style.top)
     }
 })
 
@@ -148,3 +158,6 @@ window.addEventListener("mouseup", (e) => {
     pressing = false;
 })
 
+zoneMarguage.addEventListener('mouseout', (e) =>{
+    console.log('la')
+})
