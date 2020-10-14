@@ -81,17 +81,16 @@ function convertToBase64PDF(event_target_files) {
             pdf.getPage(pageNumber).then(function (page) {
                 console.log('Page loaded');
 
-                let scale = 0.5;
+                let scale = 1;
                 let viewport = page.getViewport({scale: scale});
 
                 // Prepare canvas using PDF page dimensions
-
+                while (viewport.height > zoneMarguage.clientHeight || viewport.width > zoneMarguage.clientWidth){
+                    scale -= 0.1
+                    viewport = page.getViewport({scale: scale})
+                }
                 pdfViewer.height = viewport.height;
                 pdfViewer.width = viewport.width;
-
-                //pdfViewer.dataset.height = viewport.height
-                //pdfViewer.dataset.width = viewport.width
-
                 //context.scale(0.7,0.7)
                 // information de la taille de l'image
 
@@ -103,12 +102,9 @@ function convertToBase64PDF(event_target_files) {
                 };
 
                 //context.scale(0.7, 0.7)
-                //console.log(renderContext)
                 let renderTask = page.render(renderContext);
                 renderTask.promise.then(function () {
                     console.log('Page rendered');
-                    //logoPersonnalisation.dataset.height = viewport.height
-                    //logoPersonnalisation.dataset.width = viewport.width
                 });
             });
         }, function (reason) {
@@ -131,23 +127,24 @@ test.addEventListener("mousedown", (e) => {
 
 test.addEventListener("mousemove", (e) => {
     if (pressing === true) {
-       // pdfViewer.style.top = `${e.pageY}px`
+        // pdfViewer.style.top = `${e.pageY}px`
         //pdfViewer.style.left =`${e.pageX}px`
         //console.log(e.pageY)
 
         var cWidth = pdfViewer.offsetWidth
         var cHeight = pdfViewer.offsetHeight;
-        moveXAmount = (e.offsetX / zoneMarguage.clientHeight)*200;
+        moveXAmount = (e.offsetX / zoneMarguage.clientHeight) * 200;
         //moveXAmount = moveXAmount - (cHeight/2);
-        moveYAmount = (e.offsetY / zoneMarguage.clientWidth)*200;
+        moveYAmount = (e.offsetY / zoneMarguage.clientWidth) * 200;
         //moveYAmount = moveYAmount + (cWidth/2);
-        console.log( moveYAmount)
-        pdfViewer.style.top = moveYAmount +'px'
-        pdfViewer.style.left = moveXAmount +'px'
+        console.log(moveYAmount)
+        pdfViewer.style.top = moveYAmount + 'px'
+        pdfViewer.style.left = moveXAmount + 'px'
     }
 })
 
 
 window.addEventListener("mouseup", (e) => {
-        pressing = false;
+    pressing = false;
 })
+
