@@ -112,6 +112,7 @@ function convertToBase64PDF(event_target_files) {
             console.error(reason);
         });
     };
+    convertToBase64()
     fileReader.readAsArrayBuffer(event_target_files);
 }
 
@@ -158,6 +159,6 @@ window.addEventListener("mouseup", (e) => {
     pressing = false;
 })
 
-zoneMarguage.addEventListener('mouseout', (e) =>{
-    console.log('la')
+upload.addEventListener('change', (e) =>{
+    console.log(upload.files)
 })

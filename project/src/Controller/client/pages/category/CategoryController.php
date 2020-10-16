@@ -4,21 +4,18 @@ namespace App\Controller\client\pages\category;
 
 use App\Entity\Category;
 use App\Entity\Product;
-use App\Repository\CategoryRepository;
+use App\Service\CategoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
 
 class CategoryController extends AbstractController
 {
-    private $twig;
     private $category;
 
 
-    public function __construct(Environment $twig, CategoryRepository $categoryRepository)
+    public function __construct(CategoryService $categoryService)
     {
-        $this->twig = $twig;
-        $this->category = $categoryRepository->findAll();
+        $this->category = $categoryService->getFullCategories();
     }
 
     public function testApi()

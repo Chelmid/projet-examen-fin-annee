@@ -86,6 +86,7 @@
     </div>
 
 </header>
+{% block category %}
 <div class="bg_menu">
     <div class="container">
         <div class="menu">
@@ -101,7 +102,7 @@
         </div>
     </div>
 </div>
-
+{% endblock %}
 {% block content %}
     <div class="container">
         {% for message in app.flashes('successRegistre') %}
@@ -454,9 +455,11 @@
 </footer>
 
 {% block javascripts %}
+    <script src="{{ asset('js/main.js') }}" rel="stylesheet"></script>
+{% endblock %}
+{% block javascriptDontmove %}
     <script src="{{ asset('js/jquery.min.js') }}" rel="stylesheet"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" rel="stylesheet"></script>
-    <script src="{{ asset('js/main.js') }}" rel="stylesheet"></script>
 {% endblock %}
 </body>
 </html>

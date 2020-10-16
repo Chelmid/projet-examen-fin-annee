@@ -3,6 +3,7 @@
 namespace App\Controller\client\pages;
 
 use App\Repository\CategoryRepository;
+use App\Service\CategoryService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -13,14 +14,12 @@ use App\Controller\admin\AdminCategoryController;
 
 class HomepageController extends AbstractController
 {
-    private $twig;
-    private $category;
 
+    private $categories;
 
-    public function __construct(Environment $twig, CategoryRepository $categoryRepository)
+    public function __construct(CategoryService $categoryService)
     {
-        $this->twig = $twig;
-        $this->category = $categoryRepository->findAll();
+        $this->categories = $categoryService->getFullCategories();
     }
 
     //vue home
@@ -35,10 +34,12 @@ class HomepageController extends AbstractController
             /*dump($request->getLocale());
             die();*/
             //affichage category
-            return new Response($this->twig->render('base.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'categories' => $this->category]), 200);
+            return $this->render('base.html.twig', [
+                'last_username' => $lastUsername, 'error' => $error, 'categories' => $this->categories
+            ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->category,
+                'categories' => $this->categories
             ]);
         }
     }
@@ -47,10 +48,12 @@ class HomepageController extends AbstractController
     public function loginClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return new Response($this->twig->render('client/pages/cartClient.html.twig', ['categories' => $this->category]), 200);
+            return $this->render('client/pages/cartClient.html.twig', [
+                'categories' => $this->categories
+            ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->category,
+                'categories' => $this->categories
             ]);
         }
     }
@@ -59,10 +62,12 @@ class HomepageController extends AbstractController
     public function dashboardClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return new Response($this->twig->render('client/pages/dashboardClient.html.twig', ['categories' => $this->category]), 200);
+            return $this->render('client/pages/dashboardClient.html.twig', [
+                'categories' => $this->categories
+            ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->category,
+                'categories' => $this->categories
             ]);
         }
     }
@@ -82,26 +87,12 @@ class HomepageController extends AbstractController
     public function contactClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return new Response($this->twig->render('client/pages/contactClient.html.twig', ['categories' => $this->category]), 200);
-        } else {
-            return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->category,
+            return$this->render('client/pages/contactClient.html.twig', [
+                'categories' => $this->categories
             ]);
-        }
-    }
-
-    /*public function categorieClient( TranslatorInterface $translator, Request $request,$categorie)
-    {
-        return new Response($this->twig->render('client/pages/category/categoryClient.html.twig', ['category'=> $this->category]), 200);
-    }*/
-
-    public function cartClient(TranslatorInterface $translator, Request $request)
-    {
-        if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return new Response($this->twig->render('client/pages/cartClient.html.twig', ['categories' => $this->category]), 200);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->category,
+                'categories' => $this->categories
             ]);
         }
     }
@@ -109,10 +100,12 @@ class HomepageController extends AbstractController
     public function searchClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return new Response($this->twig->render('client/pages/searchClient.html.twig', ['categories' => $this->category]), 200);
+            return $this->render('client/pages/searchClient.html.twig', [
+                'categories' => $this->categories
+            ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->category,
+                'categories' => $this->categories
             ]);
         }
     }

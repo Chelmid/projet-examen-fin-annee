@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Repository\CategoryRepository;
 use App\Security\EmailVerifier;
+use App\Service\CategoryService;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,16 +20,16 @@ class RegistrationController extends AbstractController
     private $emailVerifier;
     private $category;
 
-    public function __construct(EmailVerifier $emailVerifier, CategoryRepository $categoryRepository)
+    public function __construct(EmailVerifier $emailVerifier, CategoryService $categoryService)
     {
         $this->emailVerifier = $emailVerifier;
-        $this->category = $categoryRepository->findAll();
+        $this->category =  $categoryService->getFullCategories();
     }
 
     /**
      * @Route("/{_locale}/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, CategoryRepository $categoryRepository): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
 

@@ -4,23 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\ZoneDeMarquage;
-use App\Repository\CategoryRepository;
+use App\Service\CategoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
-use App\Repository\ZoneDeMarquageRepository;
 
 class PersonnalisationController extends AbstractController
 {
-    private $twig;
     private $category;
 
 
-    public function __construct(Environment $twig, CategoryRepository $categoryRepository)
+    public function __construct(CategoryService $categoryService)
     {
-        $this->twig = $twig;
-        $this->category = $categoryRepository->findAll();
+        $this->category = $categoryService->getFullCategories();
     }
 
 
@@ -43,7 +40,7 @@ class PersonnalisationController extends AbstractController
         }
     }
 
-    public function personnalisationCheckInfo(Request $request, ZoneDeMarquageRepository $zoneDeMarquageRepository )
+    public function personnalisationCheckInfo(Request $request)
     {
 
         /*dump($request->request->all());
