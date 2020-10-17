@@ -6,17 +6,31 @@
         <div>Votre panier</div>
 
         {% if items | length > 0 %}
-        {% for item in items  %}
-            {% for itemInformation in item.ColorQuantite  %}
-                <div class="">
-                    <img src="{{ item.product.image }}">
-                    <div>{{ item.product.name }}</div>
-                    <div class="multiColor" style="color: {{ itemInformation.color }}" data-color="{{ itemInformation.color }}">{{ itemInformation.color }}</div>
-                    <div>{{ itemInformation.quantite }}</div>
-                    <div>{{ item.product.price * itemInformation.quantite }}</div>
-                </div>
-            {% endfor  %}
-        {% endfor  %}
+            {% for item in items %}
+                {% for itemInformation in item.ColorQuantite %}
+                    <div class="row">
+                        <img src="{{ item.product.image }}">
+                        <div>
+                            <div>{{ item.product.name }}</div>
+                            <div class="d-flex">
+                                <div>Ref :  {{ item.product.sku }} - couleur :&nbsp </div>
+                                <div class="multiColor" style="color: {{ itemInformation.color }}"
+                                     data-color="{{ itemInformation.color }}">{{ itemInformation.color }}</div>
+                            </div>
+                            <div class="d-flex">
+                                <div>{{ item.product.name }} &nbsp</div>
+                                <div class="multiColor" style="color: {{ itemInformation.color }}"
+                                     data-color="{{ itemInformation.color }}"> {{ itemInformation.color }}</div>
+                            </div>
+                        </div>
+                        <div><input value="{{ itemInformation.quantite }}" /></div>
+                        <div>{{ item.product.price * itemInformation.quantite }}€</div>
+<div>
+                        <a class="btn btn-md btn-noir text-white">Supprimer</a>
+</div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
         {% endif %}
     </div>
 {% endblock %}

@@ -15,7 +15,7 @@ class LanguageController extends AbstractController
         $request->getSession()->set('_locale', $locale);
         $url = $request->getSession();
         // On revient sur la page précédente
-        return $this->redirect($request->headers->get('referer'));
-        //return $this->redirectToRoute('homeClient', ['langue' => $request->getSession()->get('_locale')]);
+        //return $this->redirect($request->headers->get('referer'));
+        return $this->redirectToRoute('productlient', ['langue' => $request->getSession()->get('_locale')]);
     }
 }

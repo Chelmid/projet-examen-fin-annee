@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CategoryRepository;
+use App\Service\CartService;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,22 +17,11 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart", name="cart")
      */
-    public function index(SessionInterface $session, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository,TranslatorInterface $translator)
+    public function index(CartService $cartService, Request $request, CategoryRepository $categoryRepository,TranslatorInterface $translator)
     {
         $this->category = $categoryRepository->findAll();
 
-        $panier = $session->get('panier', []);
-
-        $panierWithData = [];
-
-        foreach ($panier as $id => $ColorQuantite){
-        $panierWithData[] = [
-            'product' => $productRepository->find($id),
-            'ColorQuantite' => $ColorQuantite,
-        ];
-    }
-
-        //dd($panierWithData);
+        $panierWithData = $cartService->getfullCart();
 
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
             return $this->render('client/pages/cartClient.html.twig', [
@@ -47,25 +37,20 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart/add/{id}", name="cart_add")
      */
-    public function add($id, Request $request, SessionInterface $session, TranslatorInterface $translator)
+    public function add($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
+        $cartService->add($id, $request);
 
+        return $this->redirectToRoute('cart');
+    }
 
-        //dd($request->request->all());
-        //$session = $request->getSession()->clear();
+    /**
+     * @Route("{_locale}/cart/delete/{id}", name="cart_delete")
+     */
+    public function delete($id, Request $request, CartService $cartService, TranslatorInterface $translator)
+    {
+        $cartService->delete($id, $request);
 
-        $panier = $session->get('panier', []);
-
-        $panier[$id] = [];
-
-        foreach ($request->request->all() as $key => $value) {
-            if ($value != 0 || !empty($value)){
-                array_push($panier[$id], ['color' => str_replace('_',"",$key), 'quantite' => intval($value)]);
-            }
-        }
-
-        $session->set('panier', $panier);
-
-        dd($panier);
+        return $this->redirectToRoute('cart');
     }
 }
