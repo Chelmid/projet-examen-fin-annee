@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Repository\CategoryRepository;
 use App\Service\CartService;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\ProductRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartController extends AbstractController
@@ -45,11 +43,11 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("{_locale}/cart/delete/{id}", name="cart_delete")
+     * @Route("{_locale}/cart/delete/{id}/{color}", name="cart_delete")
      */
-    public function delete($id, Request $request, CartService $cartService, TranslatorInterface $translator)
+    public function delete($id, $color, CartService $cartService, TranslatorInterface $translator)
     {
-        $cartService->delete($id, $request);
+        $cartService->delete($id, $color);
 
         return $this->redirectToRoute('cart');
     }

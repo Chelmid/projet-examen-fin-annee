@@ -19,22 +19,47 @@ class CartService {
 
     public function add($id, Request $request){
 
+        //$this->session->clear();
+        //dd('effacer');
         $panier = $this->session->get('panier', []);
 
         $panier[$id] = [];
 
         foreach ($request->request->all() as $key => $value) {
             if ($value != 0 || !empty($value)){
-                array_push($panier[$id], ['color' => str_replace('_',"",$key), 'quantite' => intval($value)]);
+                $diese = str_replace('#',"",$key);
+                array_push($panier[$id], ['color' => str_replace('_',"",$diese), 'quantite' => intval($value)]);
             }
         }
 
         $this->session->set('panier', $panier);
     }
 
-    public function remove($id, $request){
+    public function delete($id, $color){
+
+        $panier = $this->session->get('panier', []);
+
+        if(!empty($panier[$id])){
+            foreach ($panier as $keyItem => $item)
+                //dump($keyItem);
+                //dump($item);
+                foreach ($item as $keyInfo => $info){
+                    //dump($keyInfo);
+                   // dump($info['color']);
+                    //dump($panier[$id]);
+                    if($keyItem == $id && $color ==  $info['color']){
+                        //unset($keyInfo);
+                        //dump($item[$keyInfo]);
+                        unset($panier[$id][$keyInfo]);
+                    }
+                }
+        }else{
+            unset($panier[$id]);
+        }
 
 
+        $this->session->set('panier', $panier);
+        //dd($panier);
     }
 
     public function getfullCart(){
@@ -48,6 +73,7 @@ class CartService {
                 'ColorQuantite' => $ColorQuantite,
             ];
         }
+        //dd($panier);
         return $panierWithData;
     }
 
