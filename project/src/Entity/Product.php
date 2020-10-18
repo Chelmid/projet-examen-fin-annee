@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -72,6 +74,16 @@ class Product
      * @ORM\OneToOne(targetEntity=ZoneDeMarquage::class, mappedBy="product_id", cascade={"persist", "remove"})
      */
     private $zoneDeMarquage;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="product")
+     */
+    private $panierProduct;
+
+    public function __construct()
+    {
+        $this->panierProduct = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -210,6 +222,37 @@ class Product
         // set the owning side of the relation if necessary
         if ($zoneDeMarquage->getProductId() !== $this) {
             $zoneDeMarquage->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PanierProduct[]
+     */
+    public function getPanierProduct(): Collection
+    {
+        return $this->panierProduct;
+    }
+
+    public function addPanierProduct(PanierProduct $panierProduct): self
+    {
+        if (!$this->panierProduct->contains($panierProduct)) {
+            $this->panierProduct[] = $panierProduct;
+            $panierProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierProduct(PanierProduct $panierProduct): self
+    {
+        if ($this->panierProduct->contains($panierProduct)) {
+            $this->panierProduct->removeElement($panierProduct);
+            // set the owning side to null (unless already changed)
+            if ($panierProduct->getProduct() === $this) {
+                $panierProduct->setProduct(null);
+            }
         }
 
         return $this;

@@ -24,6 +24,7 @@
                             </div>
                         </div>
                         <div><input value="{{ itemInformation.quantite }}"/></div>
+                        <div>{{ item.product.price }}€</div>
                         <div>{{ item.product.price * itemInformation.quantite }}€</div>
                         <div>
                             <a href='{{ path('cart_delete',{'id': item.product.id, 'color': itemInformation.color}) }}'

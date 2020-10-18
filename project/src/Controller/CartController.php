@@ -7,6 +7,7 @@ use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartController extends AbstractController
@@ -15,11 +16,13 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart", name="cart")
      */
-    public function index(CartService $cartService, Request $request, CategoryRepository $categoryRepository,TranslatorInterface $translator)
+    public function index(CartService $cartService, Request $request, CategoryRepository $categoryRepository,TranslatorInterface $translator, Security $security)
     {
         $this->category = $categoryRepository->findAll();
 
         $panierWithData = $cartService->getfullCart();
+
+        //dd($security->getUser());
 
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
             return $this->render('client/pages/cartClient.html.twig', [

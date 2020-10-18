@@ -153,6 +153,7 @@
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
+                        {{ dump(app.user) }}
                         {% if app.user %}
                             <div class="mb-3">
                                 {% trans %}You are logged in as{% endtrans %} Hello {{ app.user.username }}
