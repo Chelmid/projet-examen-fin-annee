@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div>Votre panier</div>
+
+        {% if items | length > 0 %}
+            {% for item in items %}
+                {{ dump(item.product) }}
+                <div class="row">
+                    <div>
+                        <img src="{{ item.product.image }}">
+                    </div>
+                    <div>
+                        <div>
+                            {{ item.product.name }}
+                        </div>
+                        <div class="d-flex">
+                            <div>Ref : {{ item.product.sku }} - couleur :&nbsp</div>
+                            <div class="multiColor" style="color:#{{ item.product.color }}"
+                                 data-color="#{{ item.product.color }}">{{ item.product.color }}</div>
+                        </div>
+                    </div>
+                    <a href="{{ path('cart_delete', {'id':item.product.id,'color':item.product.color}) }}" class="btn"> Supprimer</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="https://chir.ag/projects/ntc/ntc.js"></script>
+    <script type="text/javascript" src="{{ asset('js/panier.js') }}"></script>
+{% endblock %}

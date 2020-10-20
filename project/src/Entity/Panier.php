@@ -20,20 +20,15 @@ class Panier
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="panier")
-     */
-    private $panierProduct;
-
-    /**
      * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="panier", cascade={"persist", "remove"})
      */
-    private $panier;
+    protected $panier;
 
     public function __construct()
     {

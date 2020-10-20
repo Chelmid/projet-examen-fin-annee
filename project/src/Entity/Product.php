@@ -76,13 +76,20 @@ class Product
     private $zoneDeMarquage;
 
     /**
-     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="product")
+     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="product",)
      */
     private $panierProduct;
 
     public function __construct()
     {
         $this->panierProduct = new ArrayCollection();
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getId(): ?int

@@ -101,7 +101,7 @@
                                     <p>Pour tester le produit, vous pouvez commander un ou des échantillons de la
                                         couleur de votre choix.</p>
                                     <p>Choisir la couleur pour l'échantillon</p>
-                                    <form method="post" action="{{ path('cart_add',{"id":theProduct.id, }) }}">
+                                    <form method="post" action="{{ path('cart_add',{"id":theProduct.id,"color":app.request.attributes.get('color') }) }}">
                                         <div class="justify-content-center">
                                             <div class="d-flex flex-wrap">
                                                 <p>Qté</p>

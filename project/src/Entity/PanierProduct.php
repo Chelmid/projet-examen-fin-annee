@@ -25,8 +25,8 @@ class PanierProduct
     private $personnalisation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="panierProduct")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="panierProduct", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $product;
 
@@ -78,6 +78,18 @@ class PanierProduct
     public function setPanier(?Panier $panier): self
     {
         $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }
