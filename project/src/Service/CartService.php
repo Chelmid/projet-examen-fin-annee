@@ -4,7 +4,9 @@ namespace App\Service;
 
 use App\Entity\PanierProduct;
 use App\Entity\Product;
+use App\Entity\Panier;
 use App\Repository\PanierProductRepository;
+use App\Repository\PanierRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,13 +21,14 @@ class CartService
     protected $entityManager;
     private $security;
 
-    public function __construct(SessionInterface $session, ProductRepository $productRepository, EntityManagerInterface $entityManager, PanierProductRepository $panierProductRepository, Security $security)
+    public function __construct(SessionInterface $session, ProductRepository $productRepository, PanierRepository $panierRepository, EntityManagerInterface $entityManager, PanierProductRepository $panierProductRepository, Security $security)
     {
         $this->session = $session;
         $this->productRepository = $productRepository;
         $this->entityManager = $entityManager;
         $this->panierProductRepository = $panierProductRepository;
         $this->security = $security;
+        $this->panierRepository = $panierRepository;
     }
 
     public function add($id, Request $request)
@@ -33,31 +36,69 @@ class CartService
 
         //$this->session->clear();
         //dd('effacer');
-        $panier = $this->session->get('panier', []);
+
+        /*$panier = $this->session->get('panier', []);
 
         $panier[$id] = [];
 
-        //dd($this->security->getUser());
+        $tab = [];
 
         foreach ($request->request->all() as $key => $value) {
             if ($value != 0 || !empty($value)) {
                 $diese = str_replace('#', "", $key);
                 array_push($panier[$id], ['color' => str_replace('_', "", $diese), 'quantite' => intval($value)]);
+            }
+        }
 
-                $panierProduct = new PanierProduct();
-                $product = $this->entityManager->getRepository(Product::class)->find($id);
+        $this->session->set('panier', $panier);*/
 
+        $panierProduct = new PanierProduct();
+        $paniertest = new Panier();
+        $product = $this->entityManager->getRepository(Product::class)->find($id);
+        $userInPanier = $this->entityManager->getRepository(Panier::class)->findAll();
+        $panierProductOriginals = $this->panierProductRepository->findAll();
 
-                $panierProduct->setProduct($product);
+        //dd($paniertest->getPanier());
+        $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
+        //$panierUser2 = $this->panierRepository->findOneById();
+        $panierProductOriginals = $this->panierProductRepository->findOneByPanier($panierUser->getId());
+        //$paniertest->setUser($this->security->getUser());
 
-                $this->entityManager->persist($panierProduct);
+        /*foreach ($request->request->all() as $key => $value) {
+            if ($value != 0 || !empty($value)) {
+
+        }*/
+        //dd($panierUser->getId());
+
+        if($panierUser == null){
+            $this->entityManager->persist($paniertest->setUser($this->security->getUser()));
+            $this->entityManager->persist($panierProduct->setPanier($paniertest));
+            $this->entityManager->persist($panierProduct->setProduct($product));
+            $this->entityManager->flush();
+        }else{
+            if($panierProductOriginals != null){
+                $this->entityManager->persist($panierProductOriginals->getPanier()->addPanier($panierProduct->setProduct($product)));
+                $this->entityManager->flush();
+            }else{
+                $this->entityManager->remove($panierUser);
                 $this->entityManager->flush();
             }
         }
 
-        $this->session->set('panier', $panier);
-
+        /*foreach ($panierProductOriginals as $key => $panierProductOriginal) {
+            if (empty($panierProductOriginal->getPanier()->getUser()->getId())) {
+                $this->entityManager->persist($paniertest->setUser($this->security->getUser()));
+                //$this->entityManager->persist($paniertest->addPanier($panierProduct));
+                $this->entityManager->persist($panierProduct->setPanier($paniertest));
+                $this->entityManager->persist($panierProduct->setProduct($product));
+                $this->entityManager->flush();
+            } else {
+                $this->entityManager->persist($panierProductOriginal->getPanier()->addPanier($panierProduct->setProduct($product)));
+                $this->entityManager->flush();
+            }
+        }*/
     }
+
 
     public function delete($id, $color)
     {

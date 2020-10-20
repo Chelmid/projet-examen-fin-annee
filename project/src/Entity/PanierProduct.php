@@ -30,6 +30,12 @@ class PanierProduct
      */
     private $product;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="panier", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $panier;
+
     public function __construct()
     {
         $this->panier = new ArrayCollection();
@@ -60,6 +66,18 @@ class PanierProduct
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getPanier(): ?Panier
+    {
+        return $this->panier;
+    }
+
+    public function setPanier(?Panier $panier): self
+    {
+        $this->panier = $panier;
 
         return $this;
     }
