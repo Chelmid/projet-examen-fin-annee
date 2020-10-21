@@ -137,3 +137,11 @@ a {
     left: 100px;
     position: absolute;
 }
+
+label {
+    margin-right: 10px;
+}
+
+.lienDark {
+    color: black;
+}

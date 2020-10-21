@@ -35,9 +35,13 @@ class RegistrationFormType extends AbstractType
                 ['choices' => array(
                     'Retail' => 1,
                     'Gift' => 2),
-                'expanded' => true]
+                    'expanded' => true,
+                    'required' => true,
+                    'multiple' => false,
+                    "attr" => [
+                        "class" => "mr-3",
+                    ]]
             )
-
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

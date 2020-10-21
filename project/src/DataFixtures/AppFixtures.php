@@ -41,7 +41,7 @@ class AppFixtures extends Fixture
 
             $category = new Category();
 
-            $category->setName($faker->word);
+            $category->setName($faker->lastName);
             $manager->persist($category);
 
             // nombre de product
@@ -58,12 +58,12 @@ class AppFixtures extends Fixture
                     array_push($color, $faker->hexcolor);
                     array_push($quantity, '"' . $faker->numberBetween($min = 1, $max = 9000) . '"');
                     //array_push($image, $faker->imageUrl($width = 640, $height = 480, 'nightlife'));
-                    array_push($image, 'https://picsum.photos/800/600?image=' . $faker->numberBetween($min = 1, $max = 1000));
+                    array_push($image, 'https://picsum.photos/640/480?image=' . $faker->numberBetween($min = 1, $max = 1000));
                 }
 
                 //$data = serialize($color);
 
-                $product->setName($faker->word)
+                $product->setName($faker->company)
                     ->setSKU($faker->swiftBicNumber)
                     ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 2, $max = 200))
                     //format array pour la couleur

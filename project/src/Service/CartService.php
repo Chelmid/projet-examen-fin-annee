@@ -33,7 +33,7 @@ class CartService
         $this->zoneDeMarquageRepository = $zoneDeMarquageRepository;
     }
 
-    public function add($id, $color, Request $request)
+    public function add($id, $color, Request $request, $i)
     {
 
         //$this->session->clear();
@@ -64,15 +64,24 @@ class CartService
         $panierProductOriginals = $this->panierProductRepository->findAll();
         $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
 
+
+        foreach ($this->zoneDeMarquageRepository->findAll() as $value){
+
+            if($value->getProductId()->getId() == $id){
+                $product->setZoneDeMarquage($value);
+            }
+        };
+
 //dd($this->zoneDeMarquageRepository->findAll());
         //->setZoneDeMarquage($productfind->getZoneDeMarquage())
-
+        $image = explode(",", $productfind->getImage());
+        $imageclear = str_replace("'","",$image);
         $product->setName($productfind->getName())
             ->setId($productfind->getId())
             ->setSKU($productfind->getSKU())
             ->setPrice($productfind->getPrice())
             ->setColor($colorClear)
-            ->setImage($productfind->getImage())
+            ->setImage($imageclear[$i])
             ->setCreateAt($productfind->getCreateAt())
             ->setUpdatedAt($productfind->getUpdatedAt())
             ->setDescription($productfind->getDescription())

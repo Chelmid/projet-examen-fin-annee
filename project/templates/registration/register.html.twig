@@ -4,23 +4,25 @@
 
 {% block content %}
     <div class="container">
-        {% for flashError in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-        {% endfor %}
+        <div class="col-md-6 m-auto">
+            {% for flashError in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            {% endfor %}
 
-        <h1>{%trans %}Register{% endtrans %}</h1>
+            <h1>{% trans %}Register{% endtrans %}</h1>
 
-        {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.numbertva) }}
-        {{ form_row(registrationForm.groupclient) }}
-        {{ form_errors(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
+            {{ form_row(registrationForm.numbertva) }}
+            {{ form_row(registrationForm.groupclient) }}
+            {{ form_errors(registrationForm.plainPassword) }}
+            {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn btn-primary">{% trans %}Register{% endtrans %}</button>
-        {{ form_end(registrationForm) }}
+            <button type="submit" class="btn btn-md btn-submit col">{% trans %}Register{% endtrans %}</button>
+            {{ form_end(registrationForm) }}
+        </div>
     </div>
 {% endblock %}

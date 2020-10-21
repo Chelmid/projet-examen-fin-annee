@@ -4,6 +4,7 @@ namespace App\Controller\client\cart;
 
 use App\Repository\CategoryRepository;
 use App\Service\CartService;
+use App\Service\CategoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,16 +13,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartController extends AbstractController
 {
-    private $catagories;
+    protected $catagory;
+    protected $security;
+
+    public function __construct(Security $security, CategoryService $categoryService)
+    {
+        $this->security = $security;
+        $this->category = $categoryService->getFullCategories();
+    }
 
     /**
      * @Route("{_locale}/cart", name="cart")
      */
-    public function index(CartService $cartService, Request $request, CategoryRepository $categoryRepository, TranslatorInterface $translator, Security $security)
+    public function index(CartService $cartService, Request $request, CategoryRepository $categoryRepository, TranslatorInterface $translator)
     {
-        $this->category = $categoryRepository->findAll();
 
-        if ($security->getUser() != null) {
+        if ($this->security->getUser() != null) {
 
             $panierWithData = $cartService->getfullCart();
 
@@ -44,12 +51,18 @@ class CartController extends AbstractController
      */
     public function add($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
-        foreach ($request->request->all() as $color => $value) {
-            if ($value != 0 || !empty($value)) {
-                $cartService->add($id, $color, $request);
+        if ($this->security->getUser() != null) {
+            $i = 0;
+            foreach ($request->request->all() as $color => $value) {
+                if ($value != 0 || !empty($value)) {
+                    $cartService->add($id, $color, $request, $i);
+                }
+                $i++;
             }
+            return $this->redirectToRoute('cart');
+        }else{
+            return $this->RedirectToRoute('app_login');
         }
-        return $this->redirectToRoute('cart');
     }
 
     /**
