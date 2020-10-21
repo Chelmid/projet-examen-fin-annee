@@ -17,39 +17,26 @@ adminAddCategory:
 #client
 homeClient:
   path: /{_locale}
-  controller: App\Controller\client\pages\HomepageController::homeClient
+  controller: App\Controller\client\homepage\HomepageController::homeClient
   defaults:
     _locale: '%locale%'
     requirements:
       _locale: fr|en|en
 
-loginClient:
-  path: /{_locale}/incription
-  controller: App\Controller\client\pages\HomepageController::loginClient
-
-dashboardClient:
-  path: /{_locale}/dashboard
-  controller: App\Controller\client\pages\HomepageController::dashboardClient
-
 #contact
 contactClient:
   path: /{_locale}/contact
-  controller: App\Controller\client\pages\HomepageController::contactClient
+  controller: App\Controller\client\homepage\HomepageController::contactClient
 
 #search
 searchClient:
   path: /{_locale}/search
-  controller: App\Controller\client\pages\HomepageController::searchClient
-
-#cart
-cartClient:
-  path: /{_locale}/cart
-  controller: App\Controller\client\pages\HomepageController::cartClient
+  controller: App\Controller\client\homepage\HomepageController::searchClient
 
 #category
 categoryClient:
   path: /{_locale}/{category}
-  controller: App\Controller\client\pages\category\CategoryController::categoryClient
+  controller: App\Controller\client\category\CategoryController::categoryClient
 
 #language
 changeLocaleClient:
@@ -60,14 +47,14 @@ changeLocaleClient:
 #Product
 productClient:
   path: /{_locale}/{category}/{product}/{id}/{color}
-  controller: App\Controller\ProductController::productClient
+  controller: App\Controller\client\product\ProductController::productClient
 
 #Personnalisation
 personnalisationCheckInfo:
   path: /{_locale}/{category}/{product}/{id}/{color}/personnalisationCheckInfo
-  controller: App\Controller\PersonnalisationController::personnalisationCheckInfo
+  controller: App\Controller\client\personnalisation\PersonnalisationController::personnalisationCheckInfo
 
 #Personnalisation
 personnalisationClient:
   path: /{_locale}/{category}/{product}/{id}/{color}/personnalisation
-  controller: App\Controller\PersonnalisationController::personnalisationClient
+  controller: App\Controller\client\personnalisation\PersonnalisationController::personnalisationClient

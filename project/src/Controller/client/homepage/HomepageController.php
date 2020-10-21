@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Controller\client\pages;
+namespace App\Controller\client\homepage;
 
-use App\Repository\CategoryRepository;
 use App\Service\CategoryService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Twig\Environment;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Controller\admin\AdminCategoryController;
@@ -45,10 +43,10 @@ class HomepageController extends AbstractController
     }
 
     //vue home
-    public function loginClient(TranslatorInterface $translator, Request $request)
+    /*public function loginClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return $this->render('client/pages/cartClient.html.twig', [
+            return $this->render('cart/cartClient.html.twig', [
                 'categories' => $this->categories
             ]);
         } else {
@@ -56,13 +54,13 @@ class HomepageController extends AbstractController
                 'categories' => $this->categories
             ]);
         }
-    }
+    }*/
 
     //vue home
     public function dashboardClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return $this->render('client/pages/dashboardClient.html.twig', [
+            return $this->render('client/autres/dashboardClient.html.twig', [
                 'categories' => $this->categories
             ]);
         } else {
@@ -87,7 +85,7 @@ class HomepageController extends AbstractController
     public function contactClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return$this->render('client/pages/contactClient.html.twig', [
+            return$this->render('client/autres/contactClient.html.twig', [
                 'categories' => $this->categories
             ]);
         } else {
@@ -100,7 +98,7 @@ class HomepageController extends AbstractController
     public function searchClient(TranslatorInterface $translator, Request $request)
     {
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return $this->render('client/pages/searchClient.html.twig', [
+            return $this->render('client/autres/searchClient.html.twig', [
                 'categories' => $this->categories
             ]);
         } else {

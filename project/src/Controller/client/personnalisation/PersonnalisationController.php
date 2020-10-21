@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\client\personnalisation;
 
 use App\Entity\Product;
 use App\Entity\ZoneDeMarquage;
@@ -8,7 +8,6 @@ use App\Service\CategoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
 
 class PersonnalisationController extends AbstractController
 {

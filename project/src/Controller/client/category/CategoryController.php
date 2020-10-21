@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\client\pages\category;
+namespace App\Controller\client\category;
 
 use App\Entity\Category;
 use App\Entity\Product;
@@ -44,7 +44,7 @@ class CategoryController extends AbstractController
                 'categories' => $this->category,
             ]);
         } else {
-            return $this->render('client/pages/category/categoryClient.html.twig', [
+            return $this->render('category/categoryClient.html.twig', [
                 'controller_name' => 'CategoryController',
                 'categories' => $this->category,
                 'theCategory' => $category,

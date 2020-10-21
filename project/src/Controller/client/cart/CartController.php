@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\client\cart;
 
 use App\Repository\CategoryRepository;
 use App\Service\CartService;

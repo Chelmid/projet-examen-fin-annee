@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
                     array_push($color, $faker->hexcolor);
                     array_push($quantity, '"' . $faker->numberBetween($min = 1, $max = 9000) . '"');
                     //array_push($image, $faker->imageUrl($width = 640, $height = 480, 'nightlife'));
-                    array_push($image, 'https://picsum.photos/420/320?image=' + $faker->numberBetween($min = 1, $max = 1000));
+                    array_push($image, 'https://picsum.photos/800/600?image=' . $faker->numberBetween($min = 1, $max = 1000));
                 }
 
                 //$data = serialize($color);
@@ -75,10 +75,10 @@ class AppFixtures extends Fixture
                     ->setQuantity(implode("','", $quantity));
                 $product->setCategory($category);
 
-                $zonedemarquage->setHeight($faker->numberBetween($min = 1, $max = 500))
-                    ->setWidth($faker->numberBetween($min = 1, $max = 500))
-                    ->setLeftSpace($faker->numberBetween($min = 1, $max = 500))
-                    ->setTopSpace($faker->numberBetween($min = 1, $max = 500));
+                $zonedemarquage->setHeight($faker->numberBetween($min = 100, $max = 300))
+                    ->setWidth($faker->numberBetween($min = 100, $max = 500))
+                    ->setLeftSpace($faker->numberBetween($min = 50, $max = 100))
+                    ->setTopSpace($faker->numberBetween($min = 50, $max = 100));
                 $zonedemarquage->setProductId($product);
 
                 $manager->persist($zonedemarquage);
