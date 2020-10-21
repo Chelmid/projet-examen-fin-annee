@@ -23,7 +23,7 @@ class PersonnalisationController extends AbstractController
     public function personnalisationClient($category, $product, Request $request)
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['name' => $product]);
-        $zoneDeMarquage =  $this->getDoctrine()->getRepository(ZoneDeMarquage::class)->findOneBy(['product_id' => $request->attributes->get('id')]);
+        $zoneDeMarquage =  $this->getDoctrine()->getRepository(ZoneDeMarquage::class)->findOneBy(['product' => $request->attributes->get('id')]);
         if ($product) {
             return $this->render('personnalisation/personnalisationClient.html.twig', [
                 'controller_name' => 'PersonnalisationController',

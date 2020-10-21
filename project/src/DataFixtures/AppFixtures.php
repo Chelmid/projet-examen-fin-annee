@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
                     ->setWidth($faker->numberBetween($min = 100, $max = 500))
                     ->setLeftSpace($faker->numberBetween($min = 50, $max = 100))
                     ->setTopSpace($faker->numberBetween($min = 50, $max = 100));
-                $zonedemarquage->setProductId($product);
+                $zonedemarquage->setProduct($product);
 
                 $manager->persist($zonedemarquage);
 

@@ -53,6 +53,9 @@ class CartService
         }
 
         $this->session->set('panier', $panier);*/
+
+        dd('test');
+
         $diese = str_replace('#', "", $color);
         $colorClear = str_replace('_', "", $diese);
         //dd($color);
@@ -64,18 +67,10 @@ class CartService
         $panierProductOriginals = $this->panierProductRepository->findAll();
         $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
 
-
-        foreach ($this->zoneDeMarquageRepository->findAll() as $value){
-
-            if($value->getProductId()->getId() == $id){
-                $product->setZoneDeMarquage($value);
-            }
-        };
-
 //dd($this->zoneDeMarquageRepository->findAll());
         //->setZoneDeMarquage($productfind->getZoneDeMarquage())
         $image = explode(",", $productfind->getImage());
-        $imageclear = str_replace("'","",$image);
+        $imageclear = str_replace("'", "", $image);
         $product->setName($productfind->getName())
             ->setId($productfind->getId())
             ->setSKU($productfind->getSKU())
@@ -87,7 +82,6 @@ class CartService
             ->setDescription($productfind->getDescription())
             ->setCategory($productfind->getCategory())
             ->setQuantity($productfind->getQuantity());
-
         if ($panierUser == null) {
             $this->entityManager->persist($paniertest->setUser($this->security->getUser()));
             $this->entityManager->persist($panierProduct->setPanier($paniertest));
@@ -216,16 +210,32 @@ class CartService
 
     public function getTotal()
     {
+        $total = 0;
 
+        foreach ($this->getfullCart() as $item) {
+            $total += $item->getProduct()->getPrice();
+        }
+
+        return $total;
     }
 
     public function getTotalItem()
     {
+        $compter = 0;
 
+        foreach ($this->getfullCart() as $key => $item) {
+            $compter += 1;
+        }
+        return $compter;
     }
 
-    public function addPersonnalisation()
+    public function getTva()
     {
+        $tva = $this->getTotal() * 0.2;
+        return $tva = $tva + $this->getTotal();
+    }
+
+    public function addPersonnalisation (){
 
     }
 

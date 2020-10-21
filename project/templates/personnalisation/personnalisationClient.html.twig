@@ -11,11 +11,16 @@
             <div class="col row">
                 <div class="col-md-6">
                     <div>
-                        <div class="zone-marquage" style="height:{{ zoneDeMarquage.height }}px;width:{{ zoneDeMarquage.width }}px;top: {{ zoneDeMarquage.topSpace }}px;left:{{ zoneDeMarquage.leftSpace }}px ";>
-                            <div id="logoPersonnalisation" style="height:{{ zoneDeMarquage.height }}px;width:{{ zoneDeMarquage.width }}px;top: {{ zoneDeMarquage.topSpace }}px;left:{{ zoneDeMarquage.leftSpace }}px ";>
-                                <img id='output'><div id="test">
-                                <canvas id="pdfViewer"></canvas>
-                            </div>
+                        <div class="zone-marquage"
+                             style="height:{{ zoneDeMarquage.height }}px;width:{{ zoneDeMarquage.width }}px;top: {{ zoneDeMarquage.topSpace }}px;left:{{ zoneDeMarquage.leftSpace }}px "
+                             ;>
+                            <div id="logoPersonnalisation"
+                                 style="height:{{ zoneDeMarquage.height }}px;width:{{ zoneDeMarquage.width }}px;top: {{ zoneDeMarquage.topSpace }}px;left:{{ zoneDeMarquage.leftSpace }}px "
+                                 ;>
+                                <img id='output'>
+                                <div id="test">
+                                    <canvas id="pdfViewer"></canvas>
+                                </div>
                             </div>
                         </div>
                         {% for key,image in theProduct.image | split("','") %}
@@ -27,7 +32,7 @@
                 </div>
                 <div class="col-md-6">
                     {{ dump(theProduct) }}
-                    <form action="post.php" method="POST">
+                    <form method="post" action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color') }) }}">
                         <div id="accordion">
                             <div class="card">
                                 <div class="card-header btn btn-link backgroundOrange no-decoration text-white"
@@ -74,7 +79,11 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" value="Valider">
+                        <div>
+                            <button class="btn btn-md backgroundOrange text-white" type="submit">Valider et ajouter au
+                                panier
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

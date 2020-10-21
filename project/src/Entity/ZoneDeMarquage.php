@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ZoneDeMarquageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,10 +40,11 @@ class ZoneDeMarquage
     private $top_space;
 
     /**
-     * @ORM\OneToOne(targetEntity=Product::class, inversedBy="zoneDeMarquage", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Product::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $product_id;
+    private $product;
+
 
     public function getId(): ?int
     {
@@ -96,14 +99,14 @@ class ZoneDeMarquage
         return $this;
     }
 
-    public function getProductId(): ?Product
+    public function getProduct(): ?Product
     {
-        return $this->product_id;
+        return $this->product;
     }
 
-    public function setProductId(Product $product_id): self
+    public function setProduct(Product $product): self
     {
-        $this->product_id = $product_id;
+        $this->product = $product;
 
         return $this;
     }

@@ -8,26 +8,40 @@
         {% if items | length > 0 %}
             {% for item in items %}
                 {{ dump(item.product) }}
-                <div class="row">
-                    <div>
-                        <img src="{{ item.product.image }}">
+                <div class="row my-5">
+                    <div class="col-md-2">
+                        <img height="auto" width="100%" src="{{ item.product.image }}">
                     </div>
-                    <div>
+                    <div class="col-md-6">
                         <div>
-                            {{ item.product.name }}
+                            <strong>{{ item.product.name }}</strong>
                         </div>
                         <div class="d-flex">
                             <div>Ref : {{ item.product.sku }} - couleur :&nbsp</div>
                             <div class="multiColor" style="color:#{{ item.product.color }}"
                                  data-color="#{{ item.product.color }}">{{ item.product.color }}</div>
                         </div>
+                        <a class="btn btn-md btn-noir text-white">Personnaliser ce produit</a>
                     </div>
-                    <a href="{{ path('cart_delete', {'id':item.product.id,'color':item.product.color}) }}" class="btn"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                        </svg></a>
+                    <div>
+                        <div>{{ item.product.price }}</div>
+                    </div>
+                    <div>
+                        <input value=""/>
+                    </div>
+                    <a href="{{ path('cart_delete', {'id':item.product.id,'color':item.product.color}) }}"
+                       class="btn">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                        </svg>
+                    </a>
                 </div>
             {% endfor %}
         {% endif %}
+        <div>{{ total }}</div>
+        <div>{{ tva }}</div>
     </div>
 {% endblock %}
 {% block javascripts %}

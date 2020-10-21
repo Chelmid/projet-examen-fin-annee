@@ -34,7 +34,11 @@ class CartController extends AbstractController
 
             if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
                 return $this->render('cart/cartClient.html.twig', [
-                    'categories' => $this->category, 'items' => $panierWithData
+                    'categories' => $this->category,
+                    'items' => $panierWithData,
+                    'total' => $cartService->getTotal(),
+                    'totalItem' => $cartService->getTotalItem(),
+                    'tva' => $cartService->getTva()
                 ]);
             } else {
                 return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
@@ -73,5 +77,14 @@ class CartController extends AbstractController
         $cartService->delete($id, $color);
 
         return $this->redirectToRoute('cart');
+    }
+
+    /**
+     * @Route("{_locale}/cart/add/Personnalisation/{id}", name="cart_add_Personnalisation")
+     */
+    public function addPresonnalisation($id, Request $request, CartService $cartService, TranslatorInterface $translator)
+    {
+        dd('ici');
+
     }
 }
