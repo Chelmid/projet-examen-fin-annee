@@ -33,7 +33,7 @@ class CartService
         $this->zoneDeMarquageRepository = $zoneDeMarquageRepository;
     }
 
-    public function add($id, $color, Request $request, $i)
+    public function add($id, $color, Request $request, $i, $quantity)
     {
 
         //$this->session->clear();
@@ -53,8 +53,6 @@ class CartService
         }
 
         $this->session->set('panier', $panier);*/
-
-        dd('test');
 
         $diese = str_replace('#', "", $color);
         $colorClear = str_replace('_', "", $diese);
@@ -81,7 +79,8 @@ class CartService
             ->setUpdatedAt($productfind->getUpdatedAt())
             ->setDescription($productfind->getDescription())
             ->setCategory($productfind->getCategory())
-            ->setQuantity($productfind->getQuantity());
+            ->setQuantity($quantity);
+
         if ($panierUser == null) {
             $this->entityManager->persist($paniertest->setUser($this->security->getUser()));
             $this->entityManager->persist($panierProduct->setPanier($paniertest));
@@ -224,7 +223,8 @@ class CartService
         $compter = 0;
 
         foreach ($this->getfullCart() as $key => $item) {
-            $compter += 1;
+            $compter += $item->getProduct()->getQuantity();
+
         }
         return $compter;
     }
@@ -232,10 +232,11 @@ class CartService
     public function getTva()
     {
         $tva = $this->getTotal() * 0.2;
-        return $tva = $tva + $this->getTotal();
+        $tva = $tva + $this->getTotal();
+        return $tva = number_format($tva, 2, ',', ' ');
     }
 
-    public function addPersonnalisation (){
+    public function updateQuantite (){
 
     }
 

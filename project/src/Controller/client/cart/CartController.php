@@ -59,12 +59,15 @@ class CartController extends AbstractController
             $i = 0;
             foreach ($request->request->all() as $color => $value) {
                 if ($value != 0 || !empty($value)) {
-                    $cartService->add($id, $color, $request, $i);
+                    $cartService->add($id, $color, $request, $i, $value);
                 }
                 $i++;
+                if ($i == 0) {
+                    return $this->redirect($request->headers->get('referer'));
+                }
             }
             return $this->redirectToRoute('cart');
-        }else{
+        } else {
             return $this->RedirectToRoute('app_login');
         }
     }

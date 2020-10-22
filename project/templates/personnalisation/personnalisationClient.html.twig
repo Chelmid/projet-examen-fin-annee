@@ -3,9 +3,9 @@
 {% block content %}
     <div class="container">
         <div>
-            <a href="{{ path('homeClient') }}">Accueil</a> / <a
-                    href="{{ path('categoryClient',{'category':theCategory}) }}">{{ theCategory }}</a> / <a
-                    href="">{{ theProduct.name }}</a> / <a href="">Personnalisation</a>
+            <a href="{{ path('homeClient') }}" class="lienDark">Accueil</a> / <a
+                    href="{{ path('categoryClient',{'category':theCategory}) }}" class="lienDark">{{ theCategory }}</a> / <a
+                    href="{{ path('productClient',{'category':theCategory,'product':theProduct.name,'id':theProduct.id, 'color':theProduct.color}) }}" class="lienDark">{{ theProduct.name }}</a> / <a href="" class="lienDark">Personnalisation</a>
         </div>
         <div class="">
             <div class="col row">

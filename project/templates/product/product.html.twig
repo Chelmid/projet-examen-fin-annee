@@ -4,9 +4,11 @@
 {% block content %}
     <div class="container">
         <div>
-            <a href="{{ path('homeClient') }}">Accueil</a> / <a
-                    href="{{ path('categoryClient',{'category':theCategory.name}) }}">{{ theCategory.name }}</a> / <a
-                    href="{{ path('productClient',{'category':theCategory.name,'product':theProduct.name,'id':theProduct.id, 'color':colorNow}) }}">{{ theProduct.name }}</a>
+            <a href="{{ path('homeClient') }}" class="lienDark">Accueil</a> / <a
+                    href="{{ path('categoryClient',{'category':theCategory.name}) }}"
+                    class="lienDark">{{ theCategory.name }}</a> / <a
+                    href="{{ path('productClient',{'category':theCategory.name,'product':theProduct.name,'id':theProduct.id, 'color':colorNow}) }}"
+                    class="lienDark">{{ theProduct.name }}</a>
         </div>
         <div class="">
             <div class="col row">
@@ -95,37 +97,47 @@
                                  aria-controls="collapseTwo" id="headingTwo">
                                 DEMANDE D'ÉCHANTILLONS
                             </div>
+                            {% if app.user == null or app.user.groupclient == 1 %}
                             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                            {% else %}
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                    {% endif %}
                                  data-parent="#accordion">
                                 <div class="card-body">
                                     <p>Pour tester le produit, vous pouvez commander un ou des échantillons de la
                                         couleur de votre choix.</p>
                                     <p>Choisir la couleur pour l'échantillon</p>
-                                    <form method="post" action="{{ path('cart_add',{"id":theProduct.id,"color":app.request.attributes.get('color') }) }}">
+                                    <form method="post"
+                                          action="{{ path('cart_add',{"id":theProduct.id,"color":app.request.attributes.get('color') }) }}">
                                         <div class="justify-content-center">
                                             <div class="d-flex flex-wrap">
                                                 <p>Qté</p>
                                                 {% for keycolor,color in theProduct.color | split("','") %}
                                                     <div class="mx-2">
-                                                        <input class="" name="{{ color }} " size="4"
+                                                        <input class="quantity-product" name="{{ color }} " size="4"
                                                                style="background-color: {{ color }}; border: 1px solid {{ color }}"/>
                                                         {% for keyquantity,quantity in theProduct.quantity | split("','") %}
                                                             {% if keycolor ==  keyquantity %}
                                                                 <div class="my-0 text-center">En stock</div>
-                                                                <div class="text-center">{{ quantity | replace({'"': ''}) }}</div>
+                                                                <div class="text-center stock">{{ quantity | replace({'"': ''}) }}</div>
                                                             {% endif %}
                                                         {% endfor %}
                                                     </div>
                                                 {% endfor %}
                                             </div>
                                         </div>
-                                        <button class="btn btn-md backgroundOrange text-white" type="submit">Ajouter au
-                                            panier
-                                        </button>
+                                        <div class="text-center py-3">
+                                            <button class="btn btn-md backgroundOrange text-white displayBtn" type="submit" disabled>Ajouter
+                                                au
+                                                panier
+                                            </button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                        {% if app.user == null or app.user.groupclient == 1 %}
+                        {% else%}
                         <div class="card">
                             <div class="card-header btn btn-link backgroundOrange text-white no-decoration"
                                  data-toggle="collapse" data-target="#collapseOne"
@@ -147,8 +159,8 @@
                                                 <p>Qté</p>
                                                 {% for keycolor,color in theProduct.color | split("','") %}
                                                     <div class="mx-2">
-                                                        <input class="quantity-product" name="{{ color }} " size="4"
-                                                               style="background-color: {{ color }}; border: 1px solid {{ color }}"/>
+                                                        <input class="quantity-product-personnalisation" name="{{ color }} " size="4"
+                                                               style="background-color: {{ color }}; border: 1px solid {{ color }}" value=""/>
                                                         {% for keyquantity,quantity in theProduct.quantity | split("','") %}
                                                             {% if keycolor ==  keyquantity %}
                                                                 <div class="my-0 text-center">En stock</div>
@@ -160,7 +172,7 @@
                                             </div>
                                         </div>
                                         <div class="text-center py-3">
-                                            <button class="displayBtn btn btn-md backgroundOrange text-white"
+                                            <button class="displayBtnPersonnalisation btn btn-md backgroundOrange text-white"
                                                     type="submit" disabled>Personnalisation
                                             </button>
                                         </div>
@@ -169,6 +181,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     <div class="zone-background-grey mt-5 px-3 py-3">
                         <h4>informations</h4>
                         <div><span class="font-weight-bold">Puissance</span> : 3 Watts</div>

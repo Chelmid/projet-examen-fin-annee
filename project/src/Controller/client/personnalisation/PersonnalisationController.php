@@ -59,16 +59,7 @@ class PersonnalisationController extends AbstractController
             }
         }
         if($i >= 1){
-            /*dump($zoneDeMarquageRepository);
-            die();*/
             return $this->personnalisationClient($request->attributes->get('category'),$request->attributes->get('product'), $request);
-            /*return $this->redirectToRoute('personnalisationClient', [
-                'category' => $request->attributes->get('category'),
-                'product' => $request->attributes->get('product'),
-                'id' => $request->attributes->get('id'),
-                'color' => $request->attributes->get('color'),
-                'zoneDeMarquage' => $zoneDeMarquageRepository
-            ]);*/
         }
     }
 }

@@ -83,7 +83,7 @@ a {
 }
 
 .btn-noir:hover{
-    opacity: 0.7;
+    background-color:#ef8343;
 }
 
 .zone-background-grey{
@@ -101,14 +101,10 @@ a {
     color: #FFFFFF;
 }
 
-.footerLink:hover{
-    color: #dee2e6;
-}
-
 /*hover les couleur*/
 
 .hoverColorAndImg:hover{
-    opacity: 0.7;
+    opacity: 0.6;
 }
 
 .backgroundOrange{
@@ -145,3 +141,34 @@ label {
 .lienDark {
     color: black;
 }
+
+.total {
+    height: 200px;
+    width: 100%;
+}
+
+.icon-size {
+    width: 20px;
+    height: auto;
+}
+
+.lienDark:hover {
+    color: #ef8343;
+}
+
+.lienWhite{
+    color: white;
+}
+
+.lienWhite:hover{
+    color: #ef8343;
+}
+
+.fontSizeIcon {
+    font-size: 30px !important;
+}
+
+.borderOrange{
+    border: 1px solid #ef8343;
+}
+
