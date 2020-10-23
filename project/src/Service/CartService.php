@@ -200,10 +200,12 @@ class CartService
                 foreach ($this->panierProductRepository->findByPanier($panierId->getId()) as $value) {
                     $panierWithData[] =
                         $value;
-                    $this->productRepository->findById($value->getProduct()->getId());
+                        $this->productRepository->findById($value->getProduct()->getId());
+                        1;
                 }
             }
         };
+        //dd($panierWithData);
         return $panierWithData;
     }
 
@@ -212,7 +214,7 @@ class CartService
         $total = 0;
 
         foreach ($this->getfullCart() as $item) {
-            $total += $item->getProduct()->getPrice();
+            $total += $item->getProduct()->getPrice() * $item->getProduct()->getQuantity() ;
         }
 
         return $total;

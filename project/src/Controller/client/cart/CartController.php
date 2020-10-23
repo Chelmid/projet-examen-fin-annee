@@ -15,6 +15,7 @@ class CartController extends AbstractController
 {
     protected $catagory;
     protected $security;
+    protected $save;
 
     public function __construct(Security $security, CategoryService $categoryService)
     {
@@ -31,6 +32,8 @@ class CartController extends AbstractController
         if ($this->security->getUser() != null) {
 
             $panierWithData = $cartService->getfullCart();
+
+            //dd($panierWithData);
 
             if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
                 return $this->render('cart/cartClient.html.twig', [
@@ -87,7 +90,7 @@ class CartController extends AbstractController
      */
     public function addPresonnalisation($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
-        dd('ici');
+        dd($request);
 
     }
 }

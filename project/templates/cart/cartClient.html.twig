@@ -8,6 +8,7 @@
         {% if items | length > 0 %}
             {% for item in items %}
                 {{ dump(item.product) }}
+                {{ dump(item) }}
                 <div class="d-flex flex-wrap py-3 my-3 border border-dark">
                     <div class="col-md-2">
                         <img height="auto" width="100%" src="{{ item.product.image }}">
@@ -21,13 +22,18 @@
                             <div class="multiColor" style="color:#{{ item.product.color }}"
                                  data-color="#{{ item.product.color }}">{{ item.product.color }}</div>
                         </div>
-                        <a class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
+                        {% if item.personnalisation == null %}
+                            <a class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
+                        {% endif %}
                     </div>
                     <div class="col">
                         <div>{{ item.product.price |number_format(2, '.', ',') }} €</div>
                     </div>
                     <div class="col">
                         <input value="{{ item.product.quantity }}" size="4"/>
+                    </div>
+                    <div class="col">
+                        <div>{{ item.product.quantity * item.product.price }} €</div>
                     </div>
                     <a href="{{ path('cart_delete', {'id':item.product.id,'color':item.product.color}) }}"
                        class="btn lienDark">

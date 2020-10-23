@@ -8,7 +8,7 @@
             / <a
                     href="{{ path('productClient',{'category':theCategory,'product':theProduct.name,'id':theProduct.id, 'color':theProduct.color}) }}"
                     class="lienDark">{{ theProduct.name }}</a> / <a href="" class="lienDark">Personnalisation</a>
-        </div>
+        </div>{{ dump(save) }}
         <div class="">
             <div class="col row">
                 <div class="col-md-6">
@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     {{ dump(theProduct) }}
                     <form method="post"
-                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color') }) }}">
+                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'save':save }) }}">
                         <div id="accordion">
                             <div class="card">
                                 <div class="card-header btn btn-link backgroundOrange no-decoration text-white"
