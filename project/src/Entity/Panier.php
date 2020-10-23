@@ -30,6 +30,11 @@ class Panier
      */
     protected $panier;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $total;
+
     public function __construct()
     {
         $this->panierProduct = new ArrayCollection();
@@ -80,6 +85,18 @@ class Panier
                 $panier->setPanier(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(int $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }
