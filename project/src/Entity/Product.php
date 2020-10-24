@@ -71,7 +71,7 @@ class Product
     private $quantity;
 
     /**
-     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="product",)
+     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="product")
      */
     private $panierProduct;
 

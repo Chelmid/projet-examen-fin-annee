@@ -25,16 +25,26 @@ class PanierProduct
     private $personnalisation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="panierProduct", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="panierProduct")
      * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="panier", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="panier")
      * @ORM\JoinColumn(nullable=false)
      */
     private $panier;
+
+    /**
+     * @ORM\Column(type="integer", length=255)
+     */
+    private $quantity;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $colorAndImage;
 
     public function __construct()
     {
@@ -90,6 +100,30 @@ class PanierProduct
     public function setColor(string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getColorAndImage(): ?string
+    {
+        return $this->colorAndImage;
+    }
+
+    public function setColorAndImage(string $colorAndImage): self
+    {
+        $this->colorAndImage = $colorAndImage;
 
         return $this;
     }

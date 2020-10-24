@@ -39,11 +39,11 @@ class ZoneDeMarquage
      */
     private $top_space;
 
-    /**
+    /*/**
      * @ORM\OneToOne(targetEntity=Product::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $product;
+    //private $product;
 
 
     public function getId(): ?int

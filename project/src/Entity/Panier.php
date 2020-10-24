@@ -30,10 +30,10 @@ class Panier
      */
     protected $panier;
 
-    /**
+    /*/**
      * @ORM\Column(type="integer")
      */
-    private $total;
+    //private $total;
 
     public function __construct()
     {
