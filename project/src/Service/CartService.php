@@ -134,9 +134,26 @@ class CartService
         return $tva = number_format($tva, 2, ',', ' ');
     }
 
-    public function updateQuantite()
+    public function updateQuantite($id, $quantity)
     {
+        $panierProduct = $this->panierProductRepository->find($id);
+        $quantityBdd = "";
 
+        foreach ($this->productRepository->findById($panierProduct->getProduct()->getId()) as $value ){
+            $quantityBase = explode("','" ,$value->getQuantity());
+
+            foreach ($quantityBase as $key => $value){
+                if($key == $panierProduct->getColorAndImage()){
+                    $quantityBdd = str_replace("'","",$value);
+                }
+            }
+
+            if($quantityBdd >= $quantity){
+                $panierProduct->setQuantity($quantity);
+                $this->entityManager->flush();
+            }else{
+                $this->addFlash('success', 'Article Created! Knowledge is power!');
+            }
+        }
     }
-
 }

@@ -41,7 +41,7 @@
                                     <div>
                                         {% for key,quantity in product.quantity | split("','") %}
                                             {% if key == 0 %}
-                                                <p class="text-center">En Stock : {{ quantity | replace({'"': ''}) }}</p>
+                                                <p class="text-center">En Stock : {{ quantity | replace({"'": ''}) }}</p>
                                             {% endif %}
                                         {% endfor %}
                                     </div>

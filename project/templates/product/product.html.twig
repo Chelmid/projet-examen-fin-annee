@@ -119,7 +119,7 @@
                                                         {% for keyquantity,quantity in theProduct.quantity | split("','") %}
                                                             {% if keycolor ==  keyquantity %}
                                                                 <div class="my-0 text-center">En stock</div>
-                                                                <div class="text-center stock">{{ quantity | replace({'"': ''}) }}</div>
+                                                                <div class="text-center stock">{{ quantity | replace({"'": ''}) }}</div>
                                                             {% endif %}
                                                         {% endfor %}
                                                     </div>
@@ -164,7 +164,7 @@
                                                         {% for keyquantity,quantity in theProduct.quantity | split("','") %}
                                                             {% if keycolor ==  keyquantity %}
                                                                 <div class="my-0 text-center">En stock</div>
-                                                                <div class="text-center">{{ quantity | replace({'"': ''}) }}</div>
+                                                                <div class="text-center">{{ quantity | replace({"'": ''}) }}</div>
                                                             {% endif %}
                                                         {% endfor %}
                                                     </div>

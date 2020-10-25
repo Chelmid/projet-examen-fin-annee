@@ -20,6 +20,7 @@ class PersonnalisationController extends AbstractController
 
     public function personnalisationClient($category, $product, Request $request, $save,$idImage)
     {
+
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['name' => $product]);
         $zoneDeMarquage = $this->getDoctrine()->getRepository(ZoneDeMarquage::class)->findOneBy(['product' => $request->attributes->get('id')]);
         if ($product) {
@@ -41,6 +42,7 @@ class PersonnalisationController extends AbstractController
 
     public function personnalisationCheckInfo(Request $request)
     {
+
         $i = 0;
         $j = 0;
         $save = [];

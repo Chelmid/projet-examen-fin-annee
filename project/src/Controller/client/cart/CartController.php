@@ -13,7 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartController extends AbstractController
 {
-    protected $catagory;
+    protected $category;
     protected $security;
     protected $save;
 
@@ -81,6 +81,17 @@ class CartController extends AbstractController
     public function delete($id, $color, CartService $cartService, TranslatorInterface $translator)
     {
         $cartService->delete($id, $color);
+
+        return $this->redirectToRoute('cart');
+    }
+
+    /**
+     * @Route("cart/update/{id}/{newQuantity}", name="cart_update")
+     */
+    public function update($id, $newQuantity, Request $request, CartService $cartService, TranslatorInterface $translator)
+    {
+
+        $cartService->updateQuantite($id, $newQuantity,$request);
 
         return $this->redirectToRoute('cart');
     }
