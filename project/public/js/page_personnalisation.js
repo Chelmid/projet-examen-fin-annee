@@ -4,6 +4,7 @@ let pdfjsLib = window['pdfjs-dist/build/pdf'];
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
 
+// les selecteur
 let upload = document.getElementById('upload')
 let dataFile = document.getElementById('dataFile')
 let output = document.getElementById('output');
@@ -14,9 +15,11 @@ let test = document.getElementById('test')
 let canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
 
+pdfViewer.style.cursor = 'all-scroll'
+
 let dataUri = ''
 
-
+//upload du pdf ou image
 upload.addEventListener("change", (e) => {
     let file = e.target.files[0]
     // la partie pour le pdf
@@ -26,19 +29,23 @@ upload.addEventListener("change", (e) => {
         pdfViewer.style.position = "relative"
         pdfViewer.style.display = "block"
         output.style.display = "none"
+        pdfViewer.style.top = '0 px'
+        pdfViewer.style.left = '0 px'
     }
     //les party pour les images
     if (file.type == "image/jpeg" || file.type == "image/png") {
-        convertToBase64()
+        convertToBase64(file)
         logoPersonnalisation.style.display = "block"
-        //output.style.position = "absolute"
-        pdfViewer.style.display = "none"
-        output.style.display = "block"
+        pdfViewer.style.position = "relative"
+        pdfViewer.style.display = "block"
+        output.style.display = "none"
+        pdfViewer.style.top = '0 px'
+        pdfViewer.style.left = '0 px'
     }
 });
 
 // convertir Base64
-function convertToBase64() {
+function convertToBase64(file) {
     //Read File
     let selectedFile = upload.files;
 
@@ -51,18 +58,56 @@ function convertToBase64() {
         let base64;
         // Onload of file read the file content
         fileReader.onload = function (fileLoadedEvent) {
-            base64 = fileLoadedEvent.target.result;
-            // Print data in console
+            // pour image
+            /*base64 = fileLoadedEvent.target.result;
+            Print data in console
             dataUri = base64
-            console.log(base64);
+            onsole.log(base64);
             dataFile.value = fileReader.result;
-            output.src = base64;
+            output.src = base64*/
+
+            //pour canvas
+            var myImage = new Image(); // Creates image object
+            myImage.src = fileLoadedEvent.target.result; // Assigns converted image to image object
+            dataFile.value = myImage.src
+            myImage.onload = function(ev) {
+                pdfViewer.width = myImage.width; // Assigns image's width to canvas
+                pdfViewer.height = myImage.height; // Assigns image's height to canvas
+
+                // Prepare canvas using image page dimensions
+                let scale = '';
+                if (myImage.height > zoneMarguage.clientHeight || myImage.width > zoneMarguage.clientWidth) {
+                    // calcul de scale
+                    scaleY = zoneMarguage.clientWidth/myImage.width
+                    scaleX = zoneMarguage.clientHeight/myImage.height
+
+                    if(scaleY < 1){
+                        scale = scaleY
+                    }else if (scaleX < 1){
+                        scale = scaleX
+                    }
+                    //la taille original * le scale < 1
+                    pdfViewer.width = scale * myImage.width
+                    pdfViewer.height = scale * myImage.height
+
+                    size = []
+                    size['width'] = pdfViewer.width
+                    size['width'] = pdfViewer.height
+                    size['top'] = pdfViewer.height
+                    size['left'] = pdfViewer.height
+                    console.log(size)
+                }
+                context.drawImage(myImage, 1, 1, pdfViewer.width, pdfViewer.height); // Draws the image on canvas
+                pdfViewer.toDataURL("image/jpeg"); // Assigns image base64 string in jpeg format to a variable
+            }
+
         };
         // Convert data to base64
         fileReader.readAsDataURL(fileToLoad);
     }
 }
 
+//display du pdf
 function convertToBase64PDF(event_target_files) {
 
     let fileReader = new FileReader();
@@ -86,7 +131,7 @@ function convertToBase64PDF(event_target_files) {
 
                 // Prepare canvas using PDF page dimensions
                 while (viewport.height > zoneMarguage.clientHeight || viewport.width > zoneMarguage.clientWidth) {
-                    scale -= 0.1
+                    scale -= 0.01
                     viewport = page.getViewport({scale: scale})
                 }
                 pdfViewer.height = viewport.height;
@@ -116,6 +161,7 @@ function convertToBase64PDF(event_target_files) {
     fileReader.readAsArrayBuffer(event_target_files);
 }
 
+// position du pdf dans la zone de marquage
 let pressing = false;
 var offset = [0, 0];
 
@@ -131,7 +177,7 @@ pdfViewer.addEventListener("mousedown", (e) => {
     })
 })
 
-
+// movement de l'image
 pdfViewer.addEventListener("mousemove", (e) => {
     if (pressing === true) {
 
@@ -155,10 +201,7 @@ pdfViewer.addEventListener("mousemove", (e) => {
 })
 
 
-window.addEventListener("mouseup", (e) => {
+window.addEventListener("mouemouse", (e) => {
     pressing = false;
 })
 
-upload.addEventListener('change', (e) =>{
-    console.log(upload.files)
-})

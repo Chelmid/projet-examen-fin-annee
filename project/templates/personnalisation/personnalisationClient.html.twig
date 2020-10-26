@@ -8,7 +8,7 @@
             / <a
                     href="{{ path('productClient',{'category':theCategory,'product':theProduct.name,'id':theProduct.id, 'color':theProduct.color}) }}"
                     class="lienDark">{{ theProduct.name }}</a> / <a href="" class="lienDark">Personnalisation</a>
-        </div>{{ dump(save) }}
+        </div>{{ dump(productSelectionner) }}
         <div class="">
             <div class="col row">
                 <div class="col-md-6">
@@ -26,8 +26,12 @@
                             </div>
                         </div>
                         {% for key,image in theProduct.image | split("','") %}
-                            {% if idImage == key %}
+                            {% if idImage == key and idImage != '' %}
                                 <img id="imgOriginal" src="{{ image }}" width="100%">
+                            {% else %}
+                                {% if  app.request.attributes.get('color') == key and idImage == '' %}
+                                    <img id="imgOriginal" src="{{ image }}" width="100%">
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -35,7 +39,7 @@
                 <div class="col-md-6">
                     {{ dump(theProduct) }}
                     <form method="post"
-                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'save':save }) }}">
+                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner }) }}">
                         <div id="accordion">
                             <div class="card">
                                 <div class="card-header btn btn-link backgroundOrange no-decoration text-white"
@@ -49,7 +53,8 @@
                                     <div class="card-body">
                                         <input type='file' id='upload' multiple name="file"
                                                class="zone-background-grey col"/><br>
-                                        <input type='hidden' id='dataFile' name="dataFile" value="">
+                                        <input  id='dataFile' name="dataFile" value="">
+                                        <input  id='zoneDeMarquage' name="zoneDeMarquage" value="">
                                     </div>
                                 </div>
                             </div>

@@ -24,6 +24,21 @@ class Personnalisation
      */
     private $panierProduct;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $file;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $topPosition;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $leftPosition;
+
     public function __construct()
     {
         $this->panierProduct = new ArrayCollection();
@@ -61,6 +76,42 @@ class Personnalisation
                 $panierProduct->setPersonnalisation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    public function getTopPosition(): ?string
+    {
+        return $this->topPosition;
+    }
+
+    public function setTopPosition(string $topPosition): self
+    {
+        $this->topPosition = $topPosition;
+
+        return $this;
+    }
+
+    public function getLeftPosition(): ?string
+    {
+        return $this->leftPosition;
+    }
+
+    public function setLeftPosition(string $leftPosition): self
+    {
+        $this->leftPosition = $leftPosition;
 
         return $this;
     }

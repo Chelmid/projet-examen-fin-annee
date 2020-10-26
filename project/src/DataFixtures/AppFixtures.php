@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
                     array_push($color, $faker->hexcolor);
                     array_push($quantity, "'" . $faker->numberBetween($min = 1, $max = 9000) . "'");
                     //array_push($image, $faker->imageUrl($width = 640, $height = 480, 'nightlife'));
-                    array_push($image, 'https://picsum.photos/640/480?image=' . $faker->numberBetween($min = 1, $max = 1000));
+                    array_push($image, 'http://placeimg.com/640/480/any');
                 }
 
                 //$data = serialize($color);

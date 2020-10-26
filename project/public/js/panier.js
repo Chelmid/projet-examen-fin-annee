@@ -1,5 +1,4 @@
-console.log('hello')
-
+//convertion de hex color en nom des color
 let colors = document.querySelectorAll('.multiColor')
 
 colors.forEach(color => {
@@ -10,12 +9,7 @@ colors.forEach(color => {
     color.innerHTML = n_name
 })
 
-//let n_match = ntc.name("#6195ED");
-//n_rgb = n_match[0]; // RGB value of closest match
-//n_name = n_match[1]; // Text string: Color name
-//n_exactmatch = n_match[2]; // True if exact color match
-
-
+// gestion des erreur dans le panier
 let quantity = document.querySelectorAll('.quantite')
 let messageError = document.querySelectorAll('.messageError')
 

@@ -31,7 +31,7 @@ class PersonnalisationController extends AbstractController
                 'theProduct' => $product,
                 'zoneDeMarquage' => $zoneDeMarquage,
                 'idImage' => $idImage,
-                'save' => $save
+                'productSelectionner' => $save
             ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
