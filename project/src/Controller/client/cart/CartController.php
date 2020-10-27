@@ -91,7 +91,7 @@ class CartController extends AbstractController
     public function update($id, $newQuantity, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
 
-        $cartService->updateQuantite($id, $newQuantity,$request);
+        $cartService->updateQuantite($id, $newQuantity, $request);
 
         return $this->redirectToRoute('cart');
     }
@@ -101,7 +101,24 @@ class CartController extends AbstractController
      */
     public function addPresonnalisation($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
-        dd($request);
+        //dd($id);
+
+            if (empty($request->request->get('dataFile')) || $request->request->get('dataFile') == '') {
+                foreach ($request->query as $key => $value) {
+                    if ($key == 'productSelectionner') {
+                        foreach ($value as $key => $value) {
+                            foreach ($value as $keyColor => $value) {
+                                foreach ($value as $key => $value) {
+                                    $cartService->add($id, $key, $request, $keyColor, $value);
+                                }
+                            }
+                        }
+                    }
+                }
+            }else{
+
+            }
+        return $this->redirectToRoute('cart');
 
     }
 }

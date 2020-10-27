@@ -39,6 +39,21 @@ class Personnalisation
      */
     private $leftPosition;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $width;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $height;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $datauri;
+
     public function __construct()
     {
         $this->panierProduct = new ArrayCollection();
@@ -112,6 +127,42 @@ class Personnalisation
     public function setLeftPosition(string $leftPosition): self
     {
         $this->leftPosition = $leftPosition;
+
+        return $this;
+    }
+
+    public function getWidth(): ?int
+    {
+        return $this->width;
+    }
+
+    public function setWidth(int $width): self
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(int $height): self
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    public function getDatauri(): ?string
+    {
+        return $this->datauri;
+    }
+
+    public function setDatauri(string $datauri): self
+    {
+        $this->datauri = $datauri;
 
         return $this;
     }

@@ -15,8 +15,13 @@ let test = document.getElementById('test')
 let canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
 
-pdfViewer.style.cursor = 'all-scroll'
+let logoWidth = document.querySelector('#logoWidth');
+let logoHeight = document.querySelector('#logoHeight');
+let logoTop = document.querySelector('#logoTop');
+let logoLeft = document.querySelector('#logoLeft');
 
+pdfViewer.style.cursor = 'all-scroll'
+let size = []
 let dataUri = ''
 
 //upload du pdf ou image
@@ -29,8 +34,8 @@ upload.addEventListener("change", (e) => {
         pdfViewer.style.position = "relative"
         pdfViewer.style.display = "block"
         output.style.display = "none"
-        pdfViewer.style.top = '0 px'
-        pdfViewer.style.left = '0 px'
+        pdfViewer.style.top = '0'
+        pdfViewer.style.left = '0'
     }
     //les party pour les images
     if (file.type == "image/jpeg" || file.type == "image/png") {
@@ -39,13 +44,13 @@ upload.addEventListener("change", (e) => {
         pdfViewer.style.position = "relative"
         pdfViewer.style.display = "block"
         output.style.display = "none"
-        pdfViewer.style.top = '0 px'
-        pdfViewer.style.left = '0 px'
+        pdfViewer.style.top = '0'
+        pdfViewer.style.left = '0'
     }
 });
 
 // convertir Base64
-function convertToBase64(file) {
+function convertToBase64() {
     //Read File
     let selectedFile = upload.files;
 
@@ -59,17 +64,18 @@ function convertToBase64(file) {
         // Onload of file read the file content
         fileReader.onload = function (fileLoadedEvent) {
             // pour image
-            /*base64 = fileLoadedEvent.target.result;
-            Print data in console
-            dataUri = base64
-            onsole.log(base64);
-            dataFile.value = fileReader.result;
-            output.src = base64*/
+            base64 = fileLoadedEvent.target.result;
+            //Print data in consoe
+            //dataUri = base64
+            console.log(base64);
+            //dataFile.value = fileReader.result;
+            //output.src = base64*/
 
             //pour canvas
             var myImage = new Image(); // Creates image object
             myImage.src = fileLoadedEvent.target.result; // Assigns converted image to image object
             dataFile.value = myImage.src
+            //console.log(myImage.src)
             myImage.onload = function(ev) {
                 pdfViewer.width = myImage.width; // Assigns image's width to canvas
                 pdfViewer.height = myImage.height; // Assigns image's height to canvas
@@ -89,16 +95,19 @@ function convertToBase64(file) {
                     //la taille original * le scale < 1
                     pdfViewer.width = scale * myImage.width
                     pdfViewer.height = scale * myImage.height
-
-                    size = []
-                    size['width'] = pdfViewer.width
-                    size['width'] = pdfViewer.height
-                    size['top'] = pdfViewer.height
-                    size['left'] = pdfViewer.height
-                    console.log(size)
                 }
-                context.drawImage(myImage, 1, 1, pdfViewer.width, pdfViewer.height); // Draws the image on canvas
+                context.drawImage(myImage, 0, 0, pdfViewer.width, pdfViewer.height); // Draws the image on canvas
                 pdfViewer.toDataURL("image/jpeg"); // Assigns image base64 string in jpeg format to a variable
+
+                size['width'] = pdfViewer.width
+                size['height'] = pdfViewer.height
+                size['top'] = pdfViewer.style.top
+                size['left'] = pdfViewer.style.left
+                console.log(logoWidth)
+                logoWidth.value = size['width']
+                logoHeight.value = size['height']
+                logoLeft.value = size['left'].replace('px', '')
+                logoTop.value = size['top'].replace('px', '')
             }
 
         };
@@ -115,6 +124,7 @@ function convertToBase64PDF(event_target_files) {
 
         // Print data in console
         let pdfData = new Uint8Array(this.result);
+
         // Using DocumentInitParameters object to load binary data.
         let loadingTask = pdfjsLib.getDocument({data: pdfData});
 
@@ -138,7 +148,15 @@ function convertToBase64PDF(event_target_files) {
                 pdfViewer.width = viewport.width;
                 //context.scale(0.7,0.7)
                 // information de la taille de l'image
-
+                size['width'] = pdfViewer.width
+                size['height'] = pdfViewer.height
+                size['top'] = pdfViewer.style.top
+                size['left'] = pdfViewer.style.left
+                console.log(logoWidth)
+                logoWidth.value = size['width']
+                logoHeight.value = size['height']
+                logoLeft.value = size['left'].replace('px', '')
+                logoTop.value = size['top'].replace('px', '')
                 // Render PDF page into canvas context
                 let renderContext = {
                     canvasContext: context,
@@ -166,6 +184,7 @@ let pressing = false;
 var offset = [0, 0];
 
 pdfViewer.addEventListener("mousedown", (e) => {
+    console.log(size)
     pressing = true;
     offset = [
         pdfViewer.offsetLeft - e.clientX,
@@ -191,9 +210,13 @@ pdfViewer.addEventListener("mousemove", (e) => {
 
         if(mousePosition.x + offset[0] > 0 && mousePosition.x + offset[0] < zoneMarguage.clientWidth - pdfViewer.width ){
             pdfViewer.style.left = mousePosition.x + offset[0] + 'px'
+            logoLeft.value = pdfViewer.style.left.replace('px', '')
+
         }
         if(mousePosition.y + offset[1] > 0 && mousePosition.y + offset[1] < zoneMarguage.clientHeight - pdfViewer.height ){
             pdfViewer.style.top = mousePosition.y + offset[1] + 'px'
+            logoTop.value = pdfViewer.style.top.replace('px', '')
+
         }
         console.log(pdfViewer.style.left)
         console.log(pdfViewer.style.top)
@@ -201,7 +224,7 @@ pdfViewer.addEventListener("mousemove", (e) => {
 })
 
 
-window.addEventListener("mouemouse", (e) => {
+window.addEventListener("mouseup", (e) => {
     pressing = false;
 })
 
