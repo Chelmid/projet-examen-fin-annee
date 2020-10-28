@@ -172,3 +172,10 @@ label {
     border: 1px solid #ef8343;
 }
 
+.btn-orange{
+    background-color: #ef8343;
+}
+
+.btn-orange:hover{
+    background-color: black;
+}

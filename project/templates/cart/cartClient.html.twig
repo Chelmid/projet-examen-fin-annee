@@ -7,7 +7,6 @@
 
     {% if items | length > 0 %}
         {% for item in items %}
-            {{ dump(item.product) }}
             {{ dump(item) }}
             <div class="messageError"></div>
             <div class="d-flex flex-wrap py-3 my-3 border border-dark">
@@ -32,7 +31,13 @@
                     {% endif %}
                     {% endfor %}
                     {% if item.personnalisation == null %}
-                        <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage}) }}" class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
+                        {{ dump(item.personnalisation) }}
+                        <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage}) }}"
+                           class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
+                    {% else %}
+                        {{ dump(item.personnalisation) }}
+                        <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'personnalisation' : item.personnalisation.id }) }}"
+                           class="btn btn-md btn-orange text-white my-3">Modifier la personnalisation</a>
                     {% endif %}
                 </div>
                 <div class="col">

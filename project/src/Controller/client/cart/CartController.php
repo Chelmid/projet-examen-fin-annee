@@ -103,21 +103,31 @@ class CartController extends AbstractController
     {
         //dd($id);
 
-            if (empty($request->request->get('dataFile')) || $request->request->get('dataFile') == '') {
-                foreach ($request->query as $key => $value) {
-                    if ($key == 'productSelectionner') {
-                        foreach ($value as $key => $value) {
-                            foreach ($value as $keyColor => $value) {
-                                foreach ($value as $key => $value) {
-                                    $cartService->add($id, $key, $request, $keyColor, $value);
-                                }
+        if (empty($request->request->get('dataFile')) || $request->request->get('dataFile') == '') {
+            foreach ($request->query as $key => $value) {
+                if ($key == 'productSelectionner') {
+                    foreach ($value as $key => $value) {
+                        foreach ($value as $keyColor => $value) {
+                            foreach ($value as $key => $value) {
+                                $cartService->add($id, $key, $request, $keyColor, $value);
                             }
                         }
                     }
                 }
-            }else{
-
             }
+        } else {
+            foreach ($request->query as $key => $value) {
+                if ($key == 'productSelectionner') {
+                    foreach ($value as $key => $value) {
+                        foreach ($value as $keyColor => $value) {
+                            foreach ($value as $key => $value) {
+                                $cartService->addPersonnalisation($id, $request, $value,$keyColor);
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return $this->redirectToRoute('cart');
 
     }

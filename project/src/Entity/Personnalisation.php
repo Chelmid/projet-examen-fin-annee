@@ -50,7 +50,7 @@ class Personnalisation
     private $height;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=4294967292)
      */
     private $datauri;
 

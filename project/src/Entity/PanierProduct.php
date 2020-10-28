@@ -19,7 +19,7 @@ class PanierProduct
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Personnalisation::class, inversedBy="panierProduct")
+     * @ORM\ManyToOne(targetEntity=Personnalisation::class, inversedBy="panierProduct",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $personnalisation;

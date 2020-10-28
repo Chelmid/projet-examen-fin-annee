@@ -5,6 +5,7 @@ namespace App\Controller\client\personnalisation;
 use App\Entity\Product;
 use App\Entity\ZoneDeMarquage;
 use App\Service\CategoryService;
+use App\Service\PersonnalisationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,13 +14,18 @@ class PersonnalisationController extends AbstractController
 {
     private $category;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, PersonnalisationService $personnalisationService)
     {
         $this->category = $categoryService->getFullCategories();
+        $this->personnalisationService = $personnalisationService;
     }
 
     public function personnalisationClient($category, $product, Request $request, $save,$idImage)
     {
+
+        if($request->query->get('personnalisation') != null){
+            $this->personnalisationService->getPersonnalisation($request->query->get('personnalisation'));
+        }
 
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['name' => $product]);
         $zoneDeMarquage = $this->getDoctrine()->getRepository(ZoneDeMarquage::class)->findOneBy(['product' => $request->attributes->get('id')]);
@@ -31,7 +37,8 @@ class PersonnalisationController extends AbstractController
                 'theProduct' => $product,
                 'zoneDeMarquage' => $zoneDeMarquage,
                 'idImage' => $idImage,
-                'productSelectionner' => $save
+                'productSelectionner' => $save,
+                'personnalisation' => $this->personnalisationService->getPersonnalisation($request->query->get('personnalisation'))
             ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
