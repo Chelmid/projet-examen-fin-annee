@@ -41,7 +41,7 @@ class AppFixtures extends Fixture
 
             $category = new Category();
 
-            $category->setName($faker->lastName);
+            $category->setName('Categorie '. $i);
             $manager->persist($category);
 
             // nombre de product
@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
                     array_push($color, $faker->hexcolor);
                     array_push($quantity, "'" . $faker->numberBetween($min = 1, $max = 9000) . "'");
                     //array_push($image, $faker->imageUrl($width = 640, $height = 480, 'nightlife'));
-                    array_push($image, 'http://placeimg.com/640/480/any');
+                    array_push($image, 'https://fakeimg.pl/640x480/?text=produit '. $faker->numberBetween($min = 1, $max = 100));
                 }
 
                 //$data = serialize($color);

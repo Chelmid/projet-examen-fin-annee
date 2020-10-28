@@ -23,6 +23,7 @@ class CartService
     protected $productRepository;
     protected $entityManager;
     private $security;
+    protected $personnalisation;
 
     public function __construct(SessionInterface $session, ZoneDeMarquageRepository $zoneDeMarquageRepository, PersonnalisationRepository $personnalisationRepository, ProductRepository $productRepository, PanierRepository $panierRepository, EntityManagerInterface $entityManager, PanierProductRepository $panierProductRepository, Security $security)
     {
@@ -79,7 +80,7 @@ class CartService
                 $this->entityManager->remove($data->getPanier());
 
                 foreach ($this->panierProductRepository->findById($id) as $value) {
-                    if($value->getPersonnalisation() != null){
+                    if ($value->getPersonnalisation() != null) {
                         $this->entityManager->remove($value->getPersonnalisation());
                     }
                     $this->entityManager->remove($value);
@@ -87,7 +88,7 @@ class CartService
             } else {
 
                 foreach ($this->panierProductRepository->findById($id) as $value) {
-                    if($value->getPersonnalisation() != null){
+                    if ($value->getPersonnalisation() != null) {
                         $this->entityManager->remove($value->getPersonnalisation());
                     }
                     $this->entityManager->remove($value);
@@ -104,11 +105,11 @@ class CartService
         if ($this->panierRepository->findByUser($this->security->getUser()->getId())) {
             foreach ($this->panierRepository->findByUser($this->security->getUser()->getId()) as $panierId) {
                 foreach ($this->panierProductRepository->findByPanier($panierId->getId()) as $value) {
-                    if($value->getPersonnalisation() == null){
+                    if ($value->getPersonnalisation() == null) {
                         $panierWithData[] =
                             $value;
                         $this->productRepository->findById($value->getProduct()->getId());
-                    }else{
+                    } else {
                         $panierWithData[] =
                             $value;
                         $this->productRepository->findById($value->getProduct()->getId());
@@ -184,13 +185,16 @@ class CartService
         $panierProductOriginals = $this->panierProductRepository->findAll();
         $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
 
+        //dd($panierProduct->getPersonnalisation());
+
         $personnalisation
             ->setDatauri($request->request->get('dataFile'))
             ->setFile($request->request->get('file'))
             ->setHeight($request->request->get('logoHeight'))
             ->setWidth($request->request->get('logoWidth'))
             ->setLeftPosition($request->request->get('logoLeft'))
-            ->setTopPosition($request->request->get('logoTop'));
+            ->setTopPosition($request->request->get('logoTop'))
+            ->setImpression($request->request->get('impression'));
 
         if ($panierUser == null) {
             $this->entityManager->persist($panier->setUser($this->security->getUser()));
@@ -208,6 +212,64 @@ class CartService
                 $this->entityManager->persist($panierProduct->setColorAndImage($i));
                 $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
                 $this->entityManager->flush();
+            }
+        }
+    }
+
+    public function updatePersonnalisation($id, $request, $personId)
+    {
+        $personnalisation = $this->personnalisation->find($personId);
+
+        foreach ($request->request->All() as $name => $value) {
+            if ($name == 'file' && !empty($value)) {
+                if ($value != $personnalisation->getFile()) {
+                    $personnalisation->setFile($value);
+                    $this->entityManager->flush();
+                }else{
+                    if ($name == 'namefile' ) {
+                        if ($value != $personnalisation->getFile()) {
+                            $personnalisation->setFile($value);
+                            $this->entityManager->flush();
+                        }
+                    }
+                }
+            }
+
+            if ($name == 'dataFile') {
+                if ($value != $personnalisation->getDatauri()) {
+                    $personnalisation->setDatauri($value);
+                    $this->entityManager->flush();
+                }
+            }
+            if ($name == 'logoWidth') {
+                if ($value != $personnalisation->getWidth()) {
+                    $personnalisation->setWidth($value);
+                    $this->entityManager->flush();
+                }
+            }
+            if ($name == 'logoHeight') {
+                if ($value != $personnalisation->getHeight()) {
+                    $personnalisation->setHeight($value);
+                    $this->entityManager->flush();
+                }
+            }
+            if ($name == 'logoTop') {
+                if ($value != $personnalisation->getTopPosition()) {
+                    $personnalisation->setTopPosition($value);
+                    $this->entityManager->flush();
+                }
+            }
+            if ($name == 'logoLeft') {
+                if ($value != $personnalisation->getLeftPosition()) {
+                    $personnalisation->setLeftPosition($value);
+                    $this->entityManager->flush();
+                }
+            }
+            if ($name == 'impression') {
+                if ($value != $personnalisation->getImpression()) {
+                    $personnalisation->setImpression($value);
+                    $this->entityManager->flush();
+                }
             }
         }
     }

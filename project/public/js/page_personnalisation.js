@@ -16,6 +16,7 @@ let zoneMarguage = document.querySelector('.zone-marquage');
 let test = document.getElementById('test')
 let canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
+let errorFormat = document.querySelector('.errorFormat');
 
 //personnalisation
 let logoWidth = document.querySelector('#logoWidth');
@@ -43,9 +44,8 @@ upload.addEventListener("change", (e) => {
         output.style.display = "none"
         pdfViewer.style.top = '0'
         pdfViewer.style.left = '0'
-    }
-    //les party pour les images en png ou jpg
-    if (file.type == "image/jpeg" || file.type == "image/png") {
+        //partie image
+    }else if (file.type == "image/jpeg" || file.type == "image/png"){
         convertToBase64()
         //affichage
         logoPersonnalisation.style.display = "block"
@@ -54,6 +54,10 @@ upload.addEventListener("change", (e) => {
         output.style.display = "none"
         pdfViewer.style.top = '0'
         pdfViewer.style.left = '0'
+    }else {
+        //error format et extension
+        errorFormat.className = 'alert alert-danger'
+        errorFormat.innerHTML = 'Veuillez mettre un fichier JPEG / PNG / PDF'
     }
 });
 
@@ -132,6 +136,8 @@ function convertToBase64() {
 
         };
         // Convert data to base64
+        errorFormat.className = 'alert alert-success'
+        errorFormat.innerHTML = 'Le fichier est bien chargé'
         fileReader.readAsDataURL(fileToLoad);
     }
 }
@@ -199,6 +205,8 @@ function convertToBase64PDF(event_target_files) {
     };
     convertToBase64()
     //affichage
+    errorFormat.className = 'alert alert-success'
+    errorFormat.innerHTML = 'Le fichier est bien chargé'
     fileReader.readAsArrayBuffer(event_target_files);
 }
 

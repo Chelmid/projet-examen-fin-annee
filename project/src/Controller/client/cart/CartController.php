@@ -101,34 +101,32 @@ class CartController extends AbstractController
      */
     public function addPresonnalisation($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
-        //dd($id);
 
         if (empty($request->request->get('dataFile')) || $request->request->get('dataFile') == '') {
-            foreach ($request->query as $key => $value) {
-                if ($key == 'productSelectionner') {
-                    foreach ($value as $key => $value) {
-                        foreach ($value as $keyColor => $value) {
-                            foreach ($value as $key => $value) {
-                                $cartService->add($id, $key, $request, $keyColor, $value);
-                            }
+
+            if (!empty($request->query->get('productSelectionner'))) {
+                foreach ($request->query->get('productSelectionner') as $key => $value) {
+                    foreach ($value as $keyColor => $value) {
+                        foreach ($value as $key => $value) {
+                            $cartService->add($id, $key, $request, $keyColor, $value);
                         }
                     }
                 }
             }
         } else {
-            foreach ($request->query as $key => $value) {
-                if ($key == 'productSelectionner') {
-                    foreach ($value as $key => $value) {
-                        foreach ($value as $keyColor => $value) {
-                            foreach ($value as $key => $value) {
-                                $cartService->addPersonnalisation($id, $request, $value,$keyColor);
-                            }
+            if (!empty($request->query->get('productSelectionner'))) {
+                foreach ($request->query->get('productSelectionner') as $key => $value) {
+                    foreach ($value as $keyColor => $value) {
+                        foreach ($value as $key => $value) {
+                            $cartService->addPersonnalisation($id, $request, $value, $keyColor);
                         }
                     }
                 }
             }
         }
+        if (!empty($request->query->get('personId'))) {
+            $cartService->updatePersonnalisation($id, $request, $request->query->get('personId'));
+        }
         return $this->redirectToRoute('cart');
-
     }
 }

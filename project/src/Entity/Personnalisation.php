@@ -54,6 +54,11 @@ class Personnalisation
      */
     private $datauri;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $impression;
+
     public function __construct()
     {
         $this->panierProduct = new ArrayCollection();
@@ -163,6 +168,18 @@ class Personnalisation
     public function setDatauri(string $datauri): self
     {
         $this->datauri = $datauri;
+
+        return $this;
+    }
+
+    public function getImpression(): ?string
+    {
+        return $this->impression;
+    }
+
+    public function setImpression(string $impression): self
+    {
+        $this->impression = $impression;
 
         return $this;
     }

@@ -41,7 +41,11 @@
                 <div class="col-md-6">
                     {{ dump(theProduct) }}
                     <form method="post"
-                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner }) }}">
+                            {% if personnalisation != null %}
+                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner, 'personId':personnalisation.id }) }}">
+                        {% else %}
+                            action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner}) }}">
+                        {% endif %}
                         <div id="accordion">
                             <div class="card">
                                 <div class="card-header btn btn-link backgroundOrange no-decoration text-white"
@@ -53,38 +57,34 @@
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                                      data-parent="">
                                     <div class="card-body">
+                                        <div class="errorFormat" role="alert"></div>
                                         {% if personnalisation != null %}
                                             <input type='file' id='upload' multiple name="file"
                                                    class="zone-background-grey col"
-                                                   value="{{ personnalisation.file }}"/><br>
-                                            <input id='nameFile' value="{{ personnalisation.file }}"
-                                                   data-nameFile="{{ personnalisation.file }}">
-                                            <input id='dataFile' name="dataFile" value="{{ personnalisation.datauri }}"
-                                                   data-dataFile="{{ personnalisation.datauri }}">
+                                                   name="newDataFile"/><br>
+                                            <input type="hidden" id='nameFile' value="{{ personnalisation.file }}"
+                                                   name="nameFile">
+                                            <input type="hidden" id='dataFile' name="dataFile" value="{{ personnalisation.datauri }}">
                                             <br>
-                                            <input id='logoWidth' name="logoWidth" value="{{ personnalisation.width }}"
-                                                   data-logoWidth="{{ personnalisation.width }}">
-                                            <input id='logoHeight' name="logoHeight"
-                                                   value="{{ personnalisation.height }}"
-                                                   data-logoHeight="{{ personnalisation.height }}">
-                                            <input id='logoTop' name="logoTop"
-                                                   value="{{ personnalisation.topPosition }}"
-                                                   data-logoTop="{{ personnalisation.topPosition }}">
-                                            <input id='logoLeft' name="logoLeft"
-                                                   value="{{ personnalisation.leftPosition }}"
-                                                   data-logoLeft="{{ personnalisation.leftPosition }}">
+                                            <input type="hidden" id='logoWidth' name="logoWidth" value="{{ personnalisation.width }}">
+                                            <input type="hidden" id='logoHeight' name="logoHeight"
+                                                   value="{{ personnalisation.height }}">
+                                            <input type="hidden" id='logoTop' name="logoTop"
+                                                   value="{{ personnalisation.topPosition }}">
+                                            <input type="hidden" id='logoLeft' name="logoLeft"
+                                                   value="{{ personnalisation.leftPosition }}">
                                         {% else %}
                                             <input type='file' id='upload' multiple name="file"
                                                    class="zone-background-grey col"
                                                    value=""/><br>
-                                            <input id='dataFile' name="dataFile" value=""/>
+                                            <input type="hidden" id='dataFile' name="dataFile" value=""/>
                                             <br>
-                                            <input id='logoWidth' name="logoWidth" value=""/>
-                                            <input id='logoHeight' name="logoHeight"
+                                            <input type="hidden" id='logoWidth' name="logoWidth" value=""/>
+                                            <input type="hidden" id='logoHeight' name="logoHeight"
                                                    value=""/>
-                                            <input id='logoTop' name="logoTop"
+                                            <input type="hidden" id='logoTop' name="logoTop"
                                                    value=""/>
-                                            <input id='logoLeft' name="logoLeft"
+                                            <input type="hidden" id='logoLeft' name="logoLeft"
                                                    value=""/>
                                         {% endif %}
                                     </div>
@@ -102,7 +102,7 @@
                                     <div class="card-body">
                                         <div>
                                             <input value="">
-                                            <button class="btn btn-noir text-white">ajouter</button>
+                                            <a href="" class="btn btn-noir text-white">ajouter</a>
                                         </div>
                                     </div>
                                 </div>
@@ -117,12 +117,25 @@
                                 <div id="collapseThird" class="collapse show" aria-labelledby="headingThird"
                                      data-parent="">
                                     <div class="card-body">
-
+                                        <div>
+                                            <div class="d-flex">
+                                                <input class="m-1" type="radio" name="impression" value="Tampographie" checked>
+                                                <p>Tampographie</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <input class="m-1" type="radio" name="impression" value="Numérique">
+                                                <p>Numérique</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <input class="m-1" type="radio" name="impression" value="Laser">
+                                                <p>Laser</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div class="text-center py-3">
                             <button class="btn btn-md backgroundOrange text-white" type="submit">Valider et ajouter au
                                 panier
                             </button>
