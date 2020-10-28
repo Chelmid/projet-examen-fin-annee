@@ -8,56 +8,83 @@
     {% if items | length > 0 %}
         {% for item in items %}
             {{ dump(item) }}
-            <div class="messageError"></div>
-            <div class="d-flex flex-wrap py-3 my-3 border border-dark">
-                <div class="col-md-2">
-                    {% for key,image in item.product.image | split("','") %}
-                        {% if key == item.colorAndImage %}
-                            <img height="auto" width="100%" src="{{ image }}">
+            <div class="border border-dark">
+                <div class="messageError"></div>
+                <div class="d-flex flex-wrap py-3 my-3">
+                    <div class="col-md-2">
+                        {% for key,image in item.product.image | split("','") %}
+                            {% if key == item.colorAndImage %}
+                                <img height="auto" width="100%" src="{{ image }}">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-5">
+                        <div>
+                            <strong>{{ item.product.name }}</strong>
+                        </div>
+                        <div class="d-flex">
+                            <div>Ref : {{ item.product.sku }} - Couleur :&nbsp</div>
+                            {% for key,color in item.product.color | split("','") %}
+                            {% if key == item.colorAndImage %}
+                            <div class="multiColor" style="color:{{ color }}"
+                                 data-color="{{ color }}">{{ color }}</div>
+                        </div>
                         {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="col-md-6">
-                    <div>
-                        <strong>{{ item.product.name }}</strong>
+                        {% endfor %}
+
+                        {% if item.personnalisation != null %}
+                            <div class="col">{{ item.personnalisation.priceImpression.type |default('null') }}</div>
+                        {% endif %}
+                        {% if item.personnalisation == null %}
+
+                            <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage}) }}"
+                               class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
+                        {% else %}
+
+                            <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'personnalisation' : item.personnalisation.id }) }}"
+                               class="btn btn-md btn-orange text-white my-3">Modifier la personnalisation</a>
+                        {% endif %}
                     </div>
-                    <div class="d-flex">
-                        <div>Ref : {{ item.product.sku }} - Couleur :&nbsp</div>
-                        {% for key,color in item.product.color | split("','") %}
-                        {% if key == item.colorAndImage %}
-                        <div class="multiColor" style="color:{{ color }}"
-                             data-color="{{ color }}">{{ color }}</div>
+                    <div class="col-md-5">
+                        <div class="d-flex">
+                            <div class="col-3">
+                                <div>{{ item.product.price |number_format(2, '.', ',') }} €</div>
+                            </div>
+                            <div class="col-3">
+                                <input id="{{ item.id }}" class="quantite" value="{{ item.quantity }}" size="4"/>
+                            </div>
+                            <div class="col-3">
+                                <div>{{ (item.quantity * item.product.price) |number_format(2, '.', ',') }} €</div>
+                            </div>
+                            <div class="col-3">
+                                <a href="{{ path('cart_delete', {'id':item.id,'color':item.product.color}) }}"
+                                   class="btn lienDark">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill icon-size"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="col-3">
+                                {% if item.personnalisation != null %}
+                                    <div>{{ item.personnalisation.priceImpression.price }} €</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-3">
+                                <div>{{ item.quantity }}</div>
+                            </div>
+                            <div class="col-3">
+                                {% if item.personnalisation != null %}
+                                    <div>{{ (item.quantity * item.personnalisation.priceImpression.price) |number_format(2, '.', ',') }}
+                                        €
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    {% endif %}
-                    {% endfor %}
-                    {% if item.personnalisation == null %}
-                        {{ dump(item.personnalisation) }}
-                        <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage}) }}"
-                           class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
-                    {% else %}
-                        {{ dump(item.personnalisation) }}
-                        <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'personnalisation' : item.personnalisation.id }) }}"
-                           class="btn btn-md btn-orange text-white my-3">Modifier la personnalisation</a>
-                    {% endif %}
-                </div>
-                <div class="col">
-                    <div>{{ item.product.price |number_format(2, '.', ',') }} €</div>
-                </div>
-                <div class="col">
-                    <input id="{{ item.id }}" class="quantite" value="{{ item.quantity }}" size="4"/>
-                </div>
-                <div class="col">
-                    <div>{{ (item.quantity * item.product.price) |number_format(2, '.', ',') }} €</div>
-                </div>
-                <div>
-                    <a href="{{ path('cart_delete', {'id':item.id,'color':item.product.color}) }}"
-                       class="btn lienDark">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill icon-size"
-                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                        </svg>
-                    </a>
                 </div>
             </div>
         {% endfor %}
@@ -75,12 +102,22 @@
                         <div>{{ total |number_format(2, '.', ',') }} €</div>
                     </div>
                 </div>
+                {% if priceImpression != 0 %}
+                    <div class="d-flex">
+                        <div class="col">
+                            <div>Impression</div>
+                        </div>
+                        <div>
+                            <div>{{ priceImpression |number_format(2, '.', ',') }} €</div>
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="d-flex">
                     <div class="col">
                         <div>Total (HT)</div>
                     </div>
                     <div>
-                        <div><strong>{{ total |number_format(2, '.', ',') }} €</strong></div>
+                        <div><strong>{{ totalAndImpression |number_format(2, '.', ',') }} €</strong></div>
                     </div>
                 </div>
                 <div class="d-flex">

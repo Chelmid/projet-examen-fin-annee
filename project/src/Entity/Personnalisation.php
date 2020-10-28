@@ -59,9 +59,16 @@ class Personnalisation
      */
     private $impression;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=PriceImpression::class, inversedBy="personnalisation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $priceImpression;
+
     public function __construct()
     {
         $this->panierProduct = new ArrayCollection();
+        $this->priceImpression = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,6 +187,18 @@ class Personnalisation
     public function setImpression(string $impression): self
     {
         $this->impression = $impression;
+
+        return $this;
+    }
+
+    public function getPriceImpression(): ?PriceImpression
+    {
+        return $this->priceImpression;
+    }
+
+    public function setPriceImpression(?PriceImpression $priceImpression): self
+    {
+        $this->priceImpression = $priceImpression;
 
         return $this;
     }

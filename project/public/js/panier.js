@@ -17,7 +17,7 @@ for (let i = 0; i < quantity.length; i++) {
     console.log(quantity[i]);
     quantity[i].addEventListener('change', e => {
         console.log(e.target.id)
-        if(e.target.value != '' || e.target.value != 0){
+        if(e.target.value != '' || e.target.value != 0 || e.target.value != 0){
             axios.post('/cart/update/' + e.target.id + "/" + e.target.value, {
                 id: e.target.id,
                 quantity: e.target.value
@@ -33,9 +33,6 @@ for (let i = 0; i < quantity.length; i++) {
                     messageError[i].className = 'alert alert-danger'
                     console.log(error);
                 });
-        }else{
-            messageError[i].innerHTML = 'Veuillez mettre une quantité'
-            messageError[i].className = 'alert alert-danger'
         }
     })
 }

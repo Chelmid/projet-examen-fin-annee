@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Product;
 use Faker;
 use App\Entity\Category;
+use App\Entity\PriceImpression;
 
 
 class AppFixtures extends Fixture
@@ -20,6 +21,21 @@ class AppFixtures extends Fixture
         // On configure dans quelles langues nous voulons nos données
 
         $faker = Faker\Factory::create('fr_FR');
+
+        for ($p = 0; $p <= 2; $p++) {
+            $priceImpression = new PriceImpression();
+            if($p == 0){
+                $priceImpression->setType('Tampographie')
+                    ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 0.05, $max = 1));
+            }elseif ($p == 1){
+                $priceImpression->setType('Numerique')
+                    ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 0.05, $max = 1));
+            }else{
+                $priceImpression->setType('Laser')
+                    ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 0.05, $max = 1));
+            }
+            $manager->persist($priceImpression);
+        }
 
         // nombre de user
         for ($i = 0; $i < $faker->numberBetween($min = 1, $max = 5); $i++) {
@@ -41,7 +57,7 @@ class AppFixtures extends Fixture
 
             $category = new Category();
 
-            $category->setName('Categorie '. $i);
+            $category->setName('Categorie ' . $i);
             $manager->persist($category);
 
             // nombre de product
@@ -58,7 +74,7 @@ class AppFixtures extends Fixture
                     array_push($color, $faker->hexcolor);
                     array_push($quantity, "'" . $faker->numberBetween($min = 1, $max = 9000) . "'");
                     //array_push($image, $faker->imageUrl($width = 640, $height = 480, 'nightlife'));
-                    array_push($image, 'https://fakeimg.pl/640x480/?text=produit '. $faker->numberBetween($min = 1, $max = 100));
+                    array_push($image, 'https://fakeimg.pl/640x480/?text=produit ' . $faker->numberBetween($min = 1, $max = 100));
                 }
 
                 //$data = serialize($color);

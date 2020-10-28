@@ -28,7 +28,6 @@ class CartController extends AbstractController
      */
     public function index(CartService $cartService, Request $request, CategoryRepository $categoryRepository, TranslatorInterface $translator)
     {
-
         if ($this->security->getUser() != null) {
 
             $panierWithData = $cartService->getfullCart();
@@ -40,8 +39,10 @@ class CartController extends AbstractController
                     'categories' => $this->category,
                     'items' => $panierWithData,
                     'total' => $cartService->getTotal(),
+                    'totalAndImpression' => $cartService->getTotalAndPriceImpression(),
                     'totalItem' => $cartService->getTotalItem(),
-                    'tva' => $cartService->getTva()
+                    'tva' => $cartService->getTva(),
+                    'priceImpression' => $cartService->getPriceImpression()
                 ]);
             } else {
                 return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [

@@ -9,6 +9,7 @@ use App\Entity\Panier;
 use App\Repository\PanierProductRepository;
 use App\Repository\PanierRepository;
 use App\Repository\PersonnalisationRepository;
+use App\Repository\PriceImpressionRepository;
 use App\Repository\ProductRepository;
 use App\Repository\ZoneDeMarquageRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +25,9 @@ class CartService
     protected $entityManager;
     private $security;
     protected $personnalisation;
+    protected $priceImpression;
 
-    public function __construct(SessionInterface $session, ZoneDeMarquageRepository $zoneDeMarquageRepository, PersonnalisationRepository $personnalisationRepository, ProductRepository $productRepository, PanierRepository $panierRepository, EntityManagerInterface $entityManager, PanierProductRepository $panierProductRepository, Security $security)
+    public function __construct(SessionInterface $session, PriceImpressionRepository $priceImpressionRepository, ZoneDeMarquageRepository $zoneDeMarquageRepository, PersonnalisationRepository $personnalisationRepository, ProductRepository $productRepository, PanierRepository $panierRepository, EntityManagerInterface $entityManager, PanierProductRepository $panierProductRepository, Security $security)
     {
         $this->session = $session;
         $this->productRepository = $productRepository;
@@ -35,6 +37,7 @@ class CartService
         $this->panierRepository = $panierRepository;
         $this->zoneDeMarquageRepository = $zoneDeMarquageRepository;
         $this->personnalisation = $personnalisationRepository;
+        $this->priceImpression = $priceImpressionRepository;
     }
 
     public function add($id, $color, Request $request, $i, $quantity)
@@ -100,7 +103,6 @@ class CartService
 
     public function getfullCart()
     {
-
         $panierWithData = [];
         if ($this->panierRepository->findByUser($this->security->getUser()->getId())) {
             foreach ($this->panierRepository->findByUser($this->security->getUser()->getId()) as $panierId) {
@@ -114,10 +116,15 @@ class CartService
                             $value;
                         $this->productRepository->findById($value->getProduct()->getId());
                         $this->personnalisation->findById($value->getPersonnalisation()->getId());
+                        foreach ($this->personnalisation->findById($value->getPersonnalisation()->getId()) as $value) {
+                            $this->priceImpression->findById($value->getPriceImpression()->getId());
+                        }
                     }
                 }
             }
         };
+
+
         return $panierWithData;
     }
 
@@ -133,6 +140,24 @@ class CartService
         return $total;
     }
 
+    public function getTotalAndPriceImpression()
+    {
+        return $this->getPriceImpression() + $this->getTotal();
+    }
+
+    public function getPriceImpression()
+    {
+        $totalImpression = 0;
+
+        foreach ($this->getfullCart() as $item) {
+
+            if($item->getPersonnalisation() != null){
+                $totalImpression += $item->getPersonnalisation()->getPriceImpression()->getPrice() * $item->getQuantity();
+            }
+        }
+        return $totalImpression;
+    }
+
     public function getTotalItem()
     {
         $compter = 0;
@@ -146,8 +171,8 @@ class CartService
 
     public function getTva()
     {
-        $tva = $this->getTotal() * 0.2;
-        $tva = $tva + $this->getTotal();
+        $tva = $this->getTotalAndPriceImpression() * 0.2;
+        $tva = $tva + $this->getTotalAndPriceImpression();
         return $tva = number_format($tva, 2, ',', ' ');
     }
 
@@ -184,8 +209,7 @@ class CartService
         $productfind = $this->entityManager->getRepository(Product::class)->find($id);
         $panierProductOriginals = $this->panierProductRepository->findAll();
         $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
-
-        //dd($panierProduct->getPersonnalisation());
+        $priceImpression = $this->priceImpression->findByType($request->request->get('impression'));
 
         $personnalisation
             ->setDatauri($request->request->get('dataFile'))
@@ -196,6 +220,9 @@ class CartService
             ->setTopPosition($request->request->get('logoTop'))
             ->setImpression($request->request->get('impression'));
 
+        foreach ($this->priceImpression->findByType($request->request->get('impression')) as $value) {
+            $personnalisation->setPriceImpression($value);
+        }
         if ($panierUser == null) {
             $this->entityManager->persist($panier->setUser($this->security->getUser()));
             $this->entityManager->persist($panierProduct->setPanier($panier));
@@ -225,8 +252,8 @@ class CartService
                 if ($value != $personnalisation->getFile()) {
                     $personnalisation->setFile($value);
                     $this->entityManager->flush();
-                }else{
-                    if ($name == 'namefile' ) {
+                } else {
+                    if ($name == 'namefile') {
                         if ($value != $personnalisation->getFile()) {
                             $personnalisation->setFile($value);
                             $this->entityManager->flush();
