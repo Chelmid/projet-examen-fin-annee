@@ -33,11 +33,11 @@
                         {% endfor %}
 
                         {% if item.personnalisation != null %}
-                            <div class="col">{{ item.personnalisation.priceImpression.type |default('null') }}</div>
+                            <div>Type
+                                d'impression : {{ item.personnalisation.priceImpression.type }}</div>
                         {% endif %}
                         {% if item.personnalisation == null %}
-
-                            <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage}) }}"
+                            <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'quantity': item.quantity, 'personnalisation' : 'null'}) }}"
                                class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
                         {% else %}
 
@@ -48,16 +48,20 @@
                     <div class="col-md-5">
                         <div class="d-flex">
                             <div class="col-3">
-                                <div>{{ item.product.price |number_format(2, '.', ',') }} €</div>
+                                <div class="text-right">{{ item.product.price |number_format(2, '.', ',') }} €</div>
                             </div>
                             <div class="col-3">
-                                <input id="{{ item.id }}" class="quantite" value="{{ item.quantity }}" size="4"/>
+                                {% if item.personnalisation != null %}
+                                    <input id="{{ item.id }}" class="quantite text-center marquage" value="{{ item.quantity }}" size="4" data-marquage="{{ item.personnalisation.priceImpression.type }}"/>
+                                {% else %}
+                                    <input id="{{ item.id }}" class="quantite text-center" value="{{ item.quantity }}" size="4" data-marquage=""/>
+                                {% endif %}
                             </div>
                             <div class="col-3">
-                                <div>{{ (item.quantity * item.product.price) |number_format(2, '.', ',') }} €</div>
+                                <div class="text-right">{{ (item.quantity * item.product.price) |number_format(2, '.', ',') }} €</div>
                             </div>
                             <div class="col-3">
-                                <a href="{{ path('cart_delete', {'id':item.id,'color':item.product.color}) }}"
+                                <a href="{{ path('cart_delete', {'id':item.id,'color':item.colorAndImage}) }}"
                                    class="btn lienDark">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill icon-size"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -67,23 +71,21 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="d-flex">
-                            <div class="col-3">
-                                {% if item.personnalisation != null %}
-                                    <div>{{ item.personnalisation.priceImpression.price }} €</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-3">
-                                <div>{{ item.quantity }}</div>
-                            </div>
-                            <div class="col-3">
-                                {% if item.personnalisation != null %}
-                                    <div>{{ (item.quantity * item.personnalisation.priceImpression.price) |number_format(2, '.', ',') }}
+                        {% if item.personnalisation != null %}
+                            <div class="d-flex">
+                                <div class="col-3">
+                                    <div class="text-right">{{ item.personnalisation.priceImpression.price }} €</div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-center">{{ item.quantity }}</div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-right">{{ (item.quantity * item.personnalisation.priceImpression.price) |number_format(2, '.', ',') }}
                                         €
                                     </div>
-                                {% endif %}
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

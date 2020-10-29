@@ -7,9 +7,9 @@ use App\Service\CartService;
 use App\Service\CategoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
 {
@@ -79,7 +79,7 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart/delete/{id}/{color}", name="cart_delete")
      */
-    public function delete($id, $color, CartService $cartService, TranslatorInterface $translator)
+    public function delete($id, $color, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
         $cartService->delete($id, $color);
 
@@ -91,7 +91,6 @@ class CartController extends AbstractController
      */
     public function update($id, $newQuantity, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
-
         $cartService->updateQuantite($id, $newQuantity, $request);
 
         return $this->redirectToRoute('cart');
@@ -104,8 +103,7 @@ class CartController extends AbstractController
     {
 
         if (empty($request->request->get('dataFile')) || $request->request->get('dataFile') == '') {
-
-            if (!empty($request->query->get('productSelectionner'))) {
+            if (empty($request->query->get('productSelectionner'))) {
                 foreach ($request->query->get('productSelectionner') as $key => $value) {
                     foreach ($value as $keyColor => $value) {
                         foreach ($value as $key => $value) {
@@ -124,6 +122,10 @@ class CartController extends AbstractController
                     }
                 }
             }
+            if ($request->query->get('personnalisation') == 'null') {
+                $cartService->addPersonnalisationForNull($id, $request, $request->query->get('quantity'), $request->query->get('color'));
+            }
+
         }
         if (!empty($request->query->get('personId'))) {
             $cartService->updatePersonnalisation($id, $request, $request->query->get('personId'));

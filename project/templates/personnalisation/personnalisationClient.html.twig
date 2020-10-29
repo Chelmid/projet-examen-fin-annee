@@ -8,7 +8,8 @@
             / <a
                     href="{{ path('productClient',{'category':theCategory,'product':theProduct.name,'id':theProduct.id, 'color':theProduct.color}) }}"
                     class="lienDark">{{ theProduct.name }}</a> / <a href="" class="lienDark">Personnalisation</a>
-        </div>{{ dump(productSelectionner) }}
+        </div>
+        {{ dump(productSelectionner) }}
         {{ dump(app.request) }}
         {{ dump(personnalisation) }}
         <div class="">
@@ -39,12 +40,12 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    {{ dump(theProduct) }}
+                    <!--{{ dump(theProduct) }}-->
                     <form method="post"
                             {% if personnalisation != null %}
-                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner, 'personId':personnalisation.id }) }}">
+                          action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner, 'personId':personnalisation.id}) }}">
                         {% else %}
-                            action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner}) }}">
+                            action="{{ path('cart_add_Personnalisation',{"id":theProduct.id,"color":app.request.attributes.get('color'),'productSelectionner':productSelectionner, 'quantity': app.request.query.get('quantity'), 'personnalisation':app.request.query.get('personnalisation')}) }}">
                         {% endif %}
                         <div id="accordion">
                             <div class="card">
@@ -57,16 +58,24 @@
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                                      data-parent="">
                                     <div class="card-body">
-                                        <div class="errorFormat" role="alert"></div>
+                                        <div class="mb-3 text-center">
+                                            Ajouter votre logo ou maquette* ( JPEG, PNG, PNG )
+                                        </div>
                                         {% if personnalisation != null %}
-                                            <input type='file' id='upload' multiple name="file"
-                                                   class="zone-background-grey col"
-                                                   name="newDataFile"/><br>
+                                            <div class="errorFormat" role="alert"></div>
+                                            <div>
+                                                <label for="upload" class="btn zone-background-grey col nomFile">Sélection Image ou PDF</label>
+                                                <input type='file' id='upload' multiple name="file"
+                                                       class="zone-background-grey col" style="visibility:hidden;"
+                                                       value=""/>
+                                            </div>
                                             <input type="hidden" id='nameFile' value="{{ personnalisation.file }}"
                                                    name="nameFile">
-                                            <input type="hidden" id='dataFile' name="dataFile" value="{{ personnalisation.datauri }}">
+                                            <input type="hidden" id='dataFile' name="dataFile"
+                                                   value="{{ personnalisation.datauri }}">
                                             <br>
-                                            <input type="hidden" id='logoWidth' name="logoWidth" value="{{ personnalisation.width }}">
+                                            <input type="hidden" id='logoWidth' name="logoWidth"
+                                                   value="{{ personnalisation.width }}">
                                             <input type="hidden" id='logoHeight' name="logoHeight"
                                                    value="{{ personnalisation.height }}">
                                             <input type="hidden" id='logoTop' name="logoTop"
@@ -74,9 +83,14 @@
                                             <input type="hidden" id='logoLeft' name="logoLeft"
                                                    value="{{ personnalisation.leftPosition }}">
                                         {% else %}
-                                            <input type='file' id='upload' multiple name="file"
-                                                   class="zone-background-grey col"
-                                                   value=""/><br>
+                                            <div class="errorFormat" role="alert"></div>
+                                            <div>
+                                                <label for="upload" class="btn zone-background-grey col nomFile">Sélection Image ou PDF</label>
+                                                <input type='file' id='upload' multiple name="file"
+                                                       class="zone-background-grey col" style="visibility:hidden;"
+                                                       value=""/>
+                                            </div>
+                                            <div class="errorFormat" role="alert"></div>
                                             <input type="hidden" id='dataFile' name="dataFile" value=""/>
                                             <br>
                                             <input type="hidden" id='logoWidth' name="logoWidth" value=""/>
@@ -119,7 +133,8 @@
                                     <div class="card-body">
                                         <div>
                                             <div class="d-flex">
-                                                <input class="m-1" type="radio" name="impression" value="Tampographie" checked>
+                                                <input class="m-1" type="radio" name="impression" value="Tampographie"
+                                                       checked>
                                                 <p>Tampographie</p>
                                             </div>
                                             <div class="d-flex">

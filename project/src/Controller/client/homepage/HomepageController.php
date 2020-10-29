@@ -28,40 +28,9 @@ class HomepageController extends AbstractController
             // last username entered by the user
             $lastUsername = $authenticationUtils->getLastUsername();
 
-
-            /*dump($request->getLocale());
-            die();*/
             //affichage category
             return $this->render('base.html.twig', [
                 'last_username' => $lastUsername, 'error' => $error, 'categories' => $this->categories
-            ]);
-        } else {
-            return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->categories
-            ]);
-        }
-    }
-
-    //vue home
-    /*public function loginClient(TranslatorInterface $translator, Request $request)
-    {
-        if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return $this->render('cart/cartClient.html.twig', [
-                'categories' => $this->categories
-            ]);
-        } else {
-            return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [
-                'categories' => $this->categories
-            ]);
-        }
-    }*/
-
-    //vue home
-    public function dashboardClient(TranslatorInterface $translator, Request $request)
-    {
-        if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-            return $this->render('client/autres/dashboardClient.html.twig', [
-                'categories' => $this->categories
             ]);
         } else {
             return $this->render('bundles/TwigBundle/Execption/error404.html.twig', [

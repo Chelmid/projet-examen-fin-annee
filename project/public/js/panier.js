@@ -12,27 +12,56 @@ colors.forEach(color => {
 // gestion des erreur dans le panier
 let quantity = document.querySelectorAll('.quantite')
 let messageError = document.querySelectorAll('.messageError')
+let marquage = document.querySelector('.marquage')
+
+console.log(marquage)
 
 for (let i = 0; i < quantity.length; i++) {
     console.log(quantity[i]);
     quantity[i].addEventListener('change', e => {
-        console.log(e.target.id)
-        if(e.target.value != '' || e.target.value != 0 || e.target.value != 0){
-            axios.post('/cart/update/' + e.target.id + "/" + e.target.value, {
-                id: e.target.id,
-                quantity: e.target.value
-            })
-                .then(function (response) {
-                    console.log(response);
-                    messageError[i].innerHTML = 'La quantité va être modifier'
-                    messageError[i].className = 'alert alert-success'
-                    window.location.reload()
+        console.log(e.target.value)
+        if(marquage != null){
+            if (e.target.value == '' || e.target.value == 0 || e.target.value < 50) {
+                messageError[i].innerHTML = 'La quantité est superieur au stock'
+                messageError[i].className = 'alert alert-danger'
+            } else {
+                axios.post('/cart/update/' + e.target.id + "/" + e.target.value, {
+                    id: e.target.id,
+                    quantity: e.target.value
                 })
-                .catch(function (error) {
-                    messageError[i].innerHTML = 'La quantité est superieur au stock'
-                    messageError[i].className = 'alert alert-danger'
-                    console.log(error);
-                });
+                    .then(function (response) {
+                        console.log(response);
+                        messageError[i].innerHTML = 'La quantité va être modifier'
+                        messageError[i].className = 'alert alert-success'
+                        window.location.reload()
+                    })
+                    .catch(function (error) {
+                        messageError[i].innerHTML = 'La quantité est superieur au stock'
+                        messageError[i].className = 'alert alert-danger'
+                        console.log(error);
+                    });
+            }
+        }else{
+            if (e.target.value == '' || e.target.value == 0) {
+                messageError[i].innerHTML = 'La quantité est superieur au stock'
+                messageError[i].className = 'alert alert-danger'
+            } else {
+                axios.post('/cart/update/' + e.target.id + "/" + e.target.value, {
+                    id: e.target.id,
+                    quantity: e.target.value
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        messageError[i].innerHTML = 'La quantité va être modifier'
+                        messageError[i].className = 'alert alert-success'
+                        window.location.reload()
+                    })
+                    .catch(function (error) {
+                        messageError[i].innerHTML = 'La quantité est superieur au stock'
+                        messageError[i].className = 'alert alert-danger'
+                        console.log(error);
+                    });
+            }
         }
     })
 }

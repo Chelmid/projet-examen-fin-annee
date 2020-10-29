@@ -19,7 +19,7 @@
             </div>
             <div class="row">
                 <a href="{{ path('contactClient') }}" class="lienWhite">
-                    <div class="col-auto ">{% trans %}Demander le catalogue{% endtrans %}</div>
+                    <div class="col-auto ">{% trans %}Demander de catalogue{% endtrans %}</div>
                 </a>
                 <a href="{{ path('contactClient') }}" class="lienWhite">
                     <div class="col-auto ">{% trans %}Contact{% endtrans %}</div>
@@ -47,7 +47,7 @@
                             </svg>
                         </div>
                     </a>
-                    <a href="{{ path('app_login',{"_locale" : app.request.locale }) }}" class="lienDark">
+                    <a href="{{ path('dashboard_client',{"_locale" : app.request.locale }) }}" class="lienDark">
                         <div class="">
                             <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor"
                                  xmlns="http://www.w3.org/2000/svg">

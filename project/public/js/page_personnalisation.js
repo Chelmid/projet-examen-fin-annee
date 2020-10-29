@@ -17,6 +17,7 @@ let test = document.getElementById('test')
 let canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
 let errorFormat = document.querySelector('.errorFormat');
+let nomFile = document.querySelector('.nomFile');
 
 //personnalisation
 let logoWidth = document.querySelector('#logoWidth');
@@ -44,6 +45,7 @@ upload.addEventListener("change", (e) => {
         output.style.display = "none"
         pdfViewer.style.top = '0'
         pdfViewer.style.left = '0'
+        nomFile.textContent = upload.value.replace('C:\\fakepath\\',"")
         //partie image
     }else if (file.type == "image/jpeg" || file.type == "image/png"){
         convertToBase64()
@@ -54,6 +56,7 @@ upload.addEventListener("change", (e) => {
         output.style.display = "none"
         pdfViewer.style.top = '0'
         pdfViewer.style.left = '0'
+        nomFile.textContent = upload.value.replace('C:\\fakepath\\',"")
     }else {
         //error format et extension
         errorFormat.className = 'alert alert-danger'
@@ -111,15 +114,14 @@ function convertToBase64() {
                     if (scaleY > scaleX) {
                         scale = scaleX
                     } else {
-                        scale = scaleX
+                        scale = scaleY
                     }
-
                     //la taille original * le scale < 1
                     pdfViewer.width = scale * myImage.width
                     pdfViewer.height = scale * myImage.height
                 }
                 //draw image
-                context.drawImage(myImage, 0, 0, pdfViewer.width, pdfViewer.height); // Draws the image on canvas
+                context.drawImage(myImage, 1, 1, pdfViewer.width, pdfViewer.height); // Draws the image on canvas
                 pdfViewer.toDataURL("image/jpeg"); // Assigns image base64 string in jpeg format to a variable
 
                 //sauvegarder les données
@@ -259,8 +261,9 @@ window.addEventListener("mouseup", (e) => {
     pressing = false;
 })
 
+console.log(nameFile)
 //verification si il n'a pas de nom du file charger
-if (nameFile.value != null || nameFile.value != '') {
+if (nameFile != null) {
 
     console.log(nameFile.value.search('.pdf'))
     // recherche de l'extension
@@ -268,10 +271,12 @@ if (nameFile.value != null || nameFile.value != '') {
 
         //objet image
         let img = new Image;
-        img.onload = function () {
-            context.drawImage(img, 0, 0, logoWidth.value, logoHeight.value); // Or at whatever offset you like
-        };
+        pdfViewer.width = logoWidth.value; // Assigns image's width to canvas
+        pdfViewer.height = logoHeight.value
         img.src = dataFile.value
+        img.onload = function () {
+            context.drawImage(img, 1, 1, pdfViewer.width, pdfViewer.height); // Or at whatever offset you like
+        };
 
         logoPersonnalisation.style.display = "block"
         pdfViewer.style.position = "relative"
@@ -279,6 +284,7 @@ if (nameFile.value != null || nameFile.value != '') {
         output.style.display = "none"
         pdfViewer.style.top = logoTop.value + 'px'
         pdfViewer.style.left = logoLeft.value + 'px'
+        nomFile.textContent = nameFile.value
     }
 
     // recherche de l'extension
@@ -350,6 +356,9 @@ if (nameFile.value != null || nameFile.value != '') {
         output.style.display = "none"
         pdfViewer.style.top = logoTop.value + 'px'
         pdfViewer.style.left = logoLeft.value + 'px'
+        nomFile.textContent = nameFile.value
     }
+}else {
+
 }
 

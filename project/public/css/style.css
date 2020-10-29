@@ -179,3 +179,9 @@ label {
 .btn-orange:hover{
     background-color: black;
 }
+
+/*#upload {
+    opacity: 0;
+    position: relative;
+    top: -28px;
+}*/
