@@ -24,6 +24,21 @@ class Order
      */
     private $panier;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Total_price;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_order;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $method_payement;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,6 +52,42 @@ class Order
     public function setPanier(Panier $panier): self
     {
         $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): ?string
+    {
+        return $this->Total_price;
+    }
+
+    public function setTotalPrice(string $Total_price): self
+    {
+        $this->Total_price = $Total_price;
+
+        return $this;
+    }
+
+    public function getDateOrder(): ?\DateTimeInterface
+    {
+        return $this->date_order;
+    }
+
+    public function setDateOrder(\DateTimeInterface $date_order): self
+    {
+        $this->date_order = $date_order;
+
+        return $this;
+    }
+
+    public function getMethodPayement(): ?string
+    {
+        return $this->method_payement;
+    }
+
+    public function setMethodPayement(string $method_payement): self
+    {
+        $this->method_payement = $method_payement;
 
         return $this;
     }

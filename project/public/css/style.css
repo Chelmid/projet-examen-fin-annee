@@ -180,8 +180,13 @@ label {
     background-color: black;
 }
 
-/*#upload {
-    opacity: 0;
-    position: relative;
-    top: -28px;
-}*/
+#pp{
+    height: auto;
+    width: 5%;
+}
+
+#cb{
+    height: auto;
+    width: 20%;
+}
+
