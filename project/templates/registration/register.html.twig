@@ -16,6 +16,11 @@
             {{ form_row(registrationForm.plainPassword, {
                 label: 'Password'
             }) }}
+            {{ form_row(registrationForm.adresse) }}
+            {{ form_row(registrationForm.cp) }}
+            {{ form_row(registrationForm.ville) }}
+            {{ form_row(registrationForm.pays) }}
+            {{ form_row(registrationForm.telephone) }}
             {{ form_row(registrationForm.numbertva) }}
             {{ form_row(registrationForm.groupclient) }}
             {{ form_errors(registrationForm.plainPassword) }}

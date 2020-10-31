@@ -22,7 +22,7 @@ for (let i = 0; i < quantity.length; i++) {
         console.log(e.target.value)
         if(marquage != null){
             if (e.target.value == '' || e.target.value == 0 || e.target.value < 50) {
-                messageError[i].innerHTML = 'La quantité est superieur au stock'
+                messageError[i].innerHTML = 'La quantité est incorrect pi inferieur à 50'
                 messageError[i].className = 'alert alert-danger'
             } else {
                 axios.post('/cart/update/' + e.target.id + "/" + e.target.value, {
@@ -43,7 +43,7 @@ for (let i = 0; i < quantity.length; i++) {
             }
         }else{
             if (e.target.value == '' || e.target.value == 0) {
-                messageError[i].innerHTML = 'La quantité est superieur au stock'
+                messageError[i].innerHTML = 'La quantité est incorrect'
                 messageError[i].className = 'alert alert-danger'
             } else {
                 axios.post('/cart/update/' + e.target.id + "/" + e.target.value, {

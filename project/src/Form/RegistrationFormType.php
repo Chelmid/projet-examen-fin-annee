@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -25,7 +27,37 @@ class RegistrationFormType extends AbstractType
                     "placeholder" => "email@email.fr"
                 ]
             ])
-            ->add('numbertva', null, [
+            ->add('adresse', TextType::class, [
+                "attr" => [
+                    "class" => "form-control",
+                    'required' => true
+                ]
+            ])
+            ->add('ville', TextType::class, [
+                "attr" => [
+                    "class" => "form-control",
+                    'required' => true
+                ]
+            ])
+            ->add('cp', IntegerType::class, [
+                "attr" => [
+                    "class" => "form-control",
+                    'required' => true
+                ]
+            ])
+            ->add('pays', TextType::class, [
+                "attr" => [
+                    "class" => "form-control",
+                    'required' => true
+                ]
+            ])
+            ->add('telephone', IntegerType::class, [
+                "attr" => [
+                    "class" => "form-control",
+                    'required' => true
+                ]
+            ])
+            ->add('numbertva', TextType::class, [
                 "attr" => [
                     "class" => "form-control",
                     'required' => false

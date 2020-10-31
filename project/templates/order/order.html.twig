@@ -2,85 +2,86 @@
 
 {% block content %}
 
-    <div class="container">
-        <h2>Votre panier</h2>
-        <div class="col border border-dark py-3 my-3">
-            <div id="accordion">
-                <div class="card">
-                    <div class="card-header btn btn-link backgroundOrange no-decoration text-white"
-                         data-toggle="collapse" data-target="#collapseOne"
-                         aria-expanded="true" aria-controls="collapseOne" id="headingOne">
-                        Vérification de la commande
-                    </div>
+<div class="container">
+    <h2>Votre panier</h2>
+    <div class="col border border-dark py-3 my-3">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header btn btn-link backgroundOrange no-decoration text-white"
+                     data-toggle="collapse" data-target="#collapseOne"
+                     aria-expanded="true" aria-controls="collapseOne" id="headingOne">
+                    Vérification de la commande
                 </div>
+            </div>
 
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body">
-                        {% if items | length > 0 %}
-                        {% for item in items %}
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    {% if items | length > 0 %}
+                    {% for item in items %}
+                        {{ dump(items) }}
+                        {{ dump(item) }}
+                        <div class="border border-dark">
+                            <div class="messageError"></div>
+                            <div class="d-flex flex-wrap py-3 my-3">
+                                <div class="col-md-2">
+                                    {% for key,image in item.product.image | split("','") %}
+                                        {% if key == item.colorAndImage %}
+                                            <img height="auto" width="100%" src="{{ image }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-5">
+                                    <div>
+                                        <strong>{{ item.product.name }}</strong>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>Ref : {{ item.product.sku }} - Couleur :&nbsp</div>
+                                        {% for key,color in item.product.color | split("','") %}
+                                        {% if key == item.colorAndImage %}
+                                        <div class="multiColor" style="color:{{ color }}"
+                                             data-color="{{ color }}">{{ color }}</div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
 
-                            <div class="border border-dark">
-                                <div class="messageError"></div>
-                                <div class="d-flex flex-wrap py-3 my-3">
-                                    <div class="col-md-2">
-                                        {% for key,image in item.product.image | split("','") %}
-                                            {% if key == item.colorAndImage %}
-                                                <img height="auto" width="100%" src="{{ image }}">
+                                    {% if item.personnalisation != null %}
+                                        <div>Type
+                                            d'impression : {{ item.personnalisation.priceImpression.type }}</div>
+                                    {% endif %}
+                                    {% if item.personnalisation == null %}
+                                        <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'quantity': item.quantity, 'personnalisation' : 'null'}) }}"
+                                           class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
+                                    {% else %}
+
+                                        <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'personnalisation' : item.personnalisation.id }) }}"
+                                           class="btn btn-md btn-orange text-white my-3">Modifier la
+                                            personnalisation</a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="d-flex">
+                                        <div class="col-3">
+                                            <div class="text-right">{{ item.product.price |number_format(2, '.', ',') }}
+                                                €
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            {% if item.personnalisation != null %}
+                                                <div id="{{ item.id }}" class="quantite text-center marquage"
+                                                     value="{{ item.quantity }}" size="4"
+                                                     data-marquage="{{ item.personnalisation.priceImpression.type }}">{{ item.quantity }}</div>
+                                            {% else %}
+                                                <div id="{{ item.id }}" class="quantite text-center"
+                                                     value="{{ item.quantity }}" size="4"
+                                                     data-marquage="">{{ item.quantity }}</div>
                                             {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div>
-                                            <strong>{{ item.product.name }}</strong>
                                         </div>
-                                        <div class="d-flex">
-                                            <div>Ref : {{ item.product.sku }} - Couleur :&nbsp</div>
-                                            {% for key,color in item.product.color | split("','") %}
-                                            {% if key == item.colorAndImage %}
-                                            <div class="multiColor" style="color:{{ color }}"
-                                                 data-color="{{ color }}">{{ color }}</div>
+                                        <div class="col-4">
+                                            <div class="text-right">{{ (item.quantity * item.product.price) |number_format(2, '.', ',') }}
+                                                €
+                                            </div>
                                         </div>
-                                        {% endif %}
-                                        {% endfor %}
-
-                                        {% if item.personnalisation != null %}
-                                            <div>Type
-                                                d'impression : {{ item.personnalisation.priceImpression.type }}</div>
-                                        {% endif %}
-                                        {% if item.personnalisation == null %}
-                                            <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'quantity': item.quantity, 'personnalisation' : 'null'}) }}"
-                                               class="btn btn-md btn-noir text-white my-3">Personnaliser ce produit</a>
-                                        {% else %}
-
-                                            <a href="{{ path('personnalisationCheckInfo',{"category":item.product.category.name, "product":item.product.name, "id":item.product.id, "color":item.colorAndImage, 'personnalisation' : item.personnalisation.id }) }}"
-                                               class="btn btn-md btn-orange text-white my-3">Modifier la
-                                                personnalisation</a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="d-flex">
-                                            <div class="col-3">
-                                                <div class="text-right">{{ item.product.price |number_format(2, '.', ',') }}
-                                                    €
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                {% if item.personnalisation != null %}
-                                                    <div id="{{ item.id }}" class="quantite text-center marquage"
-                                                         value="{{ item.quantity }}" size="4"
-                                                         data-marquage="{{ item.personnalisation.priceImpression.type }}">{{ item.quantity }}</div>
-                                                {% else %}
-                                                    <div id="{{ item.id }}" class="quantite text-center"
-                                                         value="{{ item.quantity }}" size="4"
-                                                         data-marquage="">{{ item.quantity }}</div>
-                                                {% endif %}
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="text-right">{{ (item.quantity * item.product.price) |number_format(2, '.', ',') }}
-                                                    €
-                                                </div>
-                                            </div>
-                                            <!--<div class="col-3">
+                                        <!--<div class="col-3">
                                                 <a href="{{ path('cart_delete', {'id':item.id,'color':item.colorAndImage}) }}"
                                                    class="btn lienDark">
                                                     <svg width="1em" height="1em" viewBox="0 0 16 16"
@@ -91,74 +92,78 @@
                                                     </svg>
                                                 </a>
                                             </div>-->
-                                        </div>
-                                        {% if item.personnalisation != null %}
-                                            <div class="d-flex">
-                                                <div class="col-3">
-                                                    <div class="text-right">{{ item.personnalisation.priceImpression.price }}
-                                                        €
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="text-center">{{ item.quantity }}</div>
-                                                </div>
-                                                <div class="col-4">
-                                                    <div class="text-right">{{ (item.quantity * item.personnalisation.priceImpression.price) |number_format(2, '.', ',') }}
-                                                        €
-                                                    </div>
+                                    </div>
+                                    {% if item.personnalisation != null %}
+                                        <div class="d-flex">
+                                            <div class="col-3">
+                                                <div class="text-right">{{ item.personnalisation.priceImpression.price }}
+                                                    €
                                                 </div>
                                             </div>
-                                        {% endif %}
+                                            <div class="col-3">
+                                                <div class="text-center">{{ item.quantity }}</div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="text-right">{{ (item.quantity * item.personnalisation.priceImpression.price) |number_format(2, '.', ',') }}
+                                                    €
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="my-3 p-3 borderOrange">
+                        <div class="d-flex align-items-end flex-column">
+                            <div class="d-flex">
+                                <div class="col">
+                                    {% if totalItem > 1 %}
+                                        <div>{{ totalItem }} articles</div>
+                                    {% else %}
+                                        <div>{{ totalItem }} article</div>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div>{{ total |number_format(2, '.', ',') }} €</div>
+                                </div>
+                            </div>
+                            {% if priceImpression != 0 %}
+                                <div class="d-flex">
+                                    <div class="col">
+                                        <div>Impression</div>
+                                    </div>
+                                    <div>
+                                        <div>{{ priceImpression |number_format(2, '.', ',') }} €</div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="d-flex">
+                                <div class="col">
+                                    <div>Total (HT)</div>
+                                </div>
+                                <div>
+                                    <div><strong>{{ totalAndImpression |number_format(2, '.', ',') }} €</strong>
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
-                        <div class="my-3 p-3 borderOrange">
-                            <div class="d-flex align-items-end flex-column">
-                                <div class="d-flex">
-                                    <div class="col">
-                                        {% if totalItem > 1 %}
-                                            <div>{{ totalItem }} articles</div>
-                                        {% else %}
-                                            <div>{{ totalItem }} article</div>
-                                        {% endif %}
-                                    </div>
-                                    <div>
-                                        <div>{{ total |number_format(2, '.', ',') }} €</div>
-                                    </div>
+                            <div class="d-flex">
+                                <div class="col">
+                                    <div>Total TTC</div>
                                 </div>
-                                {% if priceImpression != 0 %}
-                                    <div class="d-flex">
-                                        <div class="col">
-                                            <div>Impression</div>
-                                        </div>
-                                        <div>
-                                            <div>{{ priceImpression |number_format(2, '.', ',') }} €</div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="d-flex">
-                                    <div class="col">
-                                        <div>Total (HT)</div>
-                                    </div>
-                                    <div>
-                                        <div><strong>{{ totalAndImpression |number_format(2, '.', ',') }} €</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="col">
-                                        <div>Total TTC</div>
-                                    </div>
-                                    <div>
-                                        <div><strong>{{ tva }} €</strong></div>
-                                    </div>
+                                <div>
+                                    <div><strong>{{ tva }} €</strong></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+            </div>
+            {% for key,item in items %}
+            {% if key == 0 %}
+                <form method="post" action="{{ path('order_confirmation',{'idPanier':item.panier.id,'total':total }) }}">
+                {% endif %}
+                {% endfor %}
                 <div id="accordion">
                     <div class="card">
                         <div class="card-header btn btn-link backgroundOrange no-decoration text-white"
@@ -207,13 +212,15 @@
                         <div class="card-body">
                             <div class="">
                                 <div class="my-2">
-                                    <input type="radio" name="payment-option" value="paypal" checked>
-                                    <img id="pp" src=" {{ asset('images/payement/paypal-mark.jpg') }}" alt="Pay with Paypal">
+                                    <input type="radio" name="payment-option" value="paypal">
+                                    <img id="pp" src=" {{ asset('images/payement/paypal-mark.jpg') }}"
+                                         alt="Pay with Paypal">
                                 </div>
 
                                 <div class="my-2">
-                                    <input type="radio" name="payment-option" value="card">
-                                    <img id="cb" src="{{ asset('images/payement/card-mark.png') }}" alt="Accepting Visa, Mastercard, Discover and American Express">
+                                    <input type="radio" name="payment-option" value="card" checked>
+                                    <img id="cb" src="{{ asset('images/payement/card-mark.png') }}"
+                                         alt="Accepting Visa, Mastercard, Discover and American Express">
                                 </div>
                             </div>
                         </div>
@@ -224,20 +231,21 @@
                         vide
                     </div>
                 {% endif %}
-            </div>
-            <div class="d-flex align-items-center flex-column my-3">
-                {% for key,item in items %}
-                    {% if key == 0 %}
-                        <div id="paypal-button-container"></div>
-                        <div><a id="card-button-container" class="btn text-white btn-noir hidden"
-                                href="{{ path('order_confirmation',{'idPanier':item.panier.id,'total':total }) }}">Valider la
-                                commande</a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+        </div>
+        <div class="d-flex align-items-center flex-column my-3">
+            {% for key,item in items %}
+                {% if key == 0 %}
+                    <div id="paypal-button-container"></div>
+                    <div>
+                        <button id="card-button-container" class="btn text-white btn-noir hidden">Valider la commande
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
+    </form>
+</div>
 
 {% endblock %}
             {% block javascripts %}
@@ -247,8 +255,8 @@
                 <script type="text/javascript" src="{{ asset('js/panier.js') }}"></script>
                 <script>
                     // Listen for changes to the radio fields
-                    document.querySelectorAll('input[name=payment-option]').forEach(function(el) {
-                        el.addEventListener('change', function(event) {
+                    document.querySelectorAll('input[name=payment-option]').forEach(function (el) {
+                        el.addEventListener('change', function (event) {
 
                             // If PayPal is selected, show the PayPal button
                             if (event.target.value === 'paypal') {
@@ -265,7 +273,7 @@
                     });
 
                     // Hide Non-PayPal button by default
-                    document.querySelector('#card-button-container').style.display = 'none';
+                    document.querySelector('#paypal-button-container').style.display = 'none';
 
                     // Render the PayPal button into #paypal-button-container
                     paypal.Buttons({

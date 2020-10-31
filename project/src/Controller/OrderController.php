@@ -46,6 +46,10 @@ class OrderController extends AbstractController
      * @Route("/order/confirmation", name="order_confirmation")
      */
     public function addOrder(Request $request, OrderService $orderService){
+
         $orderService->addOrder($request);
+
+        $this->addFlash('Commande', 'Votre commande est bien enregistrée');
+        return $this->redirectToRoute('homeClient');
     }
 }

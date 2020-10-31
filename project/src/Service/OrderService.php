@@ -28,11 +28,15 @@ class OrderService {
 
         $order = new Order();
 
+        $date = new \DateTime();
+        $date->modify('+ 1 hour');
+
         $this->em->persist($order->setPanier($this->panier->find($request->query->get('idPanier'))));
         $this->em->persist($order->setTotalPrice($request->query->get('total')));
+        $this->em->persist($order->setDateOrder($date));
+        $this->em->persist($order->setMethodPayement($request->request->get('payment-option')));
         $this->em->flush();
-        //dd($this->panierProduct->findAll());
-        //dd($this->order->findAll()->getPanier());
+
     }
 
 }

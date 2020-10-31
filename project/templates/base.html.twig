@@ -112,6 +112,11 @@
                 {{ message }}
             </div>
         {% endfor %}
+        {% for message in app.flashes('Commande') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
     {% block login %}
         <div class="container">
