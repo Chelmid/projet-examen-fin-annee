@@ -7,7 +7,7 @@
 
     {% if items | length > 0 %}
         {% for item in items %}
-            {{ dump(items) }}
+            <!--{{ dump(items) }}-->
             {% if item.panier.isOrder == false %}
             <div class="border border-dark">
                 <div class="messageError"></div>

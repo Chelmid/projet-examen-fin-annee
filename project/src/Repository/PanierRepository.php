@@ -47,6 +47,7 @@ class PanierRepository extends ServiceEntityRepository
         ;
     }
     */
+    //cherche le panier id user et is_order false
     public function panierCheck ($id, $bool){
         $qb = $this->createQueryBuilder('p');
             $qb->select('p');

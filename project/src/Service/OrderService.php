@@ -28,9 +28,11 @@ class OrderService {
 
         $order = new Order();
 
+        //date +1 heure
         $date = new \DateTime();
         $date->modify('+ 1 hour');
 
+        //ajouter les données dans le order
         $this->em->persist($order->setPanier($this->panier->find($request->query->get('idPanier'))));
         $this->em->persist($order->setTotalPrice($request->query->get('total')));
         $this->em->persist($order->setDateOrder($date));

@@ -47,7 +47,7 @@ class PanierProductRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    //chercher le bon product dans le panierProduct
     public function panierProductCheck ($id){
         $qb = $this->createQueryBuilder('pp');
         $qb->select('pp');
@@ -57,6 +57,7 @@ class PanierProductRepository extends ServiceEntityRepository
        return $qb->getQuery()->getResult()[0];
     }
 
+    //chercher le bon product dans le panierProduct en array
     public function panierProductCheckArray ($id){
         $qb = $this->createQueryBuilder('pp');
         $qb->select('pp');

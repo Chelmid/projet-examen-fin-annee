@@ -273,7 +273,7 @@ class CartService
         } else {
             //panier pas vide
             if ($panierProductOriginals != null) {
-
+                //les paniers avec les champs false
                 if (empty($this->panierRepository->findByisOrder(false))) {
                     $this->entityManager->persist($panier->setUser($this->security->getUser()));
                     $this->entityManager->persist($panierProduct->setPanier($panier));
@@ -311,9 +311,12 @@ class CartService
         $priceImpression = $this->priceImpression->findByType($request->request->get('impression'));
 
         // mettre des données dans la personnalisation
+
+        //file champs vide
         if ($request->request->get('file') == '') {
             $personnalisation->setFile($request->request->get('nameFile'));
         } else {
+            // 2eme champs de avec un nom
             $personnalisation->setFile($request->request->get('file'));
         }
         $personnalisation->setDatauri($request->request->get('dataFile'));
@@ -322,6 +325,7 @@ class CartService
         $personnalisation->setTopPosition($request->request->get('logoTop'));
         $personnalisation->setLeftPosition($request->request->get('logoLeft'));
         $personnalisation->setImpression($request->request->get('impression'));
+        //parcourir le bon price impression
         foreach ($priceImpression as $value) {
             $personnalisation->setPriceImpression($value);
         }
@@ -333,7 +337,7 @@ class CartService
 
         $userPanier = $this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->getId();
         $personnalisation = new Personnalisation();
-
+        // ajouter les données dans la personnalisation
         $personnalisation
             ->setDatauri($request->request->get('dataFile'))
             ->setFile($request->request->get('file'))
@@ -346,6 +350,7 @@ class CartService
         foreach ($this->priceImpression->findByType($request->request->get('impression')) as $value) {
             $personnalisation->setPriceImpression($value);
         }
+        // ajoute dans la base de données
         $this->entityManager->persist($this->panierProductRepository->panierProductCheck($userPanier)->setPersonnalisation($personnalisation));
         $this->entityManager->flush();
     }
