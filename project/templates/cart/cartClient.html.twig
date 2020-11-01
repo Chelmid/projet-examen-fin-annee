@@ -7,6 +7,8 @@
 
     {% if items | length > 0 %}
         {% for item in items %}
+            {{ dump(items) }}
+            {% if item.panier.isOrder == false %}
             <div class="border border-dark">
                 <div class="messageError"></div>
                 <div class="d-flex flex-wrap py-3 my-3">
@@ -88,6 +90,7 @@
                     </div>
                 </div>
             </div>
+        {% endif %}
         {% endfor %}
         <div class="my-5 p-3 borderOrange">
             <div class="d-flex justify-content-between">

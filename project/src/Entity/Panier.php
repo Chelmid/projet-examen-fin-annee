@@ -20,15 +20,20 @@ class Panier
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
-     */
-    private $user;
-
-    /**
-     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="panier", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=PanierProduct::class, mappedBy="panier",cascade={"persist"})
      */
     protected $panier;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isOrder;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="panier")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     /*/**
      * @ORM\Column(type="integer")
@@ -44,18 +49,6 @@ class Panier
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     /**
@@ -97,6 +90,30 @@ class Panier
     public function setTotal(int $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getIsOrder(): ?bool
+    {
+        return $this->isOrder;
+    }
+
+    public function setIsOrder(bool $isOrder): self
+    {
+        $this->isOrder = $isOrder;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

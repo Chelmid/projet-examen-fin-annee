@@ -20,7 +20,7 @@ class PanierProduct
 
     /**
      * @ORM\ManyToOne(targetEntity=Personnalisation::class, inversedBy="panierProduct",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
      */
     private $personnalisation;
 
@@ -31,7 +31,7 @@ class PanierProduct
     private $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="panier")
+     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="panier",cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $panier;

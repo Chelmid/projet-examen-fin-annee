@@ -47,4 +47,22 @@ class PanierProductRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function panierProductCheck ($id){
+        $qb = $this->createQueryBuilder('pp');
+        $qb->select('pp');
+        $qb->where('pp.panier =' . $id );
+        //dump($qb->getQuery()->getResult());
+        //dd('ici');
+       return $qb->getQuery()->getResult()[0];
+    }
+
+    public function panierProductCheckArray ($id){
+        $qb = $this->createQueryBuilder('pp');
+        $qb->select('pp');
+        $qb->where('pp.panier =' . $id );
+        //dump($qb->getQuery()->getResult());
+        //dd('ici');
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -11,6 +11,7 @@ use App\Repository\PanierRepository;
 use App\Repository\PersonnalisationRepository;
 use App\Repository\PriceImpressionRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use App\Repository\ZoneDeMarquageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -26,8 +27,10 @@ class CartService
     private $security;
     protected $personnalisation;
     protected $priceImpression;
+    protected $panierProductRepository;
+    protected $userRepository;
 
-    public function __construct(SessionInterface $session, PriceImpressionRepository $priceImpressionRepository, ZoneDeMarquageRepository $zoneDeMarquageRepository, PersonnalisationRepository $personnalisationRepository, ProductRepository $productRepository, PanierRepository $panierRepository, EntityManagerInterface $entityManager, PanierProductRepository $panierProductRepository, Security $security)
+    public function __construct(SessionInterface $session, UserRepository $userRepository, PriceImpressionRepository $priceImpressionRepository, ZoneDeMarquageRepository $zoneDeMarquageRepository, PersonnalisationRepository $personnalisationRepository, ProductRepository $productRepository, PanierRepository $panierRepository, EntityManagerInterface $entityManager, PanierProductRepository $panierProductRepository, Security $security)
     {
         $this->session = $session;
         $this->productRepository = $productRepository;
@@ -38,6 +41,7 @@ class CartService
         $this->zoneDeMarquageRepository = $zoneDeMarquageRepository;
         $this->personnalisation = $personnalisationRepository;
         $this->priceImpression = $priceImpressionRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function add($id, $color, Request $request, $i, $quantity)
@@ -45,7 +49,8 @@ class CartService
 
         $diese = str_replace('#', "", $color);
         $colorClear = str_replace('_', "", $diese);
-        //dd($color);
+
+        // instance
         $panierProduct = new PanierProduct();
         $panier = new Panier();
 
@@ -53,46 +58,42 @@ class CartService
         $panierProductOriginals = $this->panierProductRepository->findAll();
         $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
 
+        // panier vide
         if ($panierUser == null) {
             $this->entityManager->persist($panier->setUser($this->security->getUser()));
             $this->entityManager->persist($panierProduct->setPanier($panier));
             $this->entityManager->persist($panierProduct->setProduct($productfind));
             $this->entityManager->persist($panierProduct->setQuantity($quantity));
             $this->entityManager->persist($panierProduct->setColorAndImage($i));
-            $this->entityManager->flush();
+            $this->entityManager->persist($panier->setIsOrder(false));
+
         } else {
+            // panier pas vide
             if ($panierProductOriginals != null) {
-                $panierProductOriginals = $this->panierProductRepository->findOneByPanier($panierUser->getId());
-                $this->entityManager->persist($panierProductOriginals->getPanier()->addPanier($panierProduct->setProduct($productfind)));
-                $this->entityManager->persist($panierProduct->setQuantity($quantity));
-                $this->entityManager->persist($panierProduct->setColorAndImage($i));
-                $this->entityManager->flush();
-            }
-        }
+                //panier is_order recherche que des false
+                if (empty($this->panierRepository->findByisOrder(false))) {
+                    $this->entityManager->persist($panier->setUser($this->security->getUser()));
+                    $this->entityManager->persist($panierProduct->setPanier($panier));
+                    $this->entityManager->persist($panierProduct->setProduct($productfind));
+                    $this->entityManager->persist($panierProduct->setQuantity($quantity));
+                    $this->entityManager->persist($panierProduct->setColorAndImage($i));
+                    $this->entityManager->persist($panier->setIsOrder(false));
 
-    }
+                } else {
 
+                    //recherche du panier avec le order false
 
-    public function delete($id, $color)
-    {
-
-        $datas = $this->panierProductRepository->findAll();
-
-        foreach ($datas as $data) {
-            if (count($datas) == 1) {
-                $this->entityManager->remove($data->getPanier());
-
-                foreach ($this->panierProductRepository->findById($id) as $value) {
-                    if ($value->getPersonnalisation() != null) {
-                        $this->entityManager->remove($value->getPersonnalisation());
-                    }
-                    $this->entityManager->remove($value);
-                }
-            } else {
-                foreach ($this->panierProductRepository->findById($id) as $value) {
-                    if ($value->getId() == $id) {
-                        $this->entityManager->remove($value->getPersonnalisation());
-                        $this->entityManager->remove($value);
+                    $userPanier = $this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->getId();
+                    //panier cree mais panierProduct vide
+                    if (empty($this->panierProductRepository->panierProductCheckArray($userPanier))) {
+                        $panierProduct->setQuantity($quantity);
+                        $panierProduct->setColorAndImage($i);
+                        $this->entityManager->persist($this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->addPanier($panierProduct->setProduct($productfind)));
+                    } else {
+                        // on continue sur le panier excitant
+                        $this->entityManager->persist($this->panierProductRepository->panierProductCheck($userPanier)->getPanier()->addPanier($panierProduct->setProduct($productfind)));
+                        $this->entityManager->persist($panierProduct->setQuantity($quantity));
+                        $this->entityManager->persist($panierProduct->setColorAndImage($i));
                     }
                 }
             }
@@ -100,39 +101,70 @@ class CartService
         $this->entityManager->flush();
     }
 
+
+    public function delete($id, $color)
+    {
+        //recheche le panier de l'utilisateur
+        $userPanier = $this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->getId();
+
+        //parcourir en le panierProduct array par rapport à l'utilisateur
+        foreach ($this->panierProductRepository->panierProductCheckArray($userPanier) as $value) {
+            //id identique
+            if ($value->getId() == $id) {
+                //personnalisation non vide
+                if ($value->getPersonnalisation() != null) {
+                    $this->entityManager->remove($value->getPersonnalisation());
+                } else {
+                    //vide personnalisation
+                    $this->entityManager->remove($value);
+                    $this->entityManager->remove($this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false'));
+                }
+            }
+        }
+
+        $this->entityManager->flush();
+    }
+
     public function getfullCart()
     {
+        //tableau du panier
         $panierWithData = [];
+        // l'utilisateur correspondant
         if ($this->panierRepository->findByUser($this->security->getUser()->getId())) {
+            // parcourir pour trouver le panier
             foreach ($this->panierRepository->findByUser($this->security->getUser()->getId()) as $panierId) {
                 foreach ($this->panierProductRepository->findByPanier($panierId->getId()) as $value) {
-                    if ($value->getPersonnalisation() == null) {
-                        $panierWithData[] =
-                            $value;
-                        $this->productRepository->findById($value->getProduct()->getId());
-                    } else {
-                        $panierWithData[] =
-                            $value;
-                        $this->productRepository->findById($value->getProduct()->getId());
-                        $this->personnalisation->findById($value->getPersonnalisation()->getId());
-                        foreach ($this->personnalisation->findById($value->getPersonnalisation()->getId()) as $value) {
-                            $this->priceImpression->findById($value->getPriceImpression()->getId());
+                    //les panier de l'utilisateur avec les is_order false
+                    if ($value->getPanier()->getIsOrder() == false) {
+                        // si pas de personnalisation
+                        if ($value->getPersonnalisation() == null) {
+                            //mettre dans le panier la liste
+                            $panierWithData[] =
+                                $value;
+                            $this->productRepository->findById($value->getProduct()->getId());
+                        } else {
+                            //mettre dans le panier la lisate avec la personnalisation
+                            $panierWithData[] =
+                                $value;
+                            $this->productRepository->findById($value->getProduct()->getId());
+                            $this->personnalisation->findById($value->getPersonnalisation()->getId());
+                            foreach ($this->personnalisation->findById($value->getPersonnalisation()->getId()) as $value) {
+                                $this->priceImpression->findById($value->getPriceImpression()->getId());
+                            }
                         }
                     }
                 }
             }
-        };
-
-
+        }
         return $panierWithData;
     }
 
     public function getTotal()
     {
         $total = 0;
-
+        // parcours la liste des products dans le panier
         foreach ($this->getfullCart() as $item) {
-
+            //addition
             $total += $item->getProduct()->getPrice() * $item->getQuantity();
         }
 
@@ -141,15 +173,16 @@ class CartService
 
     public function getTotalAndPriceImpression()
     {
+        // total et avec le total de l'impression
         return $this->getPriceImpression() + $this->getTotal();
     }
 
     public function getPriceImpression()
     {
         $totalImpression = 0;
-
+        // parcours la liste des products dans le panier
         foreach ($this->getfullCart() as $item) {
-
+            //personnalisation pas vide
             if ($item->getPersonnalisation() != null) {
                 $totalImpression += $item->getPersonnalisation()->getPriceImpression()->getPrice() * $item->getQuantity();
             }
@@ -160,8 +193,9 @@ class CartService
     public function getTotalItem()
     {
         $compter = 0;
-
+        // parcours la liste des products dans le panier
         foreach ($this->getfullCart() as $key => $item) {
+            //le nombre de produit
             $compter += $item->getQuantity();
 
         }
@@ -170,8 +204,10 @@ class CartService
 
     public function getTva()
     {
+        //le total avec la tva
         $tva = $this->getTotalAndPriceImpression() * 0.2;
         $tva = $tva + $this->getTotalAndPriceImpression();
+        //decimal avec 2 chiffre apres la virgule
         return $tva = number_format($tva, 2, ',', ' ');
     }
 
@@ -179,16 +215,16 @@ class CartService
     {
         $panierProduct = $this->panierProductRepository->find($id);
         $quantityBdd = "";
-
+        //parcourir les quantités des produits
         foreach ($this->productRepository->findById($panierProduct->getProduct()->getId()) as $value) {
+            //une chaîne de caractères en segments
             $quantityBase = explode("','", $value->getQuantity());
-
             foreach ($quantityBase as $key => $value) {
                 if ($key == $panierProduct->getColorAndImage()) {
                     $quantityBdd = str_replace("'", "", $value);
                 }
             }
-
+            //modifier dans la bdd
             if ($quantityBdd >= $quantity) {
                 $panierProduct->setQuantity($quantity);
                 $this->entityManager->flush();
@@ -210,6 +246,7 @@ class CartService
         $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
         $priceImpression = $this->priceImpression->findByType($request->request->get('impression'));
 
+        //mettre les données de la personnalistion
         $personnalisation
             ->setDatauri($request->request->get('dataFile'))
             ->setFile($request->request->get('file'))
@@ -223,25 +260,49 @@ class CartService
             $personnalisation->setPriceImpression($value);
         }
 
+        //panier vide
         if ($panierUser == null) {
+
             $this->entityManager->persist($panier->setUser($this->security->getUser()));
             $this->entityManager->persist($panierProduct->setPanier($panier));
             $this->entityManager->persist($panierProduct->setProduct($productfind));
             $this->entityManager->persist($panierProduct->setQuantity($quantity));
             $this->entityManager->persist($panierProduct->setColorAndImage($i));
             $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
-            $this->entityManager->flush();
+
         } else {
+            //panier pas vide
             if ($panierProductOriginals != null) {
-                $panierProductOriginals = $this->panierProductRepository->findOneByPanier($panierUser->getId());
-                $this->entityManager->persist($panierProductOriginals->getPanier()->addPanier($panierProduct->setProduct($productfind)));
-                //$this->entityManager->persist($panierProduct->setPersonnalisation($this->panierProductRepository->findOneByPanier($panierUser->getId())->getPersonnalisation()));
-                $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
-                $this->entityManager->persist($panierProduct->setQuantity(strval($quantity)));
-                $this->entityManager->persist($panierProduct->setColorAndImage($i));
-                $this->entityManager->flush();
+
+                if (empty($this->panierRepository->findByisOrder(false))) {
+                    $this->entityManager->persist($panier->setUser($this->security->getUser()));
+                    $this->entityManager->persist($panierProduct->setPanier($panier));
+                    $this->entityManager->persist($panierProduct->setProduct($productfind));
+                    $this->entityManager->persist($panierProduct->setQuantity($quantity));
+                    $this->entityManager->persist($panierProduct->setColorAndImage($i));
+                    $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
+                    $this->entityManager->persist($panier->setIsOrder(false));
+
+                } else {
+                    //recherche du panier avec le order false
+                    $userPanier = $this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->getId();
+                    //panierProduct avec 0 product
+                    if (empty($this->panierProductRepository->panierProductCheckArray($userPanier))) {
+                        $panierProduct->setQuantity($quantity);
+                        $panierProduct->setColorAndImage($i);
+                        $this->entityManager->persist($this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->addPanier($panierProduct->setProduct($productfind)));
+                    } else {
+                        //ajouter dans le panierProduct excitant
+                        $this->entityManager->persist($this->panierProductRepository->panierProductCheck($userPanier)->getPanier()->addPanier($panierProduct->setProduct($productfind)));
+                        $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
+                        $this->entityManager->persist($panierProduct->setQuantity($quantity));
+                        $this->entityManager->persist($panierProduct->setColorAndImage($i));
+                    }
+
+                }
             }
         }
+        $this->entityManager->flush();
     }
 
     public function updatePersonnalisation($id, $request, $personId)
@@ -249,6 +310,7 @@ class CartService
         $personnalisation = $this->personnalisation->find($personId);
         $priceImpression = $this->priceImpression->findByType($request->request->get('impression'));
 
+        // mettre des données dans la personnalisation
         if ($request->request->get('file') == '') {
             $personnalisation->setFile($request->request->get('nameFile'));
         } else {
@@ -266,10 +328,10 @@ class CartService
         $this->entityManager->flush();
     }
 
-    public function addPersonnalisationForNull($id, $request, $quantity, $i){
+    public function addPersonnalisationForNull($id, $request, $quantity, $i)
+    {
 
-        $panierUser = $this->panierRepository->findOneByUser($this->security->getUser()->getId());
-        $panierProduct = $this->panierProductRepository->findByPanier($panierUser->getId());
+        $userPanier = $this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->getId();
         $personnalisation = new Personnalisation();
 
         $personnalisation
@@ -284,12 +346,7 @@ class CartService
         foreach ($this->priceImpression->findByType($request->request->get('impression')) as $value) {
             $personnalisation->setPriceImpression($value);
         }
-
-        foreach($panierProduct as $value){
-            if($value->getColorAndImage() == $request->query->get('color') &&  $value->getProduct()->getId() == $request->attributes->get('id')){
-                $this->entityManager->persist($value->setPersonnalisation($personnalisation));
-            }
-        }
+        $this->entityManager->persist($this->panierProductRepository->panierProductCheck($userPanier)->setPersonnalisation($personnalisation));
         $this->entityManager->flush();
     }
 }

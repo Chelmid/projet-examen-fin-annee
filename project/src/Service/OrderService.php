@@ -35,6 +35,7 @@ class OrderService {
         $this->em->persist($order->setTotalPrice($request->query->get('total')));
         $this->em->persist($order->setDateOrder($date));
         $this->em->persist($order->setMethodPayement($request->request->get('payment-option')));
+        $this->panier->find($request->query->get('idPanier'))->setIsOrder(true);
         $this->em->flush();
 
     }

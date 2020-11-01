@@ -47,4 +47,11 @@ class PanierRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function panierCheck ($id, $bool){
+        $qb = $this->createQueryBuilder('p');
+            $qb->select('p');
+            $qb->where('p.user =' . $id )
+            ->andWhere('p.isOrder ='. $bool);
+            return $qb->getQuery()->getResult()[0];
+    }
 }
