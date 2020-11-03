@@ -14,13 +14,12 @@ let quantity = document.querySelectorAll('.quantite')
 let messageError = document.querySelectorAll('.messageError')
 let marquage = document.querySelector('.marquage')
 
-console.log(marquage)
-
+//parcouri le nombre de item
 for (let i = 0; i < quantity.length; i++) {
-    console.log(quantity[i]);
+    //event le champs change
     quantity[i].addEventListener('change', e => {
-        console.log(e.target.value)
-        if(marquage != null){
+        //
+        if (marquage != null) {
             if (e.target.value == '' || e.target.value == 0 || e.target.value < 50) {
                 messageError[i].innerHTML = 'La quantité est incorrect pi inferieur à 50'
                 messageError[i].className = 'alert alert-danger'
@@ -30,7 +29,6 @@ for (let i = 0; i < quantity.length; i++) {
                     quantity: e.target.value
                 })
                     .then(function (response) {
-                        console.log(response);
                         messageError[i].innerHTML = 'La quantité va être modifier'
                         messageError[i].className = 'alert alert-success'
                         window.location.reload()
@@ -38,10 +36,9 @@ for (let i = 0; i < quantity.length; i++) {
                     .catch(function (error) {
                         messageError[i].innerHTML = 'La quantité est superieur au stock'
                         messageError[i].className = 'alert alert-danger'
-                        console.log(error);
                     });
             }
-        }else{
+        } else {
             if (e.target.value == '' || e.target.value == 0) {
                 messageError[i].innerHTML = 'La quantité est incorrect'
                 messageError[i].className = 'alert alert-danger'

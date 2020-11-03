@@ -16,8 +16,6 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // $product = new Product();
-        // $manager->persist($product);
         // On configure dans quelles langues nous voulons nos données
 
         $faker = Faker\Factory::create('fr_FR');
@@ -47,7 +45,12 @@ class AppFixtures extends Fixture
                 ->setPassword($faker->password)
                 ->setNumberTVA($faker->vat(false))
                 ->setIsVerified($faker->numberBetween($min = 0, $max = 1))
-                ->setGroupclient($faker->numberBetween($min = 1, $max = 2));
+                ->setGroupclient($faker->numberBetween($min = 1, $max = 2))
+                ->setAdresse($faker->streetAddress)
+                ->setCp(intval($faker->postcode))
+                ->setVille($faker->city)
+                ->setTelephone($faker->e164PhoneNumber)
+                ->setPays($faker->country);
 
             $manager->persist($user);
         }
@@ -76,9 +79,7 @@ class AppFixtures extends Fixture
                     //array_push($image, $faker->imageUrl($width = 640, $height = 480, 'nightlife'));
                     array_push($image, 'https://fakeimg.pl/640x480/?text=produit ' . $faker->numberBetween($min = 1, $max = 100));
                 }
-
-                //$data = serialize($color);
-
+                
                 $product->setName($faker->company)
                     ->setSKU($faker->swiftBicNumber)
                     ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 2, $max = 200))

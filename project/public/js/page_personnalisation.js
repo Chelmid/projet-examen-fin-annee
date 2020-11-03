@@ -66,38 +66,38 @@ upload.addEventListener("change", (e) => {
 
 // convertir Base64
 function convertToBase64() {
-    //Read File
+    //Lire le fichier
     let selectedFile = upload.files;
 
-    //Check File is not Empty
+    //check le fichier n'est pas vide
     if (selectedFile.length > 0) {
-        // Select the very first file from list
+        // Selectionner le premier de la liste
         let fileToLoad = selectedFile[0];
-        // FileReader function for read the file.
+        // FileReader lire le fichier avec la function.
         let fileReader = new FileReader();
         let base64;
-        // Onload of file read the file content
+        // Onload le contenu du fichier
         fileReader.onload = function (fileLoadedEvent) {
-            // image en base64
+            // image en base64, le resultat de l'evenement
             base64 = fileLoadedEvent.target.result;
-            //Print data in console
+            //afficher les données dans la console
             console.log(base64);
+            //le champs prends la valeur de base64
             dataFile.value = base64
-            //dataFile.value = fileReader.result;
-            //output.src = base64*/
 
             //pour canvas
-            let myImage = new Image(); // Creates image object
-            myImage.src = base64//fileLoadedEvent.target.result; // Assigns converted image to image object
-            //dataFile.value = myImage.src
+            let myImage = new Image(); // crée un objet image
+            myImage.src = base64// assigner la base64 a l'objet image
 
-            //cahrgement de l'image
+            //chargement de l'image
             myImage.onload = function (ev) {
-                pdfViewer.width = myImage.width; // Assigns image's width to canvas
-                pdfViewer.height = myImage.height; // Assigns image's height to canvas
+                pdfViewer.width = myImage.width; // assigner la longueur au canvas
+                pdfViewer.height = myImage.height; // assigner la hauteur au canvas
 
                 // Prepare canvas using image page dimensions
+                //preparer le canvas avec les dimension de l'image
                 let scale = '';
+                // image depasse pas la taille de la zone de marquarge
                 if (myImage.height > zoneMarguage.clientHeight || myImage.width > zoneMarguage.clientWidth) {
                     // calcul de scale
                     scaleY = zoneMarguage.clientWidth / myImage.width
@@ -110,7 +110,7 @@ function convertToBase64() {
                     if (scaleX < 1) {
                         scaleX = scaleX
                     }
-
+                    // comparer le scaleX et scaleY  (celui le plus petit)
                     if (scaleY > scaleX) {
                         scale = scaleX
                     } else {
@@ -121,15 +121,15 @@ function convertToBase64() {
                     pdfViewer.height = scale * myImage.height
                 }
                 //draw image
-                context.drawImage(myImage, 1, 1, pdfViewer.width, pdfViewer.height); // Draws the image on canvas
-                pdfViewer.toDataURL("image/jpeg"); // Assigns image base64 string in jpeg format to a variable
+                context.drawImage(myImage, 1, 1, pdfViewer.width, pdfViewer.height); // dessin l'image dans le canvas
+                pdfViewer.toDataURL("image/jpeg"); // assigner l'image base64 dans le format
 
                 //sauvegarder les données
                 size['width'] = pdfViewer.width
                 size['height'] = pdfViewer.height
                 size['top'] = pdfViewer.style.top
                 size['left'] = pdfViewer.style.left
-                console.log(logoWidth)
+                //les champs prend les données
                 logoWidth.value = size['width']
                 logoHeight.value = size['height']
                 logoLeft.value = size['left'].replace('px', '')
@@ -138,9 +138,9 @@ function convertToBase64() {
 
         };
         // Convert data to base64
-        errorFormat.className = 'alert alert-success'
-        errorFormat.innerHTML = 'Le fichier est bien chargé'
-        fileReader.readAsDataURL(fileToLoad);
+        errorFormat.className = 'alert alert-success' //message de confirmation
+        errorFormat.innerHTML = 'Le fichier est bien chargé' //message de confirmation
+        fileReader.readAsDataURL(fileToLoad); //lire le fichier
     }
 }
 
@@ -235,9 +235,6 @@ pdfViewer.addEventListener("mousemove", (e) => {
             x: e.clientX,
             y: e.clientY
         };
-
-        // pdfViewer.style.left = (mousePosition.x + offset[0]) + 'px';
-        //pdfViewer.style.top = (mousePosition.y + offset[1]) + 'px';
 
         //movement X dans de la souris dans la zone avec l'image
         if (mousePosition.x + offset[0] > 0 && mousePosition.x + offset[0] < zoneMarguage.clientWidth - logoWidth.value) {

@@ -6,7 +6,10 @@ doctrine:
         # ajouter des parametres pour la connaction mysql (see .env file for variables)
         driver: 'pdo_mysql'
         server_version: '5.7'
-        charset: UTF8
+        charset: utf8
+        default_table_options:
+            charset: utf8
+            collate: utf8_general_ci
         host: 127.0.0.1
         port: '%env(DATABASE_PORT)%'
         user: '%env(DATABASE_USER)%'

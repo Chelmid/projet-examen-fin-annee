@@ -269,6 +269,7 @@ class CartService
             $this->entityManager->persist($panierProduct->setQuantity($quantity));
             $this->entityManager->persist($panierProduct->setColorAndImage($i));
             $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
+            $this->entityManager->persist($panier->setIsOrder(false));
 
         } else {
             //panier pas vide
