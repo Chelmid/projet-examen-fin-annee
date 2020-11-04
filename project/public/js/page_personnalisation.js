@@ -159,7 +159,7 @@ function convertToBase64PDF(event_target_files) {
         loadingTask.promise.then(function (pdf) {
             console.log('PDF loaded');
 
-            // Fetch the first page
+            // afficher la 1er page
             let pageNumber = 1;
             pdf.getPage(pageNumber).then(function (page) {
                 console.log('Page loaded');
@@ -168,11 +168,12 @@ function convertToBase64PDF(event_target_files) {
                 let scale = 1;
                 let viewport = page.getViewport({scale: scale});
 
-                // Prepare canvas using PDF page dimensions
+                //preparer le canvas pour le pdf et resize le pdf
                 while (viewport.height > zoneMarguage.clientHeight || viewport.width > zoneMarguage.clientWidth) {
                     scale -= 0.01
                     viewport = page.getViewport({scale: scale})
                 }
+                //les nouvelles dimension du pdf
                 pdfViewer.height = viewport.height;
                 pdfViewer.width = viewport.width;
 
@@ -187,7 +188,7 @@ function convertToBase64PDF(event_target_files) {
                 logoLeft.value = size['left'].replace('px', '')
                 logoTop.value = size['top'].replace('px', '')
 
-                // Render PDF page into canvas context
+                //mettre la page pdf dans le context canvas
                 let renderContext = {
                     canvasContext: context,
                     viewport: viewport,
@@ -206,9 +207,10 @@ function convertToBase64PDF(event_target_files) {
         });
     };
     convertToBase64()
-    //affichage
+    //message de success
     errorFormat.className = 'alert alert-success'
     errorFormat.innerHTML = 'Le fichier est bien chargé'
+    //lire le fichier
     fileReader.readAsArrayBuffer(event_target_files);
 }
 

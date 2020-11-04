@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
                     //array_push($image, $faker->imageUrl($width = 640, $height = 480, 'nightlife'));
                     array_push($image, 'https://fakeimg.pl/640x480/?text=produit ' . $faker->numberBetween($min = 1, $max = 100));
                 }
-                
+
                 $product->setName($faker->company)
                     ->setSKU($faker->swiftBicNumber)
                     ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 2, $max = 200))

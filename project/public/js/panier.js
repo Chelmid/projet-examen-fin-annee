@@ -20,7 +20,7 @@ for (let i = 0; i < quantity.length; i++) {
     quantity[i].addEventListener('change', e => {
         //
         if (marquage != null) {
-            if (e.target.value == '' || e.target.value == 0 || e.target.value < 50) {
+            if (e.target.value == '' || e.target.value == 0 || e.target.value < 50 ) {
                 messageError[i].innerHTML = 'La quantité est incorrect pi inferieur à 50'
                 messageError[i].className = 'alert alert-danger'
             } else {
@@ -39,7 +39,7 @@ for (let i = 0; i < quantity.length; i++) {
                     });
             }
         } else {
-            if (e.target.value == '' || e.target.value == 0) {
+            if (e.target.value == '' || e.target.value == 0 ) {
                 messageError[i].innerHTML = 'La quantité est incorrect'
                 messageError[i].className = 'alert alert-danger'
             } else {
@@ -59,6 +59,17 @@ for (let i = 0; i < quantity.length; i++) {
                         console.log(error);
                     });
             }
+        }
+    })
+}
+
+//parcouri le nombre de item
+for (let i = 0; i < quantity.length; i++) {
+    //event le champs change
+    quantity[i].addEventListener('input', e => {
+        //string == false
+        if(isNaN(e.target.value) == true){
+            e.target.value = ''
         }
     })
 }
