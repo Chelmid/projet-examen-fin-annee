@@ -68,7 +68,7 @@ upload.addEventListener("change", (e) => {
 function convertToBase64() {
     //Lire le fichier
     let selectedFile = upload.files;
-
+console.log(selectedFile)
     //check le fichier n'est pas vide
     if (selectedFile.length > 0) {
         // Selectionner le premier de la liste
@@ -124,16 +124,11 @@ function convertToBase64() {
                 context.drawImage(myImage, 1, 1, pdfViewer.width, pdfViewer.height); // dessin l'image dans le canvas
                 pdfViewer.toDataURL("image/jpeg"); // assigner l'image base64 dans le format
 
-                //sauvegarder les données
-                size['width'] = pdfViewer.width
-                size['height'] = pdfViewer.height
-                size['top'] = pdfViewer.style.top
-                size['left'] = pdfViewer.style.left
                 //les champs prend les données
-                logoWidth.value = size['width']
-                logoHeight.value = size['height']
-                logoLeft.value = size['left'].replace('px', '')
-                logoTop.value = size['top'].replace('px', '')
+                logoWidth.value = pdfViewer.width
+                logoHeight.value =  pdfViewer.height
+                logoLeft.value = pdfViewer.style.top.replace('px', '')
+                logoTop.value = pdfViewer.style.left.replace('px', '')
             }
 
         };
@@ -151,10 +146,10 @@ function convertToBase64PDF(event_target_files) {
     fileReader.onload = function () {
 
         // Print data in console
-        let pdfData = new Uint8Array(this.result);
-        console.log(pdfData)
+        //let pdfData = new Uint8Array(this.result);
+        //console.log(pdfData)
         // Using DocumentInitParameters object to load binary data.
-        let loadingTask = pdfjsLib.getDocument({data: pdfData});
+        let loadingTask = pdfjsLib.getDocument({data: this.result});
 
         loadingTask.promise.then(function (pdf) {
             console.log('PDF loaded');
@@ -206,7 +201,7 @@ function convertToBase64PDF(event_target_files) {
             console.error(reason);
         });
     };
-    convertToBase64()
+    //convertToBase64()
     //message de success
     errorFormat.className = 'alert alert-success'
     errorFormat.innerHTML = 'Le fichier est bien chargé'
@@ -220,10 +215,12 @@ let offset = [0, 0];
 
 //click bas de la souris
 pdfViewer.addEventListener("mousedown", (e) => {
-    console.log(size)
+
+    console.log(pdfViewer.offsetLeft - e.clientX)
     pressing = true;
     //position de la souris au moment du click sur la page
     offset = [
+        //position de l'image - position de la souris
         pdfViewer.offsetLeft - e.clientX,
         pdfViewer.offsetTop - e.clientY
     ];
@@ -260,7 +257,6 @@ window.addEventListener("mouseup", (e) => {
     pressing = false;
 })
 
-console.log(nameFile)
 //verification si il n'a pas de nom du file charger
 if (nameFile != null) {
 
