@@ -16,7 +16,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // On configure dans quelles langues nous voulons nos données
+        // On configure la langues des fausses données
 
         $faker = Faker\Factory::create('fr_FR');
 
