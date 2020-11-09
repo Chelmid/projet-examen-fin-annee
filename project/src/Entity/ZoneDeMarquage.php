@@ -40,7 +40,7 @@ class ZoneDeMarquage
     private $top_space;
 
     /**
-     * @ORM\OneToOne(targetEntity=Product::class)
+     * @ORM\OneToOne(targetEntity=Product::class, cascade={"remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $product;
