@@ -22,9 +22,14 @@ class UserCrudController extends AbstractCrudController
         return [
             TextField::new('email'),
             TextField::new('number_tva'),
-            TextField::new('password'),
+            //TextField::new('password'),
             Field::new('is_verified'),
             IntegerField::new('groupclient'),
+            TextField::new('adresse'),
+            IntegerField::new('cp'),
+            TextField::new('ville'),
+            TextField::new('pays'),
+            IntegerField::new('telephone')
         ];
     }
 }
