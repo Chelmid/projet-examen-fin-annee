@@ -270,7 +270,7 @@ class CartService
             $this->entityManager->persist($panierProduct->setColorAndImage($i));
             $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
             $this->entityManager->persist($panier->setIsOrder(false));
-
+            $this->entityManager->flush();
         } else {
             //panier pas vide
             if ($panierProductOriginals != null) {
@@ -283,6 +283,7 @@ class CartService
                     $this->entityManager->persist($panierProduct->setColorAndImage($i));
                     $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
                     $this->entityManager->persist($panier->setIsOrder(false));
+                    $this->entityManager->flush();
 
                 } else {
                     //recherche du panier avec le order false
@@ -292,18 +293,22 @@ class CartService
                         $panierProduct->setQuantity($quantity);
                         $panierProduct->setColorAndImage($i);
                         $this->entityManager->persist($this->panierRepository->panierCheck($this->security->getUser()->getId(), 'false')->addPanier($panierProduct->setProduct($productfind)));
+                        $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
+                        $this->entityManager->flush();
                     } else {
                         //ajouter dans le panierProduct excitant
                         $this->entityManager->persist($this->panierProductRepository->panierProductCheck($userPanier)->getPanier()->addPanier($panierProduct->setProduct($productfind)));
                         $this->entityManager->persist($panierProduct->setPersonnalisation($personnalisation));
                         $this->entityManager->persist($panierProduct->setQuantity($quantity));
                         $this->entityManager->persist($panierProduct->setColorAndImage($i));
+                        $this->entityManager->flush();
                     }
 
                 }
             }
         }
-        $this->entityManager->flush();
+        //dd('ici');
+        //$this->entityManager->flush();
     }
 
     public function updatePersonnalisation($id, $request, $personId)
