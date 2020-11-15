@@ -101,9 +101,8 @@ class CartController extends AbstractController
      */
     public function addPresonnalisation($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
-
         if (empty($request->request->get('dataFile')) || $request->request->get('dataFile') == '') {
-            if (empty($request->query->get('productSelectionner'))) {
+            if (!empty($request->query->get('productSelectionner'))) {
                 foreach ($request->query->get('productSelectionner') as $key => $value) {
                     foreach ($value as $keyColor => $value) {
                         foreach ($value as $key => $value) {

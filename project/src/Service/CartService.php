@@ -303,7 +303,6 @@ class CartService
                         $this->entityManager->persist($panierProduct->setColorAndImage($i));
                         $this->entityManager->flush();
                     }
-
                 }
             }
         }
