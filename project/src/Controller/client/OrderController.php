@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\client;
 
 use App\Service\CartService;
 use App\Service\CategoryService;
@@ -30,7 +30,7 @@ class OrderController extends AbstractController
 
         $panierWithData = $this->cartService->getfullCart();
 
-        return $this->render('order/order.html.twig', [
+        return $this->render('client/order/order.html.twig', [
             'controller_name' => 'OrderController',
             'categories' => $this->category,
             'items' =>  $panierWithData,

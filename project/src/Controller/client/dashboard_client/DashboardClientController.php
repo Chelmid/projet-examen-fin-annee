@@ -27,7 +27,7 @@ class DashboardClientController extends AbstractController
     public function index(): Response
     {
         if($this->security->getUser() != null){
-            return $this->render('dashboard_client/dashboard.html.twig', [
+            return $this->render('client/dashboard_client/dashboard.html.twig', [
                 'controller_name' => 'DashboardClientController',
                 'categories' => $this->category,
             ]);

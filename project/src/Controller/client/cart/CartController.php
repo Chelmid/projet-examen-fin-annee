@@ -35,7 +35,7 @@ class CartController extends AbstractController
             //dd($panierWithData);
 
             if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es') {
-                return $this->render('cart/cartClient.html.twig', [
+                return $this->render('client/cart/cartClient.html.twig', [
                     'categories' => $this->category,
                     'items' => $panierWithData,
                     'total' => $cartService->getTotal(),

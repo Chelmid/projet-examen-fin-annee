@@ -28,7 +28,7 @@ class ProductController extends AbstractController
 
         if ($request->getLocale() == 'fr' || $request->getLocale() == 'en' || $request->getLocale() == 'es' && $category) {
 
-                return $this->render('product/product.html.twig', [
+                return $this->render('client/product/product.html.twig', [
                     'controller_name' => 'ProductController',
                     'categories' => $this->category,
                     'theCategory' => $category,

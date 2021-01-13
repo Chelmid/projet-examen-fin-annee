@@ -44,7 +44,7 @@ class CategoryController extends AbstractController
                 'categories' => $this->category,
             ]);
         } else {
-            return $this->render('category/categoryClient.html.twig', [
+            return $this->render('client/category/categoryClient.html.twig', [
                 'controller_name' => 'CategoryController',
                 'categories' => $this->category,
                 'theCategory' => $category,
