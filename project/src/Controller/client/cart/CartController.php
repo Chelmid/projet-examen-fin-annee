@@ -26,6 +26,8 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart", name="cart")
      */
+
+    // affichage de la page cart
     public function index(CartService $cartService, Request $request, CategoryRepository $categoryRepository, TranslatorInterface $translator)
     {
         if ($this->security->getUser() != null) {
@@ -57,6 +59,8 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart/add/{id}", name="cart_add")
      */
+
+    //ajouter un produit ou plusieur dans le panier
     public function add($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
         if ($this->security->getUser() != null) {
@@ -79,6 +83,8 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart/delete/{id}/{color}", name="cart_delete")
      */
+
+    //supprimer un produit
     public function delete($id, $color, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
         $cartService->delete($id, $color);
@@ -89,6 +95,8 @@ class CartController extends AbstractController
     /**
      * @Route("cart/update/{id}/{newQuantity}", name="cart_update")
      */
+
+    //mise a jour produit
     public function update($id, $newQuantity, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
         $cartService->updateQuantite($id, $newQuantity, $request);
@@ -99,6 +107,8 @@ class CartController extends AbstractController
     /**
      * @Route("{_locale}/cart/add/Personnalisation/{id}", name="cart_add_Personnalisation")
      */
+
+    //ajouter une personnalisation
     public function addPresonnalisation($id, Request $request, CartService $cartService, TranslatorInterface $translator)
     {
         if (empty($request->request->get('dataFile')) || $request->request->get('dataFile') == '') {

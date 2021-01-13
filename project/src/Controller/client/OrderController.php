@@ -25,6 +25,8 @@ class OrderController extends AbstractController
     /**
      * @Route("/order", name="order")
      */
+
+    // afficher la commande
     public function index(): Response
     {
 
@@ -45,6 +47,8 @@ class OrderController extends AbstractController
     /**
      * @Route("/order/confirmation", name="order_confirmation")
      */
+
+    // ajouter une commmande
     public function addOrder(Request $request, OrderService $orderService){
 
         $orderService->addOrder($request);

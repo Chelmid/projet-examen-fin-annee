@@ -18,6 +18,7 @@ class CategoryController extends AbstractController
         $this->category = $categoryService->getFullCategories();
     }
 
+    //test de connexion avec une api
     public function testApi()
     {
         $curl = curl_init('https://api.rawg.io/api/games');
@@ -34,6 +35,7 @@ class CategoryController extends AbstractController
         curl_close($curl);
     }
 
+    // la categorie dans le menu
     public function categoryClient($category)
     {
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['name' => $category]);

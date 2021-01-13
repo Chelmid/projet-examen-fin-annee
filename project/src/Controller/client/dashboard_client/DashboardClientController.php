@@ -24,6 +24,8 @@ class DashboardClientController extends AbstractController
     /**
      * @Route("/dashboard/client", name="dashboard_client")
      */
+
+    //affichage du tableau de bord
     public function index(): Response
     {
         if($this->security->getUser() != null){

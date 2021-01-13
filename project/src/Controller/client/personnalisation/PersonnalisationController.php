@@ -47,6 +47,8 @@ class PersonnalisationController extends AbstractController
         }
     }
 
+
+    //verification de la personnalisation
     public function personnalisationCheckInfo(Request $request)
     {
 
