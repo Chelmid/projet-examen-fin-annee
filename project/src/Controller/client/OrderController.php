@@ -29,7 +29,7 @@ class OrderController extends AbstractController
     // afficher la commande
     public function index(): Response
     {
-
+        // appelle service cart panier
         $panierWithData = $this->cartService->getfullCart();
 
         return $this->render('client/order/order.html.twig', [
