@@ -1,7 +1,7 @@
-# projet2020
+# projet-examen-fin-annee
 
 Projet de fin d'année en alternance.
-Sujet : Site e-commerce ( avec une posiblilité de personnalisation sur un produit )
+Sujet : Site e-commerce BtoB ( avec une posiblilité de personnalisation sur un produit )
 Clone site e-commerce de l'entreprise Xoopar ou j'avais fait mon alternance.
 
 Les languages et autres utilisés
@@ -42,3 +42,8 @@ Pour une mise à jour de la database
 Pour démarrer le server
 > symfony server:start
 
+
+# autres site fait
+
+* Iné : site de vitrine de presentation d'un produit : https://www.ineparis.fr/
+* site e-commerce BtoC : https://xoopar-shop.com/
