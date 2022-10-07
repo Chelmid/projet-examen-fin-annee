@@ -1,7 +1,7 @@
 # projet-examen-fin-annee
 
 Projet de fin d'année en alternance.
-Sujet : Site e-commerce BtoB ( avec une posiblilité de personnalisation sur un produit )
+Sujet : reproduction Site e-commerce BtoB ( avec une posiblilité de personnalisation sur un produit )
 Clone site e-commerce de l'entreprise Xoopar ou j'avais fait mon alternance.
 
 Les languages et autres utilisés
